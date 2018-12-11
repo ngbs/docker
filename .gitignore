@@ -4,3 +4,5 @@
 *.sh
 *.bak
 *.log
+info.md
+unbound

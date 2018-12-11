@@ -1,2 +1,2 @@
 # alpine
-    timezone Asia/Shanghai
+    Only Asia/Shanghai timezone
