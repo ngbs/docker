@@ -1,0 +1,6 @@
+.git
+.env
+.dockerignore
+*.sh
+*.bak
+*.log
