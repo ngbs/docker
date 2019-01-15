@@ -6,7 +6,7 @@ RUN set -ex && \
     apk --no-cache add ca-certificates && \
     mkdir /usr/bin/v2ray && \
     mkdir /var/log/v2ray && \
-    wget https://github.com/v2ray/v2ray-core/releases/download/v${version}/v2ray-linux-64.zip && \
+    curl -O https://github.com/v2ray/v2ray-core/releases/download/v${version}/v2ray-linux-64.zip && \
     unzip v2ray-linux-64.zip -d /tmp && \
     mv /tmp/geoip.dat \
        /tmp/geosite.dat \
