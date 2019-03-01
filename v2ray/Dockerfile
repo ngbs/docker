@@ -1,6 +1,6 @@
 FROM playn/alpine:edge
 
-ARG version=4.17.0
+ARG version=4.18.0
 
 RUN set -ex && \
     apk --no-cache add ca-certificates && \
