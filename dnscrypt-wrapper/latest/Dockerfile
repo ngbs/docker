@@ -19,5 +19,5 @@ RUN set -xe && \
     make install && \
     cd .. && \
     apk del .build-deps && \
-    mkdir -p /opt/dnscrypt-wrapper/keys && \
+    mkdir -p /var/lib/dnscrypt-wrapper/dnskey && \
     rm -rf /var/cache/apk/* /dnscrypt-wrapper
