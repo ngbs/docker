@@ -1,36 +1,23 @@
-FROM ubuntu:16.04
+FROM ubuntu
 
 # aliyun
-ADD aliyun.list /etc/apt/sources.list.d/
+ADD sources.list /etc/apt/sources.list
 
-# timezone
-ENV TZ=Asia/Shanghai
-
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-    echo $TZ > /etc/timezone
-
-# apt-utils
-ENV DEBIAN_FRONTEND=noninteractive
+# timezone apt-utils Locales
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=Asia/Shanghai \
+    LANG=en_US.utf8
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    apt-utils && \
-    rm -rf /var/lib/apt/lists/*
-
-# Locales
-RUN apt-get update && \
-    apt-get install -y \
+    apt-get upgrade -y && \
+    apt-get install -y --assume-yes \
+            apt-utils \
             locales && \
-    rm -rf /var/lib/apt/lists/* && \
-    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-
-ENV LANG=en_US.utf8
-
-# clean all
-RUN apt-get update && \
-    apt-get -y upgrade && \
-    apt-get -y autoclean && \
-    apt-get -y autoremove && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone && \
+    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && \
+    apt-get autoclean -y && \
+    apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/* \
-       /var/tmp/* \
-       /tmp/*
+           /var/tmp/* \
+           /tmp/*
