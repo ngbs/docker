@@ -1,5 +1,5 @@
-ARG VERSION=latest
-FROM alpine:${VERSION}
+ARG version=latest
+FROM alpine:${version}
 RUN set -x && \
     apk update && \
     apk upgrade && \

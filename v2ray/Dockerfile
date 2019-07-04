@@ -1,12 +1,11 @@
-FROM playn/alpine:edge
-
-ARG version=4.19.1
-
+ARG alpine_version=latest
+ARG v2ray_version=4.19.1
+FROM playn/alpine:${alpine_version}
 RUN set -ex && \
     apk --no-cache add ca-certificates && \
     mkdir /usr/bin/v2ray && \
     mkdir /var/log/v2ray && \
-    wget https://github.com/v2ray/v2ray-core/releases/download/v${version}/v2ray-linux-64.zip && \
+    wget https://github.com/v2ray/v2ray-core/releases/download/v${v2ray_version}/v2ray-linux-64.zip && \
     unzip v2ray-linux-64.zip -d /tmp && \
     mv /tmp/geoip.dat \
        /tmp/geosite.dat \
