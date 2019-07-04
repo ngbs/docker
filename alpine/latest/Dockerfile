@@ -1,5 +1,7 @@
 FROM alpine:latest
-
+ARG VCS_REF
+LABEL org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/ngbs/docker/tree/master/alpine/latest"
 RUN set -x && \
     apk update && \
     apk upgrade && \
