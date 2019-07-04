@@ -1,10 +1,9 @@
-FROM playn/alpine:edge
-
+FROM playn/alpine:latest
 RUN set -xe && \
-    apk --update add --no-cache --virtual .run-deps \
+    apk add --no-cache --virtual .run-deps \
         libevent \
         libsodium && \
-    apk --update add --no-cache --virtual .build-deps \
+    apk add --no-cache --virtual .build-deps \
         git \
         autoconf \
         bsd-compat-headers \
@@ -20,5 +19,4 @@ RUN set -xe && \
     cd .. && \
     rm -rf dnscrypt-wrapper && \
     apk del .build-deps && \
-    mkdir -p /opt/dnscrypt\-wrapper/keys && \
-    rm -rf /var/cache/apk/*
+    mkdir -p /opt/dnscrypt\-wrapper/keys

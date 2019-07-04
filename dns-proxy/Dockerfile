@@ -1,8 +1,6 @@
-FROM playn/alpine:edge
-
-RUN apk --update add --no-cache \
+FROM playn/alpine:latest
+RUN apk add --no-cache \
         libsodium \
         dnscrypt-proxy \
         pdnsd \
-        dnsmasq && \
-    rm -rf /var/cache/apk/*
+        dnsmasq
