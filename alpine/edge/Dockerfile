@@ -1,5 +1,4 @@
-ARG version=edge
-FROM alpine:${version}
+FROM alpine:edge
 RUN set -x && \
     apk update && \
     apk upgrade && \
