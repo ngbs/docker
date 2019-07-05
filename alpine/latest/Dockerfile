@@ -1,9 +1,5 @@
 FROM alpine:latest
-RUN set -x && \
-    apk update && \
-    apk upgrade && \
-    apk add tzdata && \
+RUN apk add --no-cach tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
-    apk del tzdata && \
-    rm -rf /var/cache/apk/*
+    apk del tzdata

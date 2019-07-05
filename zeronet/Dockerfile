@@ -1,4 +1,4 @@
-FROM playn/alpine:edge
+FROM playn/alpine:latest
 
 #Base settings
 ENV HOME /root
