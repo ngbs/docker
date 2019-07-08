@@ -4,7 +4,7 @@
 FROM playn/caddy:builder as builder
 
 ARG version="1.0.1"
-ARG plugins="git,cors,realip,expires,cache,cloudflare"
+ARG plugins="git,realip,cloudflare"
 ARG enable_telemetry="true"
 
 # process wrapper
@@ -25,23 +25,20 @@ ENV ENABLE_TELEMETRY="$enable_telemetry"
 
 RUN apk add --no-cache \
     ca-certificates \
-    git \
-    mailcap \
-    openssh-client
+    git
 
 # install caddy
 COPY --from=builder /install/caddy /usr/bin/caddy
 
 # validate install
-RUN /usr/bin/caddy -version
-RUN /usr/bin/caddy -plugins
+#RUN /usr/bin/caddy -version
+#RUN /usr/bin/caddy -plugins
 
-EXPOSE 80 443 2015
 VOLUME /root/.caddy /srv
 WORKDIR /srv
 
-COPY Caddyfile /etc/Caddyfile
-COPY index.html /srv/index.html
+#COPY Caddyfile /etc/Caddyfile
+#COPY index.html /srv/index.html
 
 # install process wrapper
 COPY --from=builder /go/bin/parent /bin/parent
