@@ -4,7 +4,7 @@
 FROM playn/caddy:builder as builder
 
 ARG version="1.0.1"
-ARG plugins="realip,cloudflare"
+ARG plugins="cloudflare,forwardproxy,realip"
 ARG enable_telemetry="true"
 
 # process wrapper
