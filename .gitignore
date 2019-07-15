@@ -1,6 +1,7 @@
 .git
 .env
 .dockerignore
+.gitlab-ci.yml
 *.sh
 *.bak
 *.log
