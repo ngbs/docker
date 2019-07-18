@@ -1,5 +1,5 @@
 FROM playn/alpine:latest
-ARG v2ray_version=4.19.1
+ARG v2ray_version=4.20.0
 RUN set -ex && \
     apk --no-cache add ca-certificates && \
     mkdir /usr/bin/v2ray && \
@@ -14,4 +14,4 @@ RUN set -ex && \
     rm -rf v2ray-linux-64.zip /tmp/* && \
     chmod +x /usr/bin/v2ray/v2ctl && \
     chmod +x /usr/bin/v2ray/v2ray
-ENV PATH /usr/bin/v2ray:$PATH
+#ENV PATH /usr/bin/v2ray:$PATH
