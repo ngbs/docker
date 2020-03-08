@@ -1,5 +1,5 @@
 FROM playn/alpine:latest AS builder
-ARG trojan_version='v1.14.0'
+ARG trojan_version='v1.14.1'
 RUN apk add --no-cache --virtual .build-deps \
         build-base \
         cmake \
