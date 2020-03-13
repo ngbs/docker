@@ -1,4 +1,4 @@
-FROM playn/alpine:latest
+FROM playn/alpine:edge
 RUN set -xe && \
     apk add --no-cache --virtual .run-deps \
         libevent \
