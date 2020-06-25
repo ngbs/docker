@@ -3,7 +3,7 @@
 #
 FROM playn/caddy:builder as builder
 
-ARG version="1.0.1"
+ARG version="1.0.4"
 ARG plugins="cloudflare,realip"
 ARG enable_telemetry="true"
 
