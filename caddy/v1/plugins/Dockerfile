@@ -3,7 +3,7 @@
 #
 FROM playn/caddy:builder as builder
 
-ARG version="1.0.4"
+ARG version="1.0.3"
 ARG plugins="realip,cloudflare"
 ARG enable_telemetry="true"
 
@@ -17,7 +17,7 @@ RUN VERSION=${version} PLUGINS=${plugins} ENABLE_TELEMETRY=${enable_telemetry} /
 #
 FROM playn/alpine:latest
 
-ARG version="1.0.4"
+ARG version="1.0.3"
 LABEL caddy_version="$version"
 
 # Let's Encrypt Agreement
