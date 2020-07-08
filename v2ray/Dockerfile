@@ -1,5 +1,5 @@
 FROM playn/alpine:latest
-ARG v2ray_version=4.25.1
+ARG v2ray_version=4.26.0
 RUN set -ex && \
     apk --no-cache add ca-certificates && \
     mkdir /usr/bin/v2ray && \
