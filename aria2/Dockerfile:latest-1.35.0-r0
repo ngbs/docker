@@ -1,0 +1,2 @@
+FROM playn/alpine:latest
+RUN apk add --no-cache aria2=1.35.0-r0
