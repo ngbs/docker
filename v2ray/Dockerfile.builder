@@ -6,4 +6,4 @@ RUN go get -u v2ray.com/core/... && \
       env CGO_ENABLED=0 go build -o $HOME/v2ctl -tags confonly -ldflags "-s -w"
 
 FROM playn/alpine:latest
-COPY --from=builder $HOME/v2* /usr/bin/
+COPY --from=builder $HOME/v2* /usr/bin/v2ray/
