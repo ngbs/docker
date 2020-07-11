@@ -1,4 +1,5 @@
-FROM alpine:3.12.0
+ARG VERSION=3.12.0
+FROM alpine:${VERSION:-latest}
 RUN apk add --no-cach tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
