@@ -8,5 +8,6 @@
 *.log
 *.md
 !builder.sh
+!entrypoint.sh
 !README*.md
 unbound
