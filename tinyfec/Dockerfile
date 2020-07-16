@@ -6,6 +6,6 @@ RUN apk add --no-cache git  build-base linux-headers && \
     make nolimit_release
 
 FROM playn/alpine
-RUN apk add --no-cache libstdc++ iptables ip6tables
+RUN apk add --no-cache iptables ip6tables
 COPY --from=builder /tinyfecVPN/tinyvpn_amd64 /bin/tinyvpn
 ENTRYPOINT [ "/bin/tinyvpn" ]
