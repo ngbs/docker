@@ -6,3 +6,4 @@ RUN wget https://github.com/xtaci/kcptun/releases/download/v${kcptun_version}/kc
        /usr/local/bin/kcptun_client && \
     cd / && \
     rm -rf kcptun-linux-amd64-${kcptun_version}.tar.gz /tmp/*
+ENTRYPOINT ["/usr/local/bin/kcptun_client"]
