@@ -7,7 +7,7 @@ RUN apk add --no-cache git make && \
     cd /src && \
     make doh-server/doh-server
 
-FROM playn/alpine
+FROM playn/alpine:3.12.0
 COPY --from=build-env /src/doh-server/doh-server /doh-server
 
 EXPOSE 8053

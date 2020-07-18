@@ -7,7 +7,7 @@ RUN apk add --no-cache git make && \
     cd /src && \
     make doh-client/doh-client
 
-FROM playn/alpine
+FROM playn/alpine:3.12.0
 COPY --from=build-env /src/doh-client/doh-client /doh-client
 
 EXPOSE 53

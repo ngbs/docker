@@ -1,11 +1,11 @@
-FROM playn/alpine as builder
+FROM playn/alpine:3.12.0 as builder
 RUN apk add --no-cache git  build-base linux-headers && \
     git clone --recursive https://github.com/wangyu-/tinyfecVPN.git  && \
     cd tinyfecVPN && \
     sed -i '11s/^/#define NOLIMIT/g' tun_dev.h && \
     make nolimit
 
-FROM playn/alpine
+FROM playn/alpine:3.12.0
 RUN apk add --no-cache iptables ip6tables
 COPY --from=builder /tinyfecVPN/tinyvpn /bin/tinyvpn
 ENTRYPOINT [ "/bin/tinyvpn" ]

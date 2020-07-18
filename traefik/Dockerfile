@@ -1,4 +1,4 @@
-FROM playn/alpine:latest
+FROM playn/alpine:3.12.0
 ARG version=2.2.5
 RUN apk --no-cache add ca-certificates
 RUN set -ex; \
