@@ -14,3 +14,6 @@ RUN set -ex && \
     rm -rf /tmp/* && \
     chmod +x /usr/bin/v2ray/v2ctl && \
     chmod +x /usr/bin/v2ray/v2ray
+
+ENTRYPOINT ["/usr/bin/v2ray/v2ray"]
+ENV PATH /usr/bin/v2ray:$PATH
