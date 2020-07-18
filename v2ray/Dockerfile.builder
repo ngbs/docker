@@ -1,12 +1,17 @@
 FROM golang:1.14-alpine AS builder
-RUN apk add --no-cach git
-RUN go get -insecure -v -t v2ray.com/core/...
-RUN cd $(go env GOPATH)/src/v2ray.com/core/main
-RUN env CGO_ENABLED=0 go build -o $HOME/v2ray -ldflags "-s -w"
-RUN cd $(go env GOPATH)/src/v2ray.com/core/infra/control/main
-RUN env CGO_ENABLED=0 go build -o $HOME/v2ctl -tags confonly -ldflags "-s -w"
-RUN curl -s -L -o $HOME/geoip.dat "https://github.com/v2ray/geoip/raw/release/geoip.dat"
-RUN curl -s -L -o $HOME/geosite.dat "https://github.com/v2ray/domain-list-community/raw/release/dlc.dat"
+RUN apk add --no-cache git bash curl
+WORKDIR /go/src/v2ray.com/core
+RUN git clone --progress https://github.com/v2fly/v2ray-core.git . && \
+    bash ./release/user-package.sh nosource noconf codename=$(git describe --tags) buildname=docker-fly abpathtgz=/tmp/v2ray.tgz
 
-FROM playn/alpine:latest
-COPY --from=builder $HOME/v2* /usr/bin/v2ray/
+FROM playn/alpine
+
+COPY --from=builder /tmp/v2ray.tgz /tmp
+RUN apk add --no-cache ca-certificates && \
+    mkdir -p /usr/bin/v2ray && \
+    tar xvfz /tmp/v2ray.tgz -C /usr/bin/v2ray && \
+    rm -rf /tmp/*
+
+ENTRYPOINT ["/usr/bin/v2ray/v2ray"]
+ENV PATH /usr/bin/v2ray:$PATH
+#CMD ["v2ray", "-config=/etc/v2ray/config.json"]
