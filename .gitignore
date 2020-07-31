@@ -7,6 +7,7 @@
 *.bak
 *.log
 *.md
+!samba.sh
 !builder.sh
 !entrypoint.sh
 !README*.md
