@@ -1,10 +1,10 @@
 FROM playn/alpine:3.12.0
-ARG v2ray_version=beta
+ARG v2ray_version=4.27.0
 RUN set -ex && \
     apk --no-cache add ca-certificates && \
     mkdir /usr/bin/v2ray && \
     mkdir /var/log/v2ray && \
-    wget https://github.com/rprx/v2ray-vless/releases/download/${v2ray_version}/v2ray-linux-64.zip -P /tmp && \
+    wget https://github.com/v2ray/v2ray-core/releases/download/v${v2ray_version}/v2ray-linux-64.zip -P /tmp && \
     unzip /tmp/v2ray-linux-64.zip -d /tmp && \
     mv /tmp/geoip.dat \
        /tmp/geosite.dat \
