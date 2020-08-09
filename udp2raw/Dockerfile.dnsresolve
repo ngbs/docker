@@ -1,0 +1,10 @@
+FROM playn/alpine:3.12.0 as builder
+RUN apk add --no-cache git  build-base linux-headers && \
+    git clone https://github.com/wangyu-/udp2raw-tunnel.git  && \
+    cd udp2raw-tunnel && \
+    make dynamic
+
+FROM playn/alpine:3.12.0
+RUN apk add --no-cache libstdc++ iptables ip6tables
+COPY --from=builder /udp2raw-tunnel/udp2raw_dynamic /bin/udp2raw
+ENTRYPOINT [ "/bin/udp2raw" ]
