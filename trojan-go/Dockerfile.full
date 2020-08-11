@@ -8,7 +8,9 @@ RUN apk add git &&\
         COMMIT=$(git rev-parse HEAD) &&\
         BUILD_DIR="build" &&\
         VAR_SETTING="-X ${PACKAGE_NAME}/constant.Version=${VERSION} -X ${PACKAGE_NAME}/constant.Commit=${COMMIT}" &&\
-        go build -tags "full" -ldflags="-s -w ${VAR_SETTING}" -o ${BUILD_DIR}
+        go build -tags "full" -ldflags="-s -w ${VAR_SETTING}" -o ${BUILD_DIR} &&\
+        wget https://github.com/v2ray/domain-list-community/raw/release/dlc.dat -O build/geosite.dat &&\
+        wget https://github.com/v2ray/geoip/raw/release/geoip.dat -O build/geoip.dat
 
 FROM playn/alpine:3.12.0
 COPY --from=builder /trojan-go/build /usr/bin/
