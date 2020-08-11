@@ -1,0 +1,17 @@
+FROM golang:alpine AS builder
+WORKDIR /
+RUN apk add git &&\
+        git clone https://github.com/p4gefau1t/trojan-go.git &&\
+        cd trojan-go &&\
+        PACKAGE_NAME="github.com/p4gefau1t/trojan-go" &&\
+        VERSION=$(git describe --dirty) &&\
+        COMMIT=$(git rev-parse HEAD) &&\
+        BUILD_DIR="build" &&\
+        VAR_SETTING="-X ${PACKAGE_NAME}/constant.Version=${VERSION} -X ${PACKAGE_NAME}/constant.Commit=${COMMIT}" &&\
+        go build -tags "server" -ldflags="-s -w ${VAR_SETTING}" -o ${BUILD_DIR}
+
+FROM playn/alpine:3.12.0
+COPY --from=builder /trojan-go/build /usr/bin/
+
+ENTRYPOINT ["/usr/bin/trojan-go"]
+CMD ["-config", "/etc/trojan-go/config.json"]
