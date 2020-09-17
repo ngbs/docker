@@ -1,9 +1,10 @@
-FROM  golang:1.14-alpine AS builder
+FROM golang:1.15.2-alpine3.12 AS builder
 ARG version=2.1.1
 RUN apk add --no-cach git && \
-    git clone -b naive https://github.com/klzgrad/forwardproxy && \
     go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
-    xcaddy build v${version} --with github.com/caddyserver/forwardproxy=/go/forwardproxy
+    git clone -b naive https://github.com/klzgrad/forwardproxy && \
+    xcaddy build v${version} \
+        --with github.com/caddyserver/forwardproxy@1.0.1=$PWD/forwardproxy
 
 FROM playn/alpine:3.12.0
 COPY --from=builder /go/caddy /usr/bin/
