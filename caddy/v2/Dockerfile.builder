@@ -3,8 +3,8 @@ ARG version=2.1.1
 RUN apk add --no-cach git && \
     go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
     xcaddy build v${version} \
-        --with github.com/caddy-dns/cloudflare \
-        --with github.com/caddyserver/forwardproxy@1.0.1
+        --with github.com/caddy-dns/cloudflare
+        #--with github.com/caddyserver/forwardproxy@1.0.1
 
 FROM playn/alpine:3.12.0
 COPY --from=builder /go/caddy /usr/bin/
@@ -20,4 +20,5 @@ EXPOSE 443
 EXPOSE 2019
 
 #ENTRYPOINT ["/usr/bin/caddy"]
-CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
+#CMD ["caddy", "run", "--config", "/config/Caddyfile", "--adapter", "caddyfile"]
+#CMD ["caddy", "run", "--config", "/config/caddy.json", "--adapter", "json"]
