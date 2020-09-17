@@ -1,10 +1,10 @@
 FROM golang:1.15.2-alpine3.12 AS builder
-ARG version=2.1.1
+
 RUN apk add --no-cach git && \
     go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
-    xcaddy build v${version} \
-        --with github.com/caddy-dns/cloudflare
-        #--with github.com/caddyserver/forwardproxy@1.0.1
+    xcaddy build master \
+        --with github.com/caddy-dns/cloudflare \
+        --with github.com/caddyserver/forwardproxy@caddy2
 
 FROM playn/alpine:3.12.0
 COPY --from=builder /go/caddy /usr/bin/
