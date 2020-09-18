@@ -3,7 +3,9 @@ FROM golang:1.15.2-alpine3.12 AS builder
 RUN apk add --no-cach git && \
     go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
     git clone -b naive https://github.com/klzgrad/forwardproxy && \
-    xcaddy build master --with github.com/caddyserver/forwardproxy@caddy2=$PWD/forwardproxy
+    xcaddy build master \
+        --with github.com/caddy-dns/cloudflare \
+        --with github.com/caddyserver/forwardproxy@caddy2=$PWD/forwardproxy
 
 FROM playn/alpine:3.12.0
 COPY --from=builder /go/caddy /usr/bin/
