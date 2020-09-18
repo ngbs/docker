@@ -15,10 +15,10 @@ ENV XDG_DATA_HOME=/data
 VOLUME /config
 VOLUME /data
 
-EXPOSE 80
-EXPOSE 443
-EXPOSE 2019
+#EXPOSE 80
+#EXPOSE 443
+#EXPOSE 2019
 
 #ENTRYPOINT ["/usr/bin/caddy"]
-#CMD ["caddy", "run", "--config", "/config/Caddyfile", "--adapter", "caddyfile"]
-#CMD ["caddy", "run", "--config", "/config/caddy.json", "--adapter", "json"]
+#CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
+#CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile.json", "--adapter", "json"]
