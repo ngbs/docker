@@ -4,7 +4,8 @@ RUN apk add --no-cach git && \
     go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
     xcaddy build master \
         --with github.com/caddy-dns/cloudflare \
-        --with github.com/caddyserver/forwardproxy@caddy2
+        --with github.com/mastercactapus/caddy2-proxyprotocol \
+        --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive
 
 FROM playn/alpine:3.12.0
 COPY --from=builder /go/caddy /usr/bin/
