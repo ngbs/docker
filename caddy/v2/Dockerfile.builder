@@ -1,4 +1,4 @@
-FROM golang:1.15.2-alpine3.12 AS builder
+FROM golang:alpine AS builder
 
 RUN apk add --no-cach git && \
     go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
@@ -7,7 +7,7 @@ RUN apk add --no-cach git && \
         --with github.com/mastercactapus/caddy2-proxyprotocol \
         --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive
 
-FROM playn/alpine:3.12.0
+FROM playn/alpine
 COPY --from=builder /go/caddy /usr/bin/
 
 ENV XDG_CONFIG_HOME=/config

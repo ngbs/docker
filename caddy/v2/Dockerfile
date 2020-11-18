@@ -1,4 +1,4 @@
-FROM playn/alpine:3.12.0
+FROM playn/alpine
 ARG CADDY_VERSION=2.2.1
 ARG CADDY_DIST_COMMIT=56302336e0bb7c8c5dff34cbcb1d833791478226
 RUN set -eux; \
