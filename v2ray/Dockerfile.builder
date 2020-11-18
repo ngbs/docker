@@ -1,4 +1,4 @@
-FROM golang:1.15.2-alpine3.12 AS builder
+FROM golang:alpine AS builder
 RUN apk --no-cache add git bash curl
 WORKDIR /go/src/v2ray.com/core
 RUN git clone --progress https://github.com/v2fly/v2ray-core.git . && \
@@ -10,6 +10,5 @@ FROM playn/alpine:3.12.0
 COPY --from=builder /tmp/v2ray /usr/bin/v2ray
 RUN apk --no-cache add ca-certificates
 
-ENTRYPOINT ["/usr/bin/v2ray/v2ray"]
+ENTRYPOINT ["/usr/bin/v2ray/v2ray", "-config=/etc/v2ray/config.json"]
 ENV PATH /usr/bin/v2ray:$PATH
-#CMD ["v2ray", "-config=/etc/v2ray/config.json"]

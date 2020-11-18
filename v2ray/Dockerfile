@@ -1,19 +1,14 @@
+FROM golang:alpine AS builder
+RUN apk --no-cache add git bash curl
+WORKDIR /go/src/v2ray.com/core
+RUN git clone --progress https://github.com/v2fly/v2ray-core.git . && \
+    bash ./release/user-package.sh nosource noconf codename=$(git describe --tags) buildname=docker-fly abpathtgz=/tmp/v2ray.tgz && \
+    mkdir -p /tmp/v2ray && \
+    tar xvfz /tmp/v2ray.tgz -C /tmp/v2ray
+
 FROM playn/alpine:3.12.0
-ARG v2ray_version=4.28.2
-RUN set -ex && \
-    apk --no-cache add ca-certificates && \
-    mkdir /usr/bin/v2ray && \
-    mkdir /var/log/v2ray && \
-    wget https://github.com/v2ray/v2ray-core/releases/download/v${v2ray_version}/v2ray-linux-64.zip -P /tmp && \
-    unzip /tmp/v2ray-linux-64.zip -d /tmp && \
-    mv /tmp/geoip.dat \
-       /tmp/geosite.dat \
-       /tmp/v2ctl \
-       /tmp/v2ray \
-       /usr/bin/v2ray && \
-    rm -rf /tmp/* && \
-    chmod +x /usr/bin/v2ray/v2ctl && \
-    chmod +x /usr/bin/v2ray/v2ray
+COPY --from=builder /tmp/v2ray /usr/bin/v2ray
+RUN apk --no-cache add ca-certificates
 
 ENTRYPOINT ["/usr/bin/v2ray/v2ray"]
 ENV PATH /usr/bin/v2ray:$PATH
