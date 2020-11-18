@@ -7,7 +7,7 @@ RUN apk add git make &&\
         wget https://github.com/v2ray/domain-list-community/raw/release/dlc.dat -O build/geosite.dat &&\
         wget https://github.com/v2ray/geoip/raw/release/geoip.dat -O build/geoip.dat
 
-FROM playn/alpine:3.12.0
+FROM playn/alpine
 WORKDIR /
 COPY --from=builder /trojan-go/build /usr/bin/
 COPY --from=builder /trojan-go/example/server.json /etc/trojan-go/config.json

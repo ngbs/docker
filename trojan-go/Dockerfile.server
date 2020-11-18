@@ -9,7 +9,7 @@ RUN apk add git &&\
         VAR_SETTING="-X ${PACKAGE_NAME}/constant.Version=${VERSION} -X ${PACKAGE_NAME}/constant.Commit=${COMMIT}" &&\
         go build -tags "server" -ldflags="-s -w ${VAR_SETTING}"
 
-FROM playn/alpine:3.12.0
+FROM playn/alpine
 COPY --from=builder /trojan-go/trojan-go /usr/bin/
 COPY --from=builder /trojan-go/example/server.json /etc/trojan-go/config.json
 

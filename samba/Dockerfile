@@ -1,4 +1,4 @@
-FROM playn/alpine:3.12.0
+FROM playn/alpine
 
 RUN apk --no-cache --no-progress upgrade && \
     apk --no-cache --no-progress add bash samba shadow tini && \
