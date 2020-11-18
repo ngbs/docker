@@ -6,7 +6,7 @@ RUN git clone --progress https://github.com/v2fly/v2ray-core.git . && \
     mkdir -p /tmp/v2ray && \
     tar xvfz /tmp/v2ray.tgz -C /tmp/v2ray
 
-FROM playn/alpine:3.12.0
+FROM playn/alpine
 COPY --from=builder /tmp/v2ray /usr/bin/v2ray
 RUN apk --no-cache add ca-certificates
 
