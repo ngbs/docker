@@ -1,0 +1,17 @@
+FROM playn/alpine
+ARG xray_version=1.0.0
+RUN set -ex && \
+    apk --no-cache add ca-certificates && \
+    mkdir /usr/bin/xray && \
+    mkdir /var/log/xray && \
+    wget https://github.com/XTLS/Xray-core/releases/download/v${xray_version}/Xray-linux-64.zip -P /tmp && \
+    unzip /tmp/xray-linux-64.zip -d /tmp && \
+    mv /tmp/geoip.dat \
+       /tmp/geosite.dat \
+       /tmp/xray \
+       /usr/bin/xray && \
+    rm -rf /tmp/* && \
+    chmod +x /usr/bin/xray/xray
+
+ENTRYPOINT ["/usr/bin/xray/xray"]
+ENV PATH /usr/bin/xray:$PATH
