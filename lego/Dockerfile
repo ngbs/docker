@@ -1,9 +1,9 @@
 FROM golang:alpine AS builder
-WORKDIR /go/lego
+WORKDIR /go
 ENV GO111MODULE on
 RUN apk --no-cache --no-progress add make git && \
     git clone https://github.com/go-acme/lego.git && \
-    make build
+    cd /go/lego && make build
 
 FROM playn/alpine
 RUN apk add --no-cache ca-certificates && \
