@@ -1,5 +1,5 @@
 FROM playn/alpine
-ARG version=2.3.2
+ARG version=2.3.4
 RUN apk --no-cache add ca-certificates
 RUN set -ex; \
 	apkArch="$(apk --print-arch)"; \
