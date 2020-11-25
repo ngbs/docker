@@ -5,7 +5,7 @@ RUN set -ex && \
     mkdir /usr/bin/xray && \
     mkdir /var/log/xray && \
     wget https://github.com/XTLS/Xray-core/releases/download/v${xray_version}/Xray-linux-64.zip -P /tmp && \
-    unzip /tmp/xray-linux-64.zip -d /tmp && \
+    unzip /tmp/Xray-linux-64.zip -d /tmp && \
     mv /tmp/geoip.dat \
        /tmp/geosite.dat \
        /tmp/xray \
