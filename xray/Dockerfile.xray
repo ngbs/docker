@@ -1,5 +1,5 @@
 FROM playn/alpine
-ARG xray_version=1.0.0
+ARG xray_version=1.1.2
 RUN set -ex && \
     apk --no-cache add ca-certificates && \
     mkdir /usr/bin/xray && \
