@@ -1,6 +1,5 @@
 FROM playn/alpine
 ARG CADDY_VERSION=2.3.0
-ARG CADDY_DIST_COMMIT=56302336e0bb7c8c5dff34cbcb1d833791478226
 RUN set -eux; \
     mkdir -p \
 		/config/caddy \
@@ -8,8 +7,8 @@ RUN set -eux; \
 		/etc/caddy \
 		/usr/share/caddy \
 	; \
-	wget -O /etc/caddy/Caddyfile "https://github.com/caddyserver/dist/raw/$CADDY_DIST_COMMIT/config/Caddyfile"; \
-	wget -O /usr/share/caddy/index.html "https://github.com/caddyserver/dist/raw/$CADDY_DIST_COMMIT/welcome/index.html"; \
+	wget -O /etc/caddy/Caddyfile "https://raw.githubusercontent.com/caddyserver/dist/master/config/Caddyfile"; \
+	wget -O /usr/share/caddy/index.html "https://raw.githubusercontent.com/caddyserver/dist/master/welcome/index.html"; \
 	apkArch="$(apk --print-arch)"; \
 	case "$apkArch" in \
 		x86_64)  binArch='amd64'; checksum='66a21e0643fd2538ffe88ab93cb4a158b94873c1ce7494543a8355c8a3492d5fa43f4fa030dfc9e9833d15fe04f010063c61cb3f04ad5ac6bcff80396f928a08' ;; \
