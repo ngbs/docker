@@ -1,0 +1,12 @@
+FROM playn/alpine
+RUN wget -O /tmp/caddy.tar.gz "https://github.com/lxhao61/integrated-examples/releases/download/20210114/caddy_linux_amd64.tar.gz"; \
+    tar x -z -f /tmp/caddy.tar.gz -C /usr/bin caddy; \
+    rm -f /tmp/caddy.tar.gz; \
+    chmod +x /usr/bin/caddy; \
+    caddy version
+
+ENV XDG_CONFIG_HOME=/config
+ENV XDG_DATA_HOME=/data
+
+VOLUME /config
+VOLUME /data
