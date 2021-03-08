@@ -1,5 +1,5 @@
 FROM playn/alpine
-ARG frp_version=0.34.2
+ARG frp_version=0.35.1
 RUN wget https://github.com/fatedier/frp/releases/download/v${frp_version}/frp_${frp_version}_linux_amd64.tar.gz && \
     tar zxf frp_${frp_version}_linux_amd64.tar.gz -C /tmp && \
     cd /tmp/frp_${frp_version}_linux_amd64 && \
