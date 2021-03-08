@@ -1,5 +1,5 @@
 FROM playn/alpine
-ARG kcptun_version=20201126
+ARG kcptun_version=20210103
 RUN wget https://github.com/xtaci/kcptun/releases/download/v${kcptun_version}/kcptun-linux-amd64-${kcptun_version}.tar.gz && \
     tar zxf kcptun-linux-amd64-${kcptun_version}.tar.gz -C /tmp && \
     mv /tmp/server_linux_amd64 \
