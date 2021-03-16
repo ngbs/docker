@@ -1,6 +1,6 @@
 FROM golang:alpine AS builder
 
-ARG SYNCTHING_RELEASE=v1.13.1
+ARG SYNCTHING_RELEASE=v1.14.0
 ENV CGO_ENABLED=0
 ENV BUILD_HOST=syncthing.net
 ENV BUILD_USER=docker
@@ -19,11 +19,11 @@ RUN apk add --no-cache ca-certificates su-exec
 COPY --from=builder /tmp/src/syncthing /bin/syncthing
 COPY --from=builder /tmp/src/script/docker-entrypoint.sh /bin/entrypoint.sh
 
-EXPOSE 8384 22000 21027/udp
+# EXPOSE 8384 22000 21027/udp
 VOLUME ["/var/syncthing"]
 
-#HEALTHCHECK --interval=1m --timeout=10s \
-#  CMD nc -z 127.0.0.1 8384 || exit 1
+# HEALTHCHECK --interval=1m --timeout=10s \
+# CMD nc -z 127.0.0.1 8384 || exit 1
 
 ENV STGUIADDRESS=0.0.0.0:8384
 ENTRYPOINT ["/bin/entrypoint.sh", "/bin/syncthing", "-home", "/var/syncthing/config"]
