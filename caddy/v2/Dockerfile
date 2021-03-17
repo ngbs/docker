@@ -5,7 +5,8 @@ RUN apk add --no-cach git && \
     xcaddy build master \
     --with github.com/caddy-dns/cloudflare \
     --with github.com/mastercactapus/caddy2-proxyprotocol \
-    --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive \
+    # --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive \
+    --with github.com/klzgrad/forwardproxy@naive \
     --with github.com/mholt/caddy-l4 \
     --with github.com/mholt/caddy-webdav
 
