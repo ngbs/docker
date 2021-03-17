@@ -20,8 +20,8 @@ ENV XDG_DATA_HOME=/data
 VOLUME /config
 VOLUME /data
 
-#EXPOSE 80
-#EXPOSE 443
-#EXPOSE 2019
+# EXPOSE 80
+# EXPOSE 443
+# EXPOSE 2019
 
-#ENTRYPOINT ["/usr/bin/caddy"]
+# ENTRYPOINT ["/usr/bin/caddy"]
