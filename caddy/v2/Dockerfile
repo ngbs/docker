@@ -2,7 +2,7 @@ FROM golang:alpine AS builder
 
 RUN apk add --no-cach git && \
     go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
-    xcaddy build master \
+    xcaddy build \
     --with github.com/caddy-dns/cloudflare \
     --with github.com/mastercactapus/caddy2-proxyprotocol \
     # --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive \
