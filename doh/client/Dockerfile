@@ -1,5 +1,5 @@
 FROM golang:alpine AS build-env
-ARG doh_version=2.1.1
+ARG doh_version=2.2.5
 RUN apk add --no-cache git make && \
     wget https://github.com/m13253/dns-over-https/archive/v${doh_version}.tar.gz && \
     tar zxf v${doh_version}.tar.gz && \
@@ -7,7 +7,7 @@ RUN apk add --no-cache git make && \
     cd /src && \
     make doh-client/doh-client
 
-FROM playn/alpine:3.12.0
+FROM playn/alpine
 COPY --from=build-env /src/doh-client/doh-client /doh-client
 
 EXPOSE 53
