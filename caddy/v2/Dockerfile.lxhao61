@@ -1,5 +1,5 @@
 FROM playn/alpine
-ARG tree=20210315
+ARG tree=20210507
 RUN wget -O /tmp/caddy.tar.gz "https://github.com/lxhao61/integrated-examples/releases/download/${tree}/caddy_linux_amd64.tar.gz"; \
     tar x -z -f /tmp/caddy.tar.gz -C /usr/bin caddy; \
     rm -f /tmp/caddy.tar.gz; \
