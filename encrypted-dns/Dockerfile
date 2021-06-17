@@ -1,5 +1,6 @@
-FROM playn/alpine:edge AS builder
-RUN apk add --no-cache cargo make && \
+FROM alpine:edge AS builder
+RUN apk update --no-cache && \
+    apk add --no-cache cargo make && \
     cargo install encrypted-dns
 
 FROM playn/alpine:edge
