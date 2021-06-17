@@ -1,6 +1,6 @@
 FROM alpine:edge AS builder
 RUN apk update --no-cache && \
-    apk add --no-cache cargo make && \
+    apk add --no-cache rust cargo make && \
     cargo install doh-proxy
 
 FROM playn/alpine:edge
