@@ -70,6 +70,30 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
       
+      - name: Build ChinaDNS-NG and push
+        id: docker_build_chinadns_ng
+        uses: docker/build-push-action@v2
+        with:
+          context: ./chinadns-ng
+          file: ./chinadns-ng/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:1.0-beta25
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
+      - name: Build Dnscrypt-Proxy and push
+        id: docker_build_dnscrypt_proxy
+        uses: docker/build-push-action@v2
+        with:
+          context: ./dnscrypt/proxy
+          file: ./dnscrypt/proxy/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:2.0.46-beta3
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
