@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM alpine:latest
 RUN apk add --no-cach tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
