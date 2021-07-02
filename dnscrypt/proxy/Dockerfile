@@ -14,5 +14,5 @@ RUN wget -c https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/${versi
     mv /tmp/linux-x86_64 /usr/local/bin/dnscrypt-proxy
 
 FROM playn/alpine
-COPY --from=builder /usr/local/bin/dnscrypt-proxy /usr/local/bin/dnscrypt-proxy
+COPY --from=builder --chown=0:0 /usr/local/bin/dnscrypt-proxy /usr/local/bin/dnscrypt-proxy
 ENTRYPOINT [ "/usr/local/bin/dnscrypt-proxy/dnscrypt-proxy" ]

@@ -8,6 +8,6 @@ RUN apk --no-cache --no-progress add git gcc make libc-dev linux-headers && \
     make install
 
 FROM playn/alpine
-COPY --from=builder /usr/local/bin/chinadns-ng /usr/local/bin/chinadns-ng
+COPY --from=builder --chown=0:0 /usr/local/bin/chinadns-ng /usr/local/bin/chinadns-ng
 RUN apk --no-cache --no-progress add ipset
 ENTRYPOINT [ "/usr/local/bin/chinadns-ng" ]
