@@ -1,4 +1,4 @@
-FROM playn/alpine:edge
+FROM playn/alpine
 ARG VERSION=v91.0.4472.77-1
 RUN apk add --no-cach gcc && \
     wget https://github.com/klzgrad/naiveproxy/releases/download/${VERSION}/naiveproxy-${VERSION}-openwrt-x86_64.tar.xz && \

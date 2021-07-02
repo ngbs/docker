@@ -1,0 +1,12 @@
+# syntax=docker/dockerfile:1
+FROM golang:alpine AS builder
+WORKDIR /go
+RUN apk --no-cache --no-progress add git make && \
+    git clone https://github.com/m13253/dns-over-https.git && \
+    cd /go/dns-over-https && \
+    make doh-server/doh-server
+
+FROM playn/alpine
+COPY --from=builder /go/dns-over-https/doh-server/doh-server /doh-server
+ENTRYPOINT ["/doh-server"]
+CMD ["-conf", "/doh-server.conf"]

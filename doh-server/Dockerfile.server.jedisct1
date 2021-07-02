@@ -1,9 +1,9 @@
-FROM playn/alpine:edge AS builder
+FROM playn/alpine AS builder
 RUN apk update --no-cache && \
     apk add --no-cache rust cargo make && \
     cargo install doh-proxy
 
-FROM playn/alpine:edge
+FROM playn/alpine
 COPY --from=builder /root/.cargo/bin/doh-proxy /usr/local/bin/doh-proxy
 RUN apk add --no-cache libgcc
 ENTRYPOINT [ "/usr/local/bin/doh-proxy" ]
