@@ -86,8 +86,8 @@ jobs:
         id: docker_build_dnscrypt_proxy
         uses: docker/build-push-action@v2
         with:
-          context: ./dnscrypt/proxy
-          file: ./dnscrypt/proxy/Dockerfile
+          context: ./dnscrypt-proxy
+          file: ./dnscrypt-proxy/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:2.0.46-beta3
           builder: ${{ steps.buildx.outputs.name }}
