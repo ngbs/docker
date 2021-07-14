@@ -97,6 +97,7 @@ jobs:
       - name: Set variables
         run: |
           echo "DNSCRYPT_PROXY_VERSION=$(curl -fsSL https://api.github.com/repos/dnscrypt/dnscrypt-proxy/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
         shell: bash
 
       - name: Check Out Repo
@@ -143,7 +144,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:${{ DNSCRYPT_PROXY_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:2.0.46-beta3
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
