@@ -94,9 +94,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-      - name: Set variables
+      - name: Set Variables
         run: |
-          echo "DNSCRYPT_PROXY_VERSION=$(curl -fsSL https://api.github.com/repos/dnscrypt/dnscrypt-proxy/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+          echo "API_GIT_URL=https://api.github.com/repos" >> $GITHUB_ENV
+          echo "GET_VERSION=releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'" >> $GITHUB_ENV
+          echo "DNSCRYPT_PROXY_VERSION=$(curl -fsSL $API_GIT_URL/dnscrypt/dnscrypt-proxy/$GET_VERSION)" >> $GITHUB_ENV
+          echo "CADDY_VERSION=$(curl -fsSL $API_GIT_URL/caddyserver/caddy/$GET_VERSION)" >> $GITHUB_ENV
+          echo "XRAY_VERSION=$(curl -fsSL $API_GIT_URL/xtls/xray-core/$GET_VERSION)" >> $GITHUB_ENV
           cat $GITHUB_ENV
         shell: bash
 

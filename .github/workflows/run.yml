@@ -1,0 +1,33 @@
+# This is a basic workflow to help you get started with Actions
+
+name: TEST RUN
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  # push:
+  #   branches: [ master ]
+  # pull_request:
+  #   branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  build-basic:
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+      - name: Set Variables
+        run: |
+          echo "API_GIT_URL=https://api.github.com/repos" >> $GITHUB_ENV
+          echo "GET_VERSION=releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'" >> $GITHUB_ENV
+          echo "DNSCRYPT_PROXY_VERSION=$(curl -fsSL $API_GIT_URL/dnscrypt/dnscrypt-proxy/$GET_VERSION)" >> $GITHUB_ENV
+          echo "CADDY_VERSION=$(curl -fsSL $API_GIT_URL/caddyserver/caddy/$GET_VERSION)" >> $GITHUB_ENV
+          echo "XRAY_VERSION=$(curl -fsSL $API_GIT_URL/xtls/xray-core/$GET_VERSION)" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+        shell: bash
