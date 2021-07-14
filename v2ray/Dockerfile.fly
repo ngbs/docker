@@ -1,5 +1,5 @@
 FROM playn/alpine
-ARG v2fly_version=4.39.2
+ARG v2fly_version=4.40.1
 RUN set -ex && \
     apk --no-cache add ca-certificates && \
     mkdir /usr/bin/v2ray && \
