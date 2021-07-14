@@ -19,7 +19,7 @@ jobs:
   build-basic:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -93,17 +93,7 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
-    
-      - name: Set Variables
-        run: |
-          echo "API_GIT_URL=https://api.github.com/repos" >> $GITHUB_ENV
-          echo "GET_VERSION=releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'" >> $GITHUB_ENV
-          echo "DNSCRYPT_PROXY_VERSION=$(curl -fsSL $API_GIT_URL/dnscrypt/dnscrypt-proxy/$GET_VERSION)" >> $GITHUB_ENV
-          echo "CADDY_VERSION=$(curl -fsSL $API_GIT_URL/caddyserver/caddy/$GET_VERSION)" >> $GITHUB_ENV
-          echo "XRAY_VERSION=$(curl -fsSL $API_GIT_URL/xtls/xray-core/$GET_VERSION)" >> $GITHUB_ENV
-          cat $GITHUB_ENV
-        shell: bash
-
+      
       - name: Check Out Repo
         uses: actions/checkout@v2
       
