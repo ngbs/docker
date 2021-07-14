@@ -5,6 +5,6 @@ RUN apk add --no-cache git build-base linux-headers && \
     make dynamic
 
 FROM playn/alpine
-RUN apk add --no-cache libstdc++ iptables ip6tables
-COPY --from=builder /udp2raw-tunnel/udp2raw_dynamic /bin/udp2raw
-ENTRYPOINT [ "/bin/udp2raw" ]
+RUN apk add --no-cache libstdc++ iptables
+COPY --from=builder /udp2raw-tunnel/udp2raw_dynamic /usr/bin/udp2raw
+ENTRYPOINT [ "/usr/bin/udp2raw" ]
