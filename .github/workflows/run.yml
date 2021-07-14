@@ -24,8 +24,6 @@ jobs:
     
       - name: Set Variables
         run: |
-          echo "TEST1='curl -fsSL https://api.github.com/repos'" >> $GITHUB_ENV
-          echo "TEST2='releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/''" >> $GITHUB_ENV
           echo "DNSCRYPT_PROXY_VERSION=$(curl -fsSL https://api.github.com/repos/dnscrypt/dnscrypt-proxy/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
           echo "CADDY_VERSION=$(curl -fsSL https://api.github.com/repos/caddyserver/caddy/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
           echo "V2RAY_VERSION=$(curl -fsSL https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
