@@ -143,7 +143,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:$DNSCRYPT_PROXY_VERSION
+            ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:${{ DNSCRYPT_PROXY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
