@@ -2,7 +2,7 @@
 FROM golang:alpine AS builder
 RUN apk add --no-cach git && \
     go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
-    git clone -b naive https://github.com/klzgrad/forwardproxy && \
+    git clone --depth 1 -b naive https://github.com/klzgrad/forwardproxy && \
     export version=$(wget -qO- https://api.github.com/repos/caddyserver/caddy/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/') && \
     # xcaddy build ${version} --output ./caddy_${version} \
     xcaddy build ${version} \

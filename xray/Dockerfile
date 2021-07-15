@@ -1,7 +1,7 @@
 FROM golang:alpine AS builder
 RUN apk --no-cache add git
 WORKDIR /go/src
-RUN git clone https://github.com/XTLS/Xray-core.git . && \
+RUN git clone --depth 1 https://github.com/xtls/xray-core.git . && \
     CGO_ENABLED=0 go build -o xray -trimpath -ldflags "-s -w -buildid=" ./main
 
 FROM playn/alpine

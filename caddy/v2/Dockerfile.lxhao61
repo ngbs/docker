@@ -5,7 +5,7 @@ RUN export version=$(wget -qO- https://api.github.com/repos/lxhao61/integrated-e
     tar x -z -f /tmp/caddy.tar.gz -C /usr/bin caddy; \
     rm -f /tmp/caddy.tar.gz; \
     chmod +x /usr/bin/caddy; \
-    caddy version
+    unset version
 ENV XDG_CONFIG_HOME=/config
 ENV XDG_DATA_HOME=/data
 VOLUME /config

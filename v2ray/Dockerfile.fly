@@ -1,10 +1,11 @@
 FROM playn/alpine
-ARG v2fly_version=4.40.1
+# ARG version=4.40.1
 RUN set -ex && \
     apk --no-cache add ca-certificates && \
     mkdir /usr/bin/v2ray && \
     mkdir /var/log/v2ray && \
-    wget https://github.com/v2fly/v2ray-core/releases/download/v${v2fly_version}/v2ray-linux-64.zip -P /tmp && \
+    export version=$(wget -qO- "https://api.github.com/repos/v2fly/v2ray-core/releases/latest" | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/') && \
+    wget -c https://github.com/v2fly/v2ray-core/releases/download/v${version}/v2ray-linux-64.zip -P /tmp && \
     unzip /tmp/v2ray-linux-64.zip -d /tmp && \
     mv /tmp/geoip.dat \
        /tmp/geosite.dat \
@@ -13,7 +14,8 @@ RUN set -ex && \
        /usr/bin/v2ray && \
     rm -rf /tmp/* && \
     chmod +x /usr/bin/v2ray/v2ctl && \
-    chmod +x /usr/bin/v2ray/v2ray
+    chmod +x /usr/bin/v2ray/v2ray && \
+    unset version
 
 ENTRYPOINT ["/usr/bin/v2ray/v2ray"]
 ENV PATH /usr/bin/v2ray:$PATH

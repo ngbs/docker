@@ -2,11 +2,11 @@
 FROM golang:alpine AS builder
 WORKDIR /go
 RUN apk --no-cache --no-progress add git make && \
-    git clone https://github.com/m13253/dns-over-https.git && \
+    git clone --depth 1 https://github.com/m13253/dns-over-https.git && \
     cd /go/dns-over-https && \
     make doh-client/doh-client
 
 FROM playn/alpine
-COPY --from=builder /go/dns-over-https/doh-client/doh-client /doh-client
-ENTRYPOINT ["/doh-client"]
+COPY --from=builder /go/dns-over-https/doh-client/doh-client /usr/local/bin/doh-client
+ENTRYPOINT ["/usr/local/bin/doh-client"]
 CMD ["-conf", "/doh-client.conf"]

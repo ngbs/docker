@@ -2,7 +2,7 @@
 FROM golang:alpine AS builder
 WORKDIR /go
 RUN apk --no-cache --no-progress add git gcc make libc-dev linux-headers && \
-    git clone https://github.com/zfl9/chinadns-ng.git && \
+    git clone --depth 1 https://github.com/zfl9/chinadns-ng.git && \
     cd /go/chinadns-ng && \
     make -j$(nproc) CFLAGS="-O3 -pipe" && \
     make install
