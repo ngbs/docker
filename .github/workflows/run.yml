@@ -32,5 +32,7 @@ jobs:
           echo "FRP_VERSION=$(curl -fsSL https://api.github.com/repos/fatedier/frp/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
           echo "SYNCTHING_VERSION=$(curl -fsSL https://api.github.com/repos/syncthing/syncthing/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
           echo "KCPTUN_VERSION=$(curl -fsSL https://api.github.com/repos/xtaci/kcptun/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+          echo "UDP2RAW_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/udp2raw-tunnel/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+          echo "TINYVPN_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/tinyfecvpn/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
           cat $GITHUB_ENV
         shell: bash

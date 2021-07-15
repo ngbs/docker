@@ -143,6 +143,34 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
       
+      - name: Build encrypted-dns and push
+        id: docker_build_encrypted_dns
+        uses: docker/build-push-action@v2
+        with:
+          context: ./encrypted-dns
+          file: ./encrypted-dns/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/encrypted-dns:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/encrypted-dns:0.9.1
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
+      - name: Build doh-server and push
+        id: docker_build_doh_server
+        uses: docker/build-push-action@v2
+        with:
+          context: ./doh-server
+          file: ./doh-server/Dockerfile.server
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/doh-server:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/doh-server:2.2.6
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
       - name: Build Xray-core and push
         id: docker_build_xray_core
         uses: docker/build-push-action@v2
@@ -167,6 +195,132 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:4.40.1
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
+      - name: Build naiveproxy and push
+        id: docker_build_naiveproxy
+        uses: docker/build-push-action@v2
+        with:
+          context: ./naive
+          file: ./naive/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/naive:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/naive:91.0.4472.77-1
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
+      - name: Build Syncthing and push
+        id: docker_build_syncthing
+        uses: docker/build-push-action@v2
+        with:
+          context: ./syncthing
+          file: ./syncthing/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:1.18.0
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
+      - name: Build udp2raw and push
+        id: docker_build_udp2raw
+        uses: docker/build-push-action@v2
+        with:
+          context: ./udp2raw
+          file: ./udp2raw/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/udp2raw:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/udp2raw:20200818.0
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
+      - name: Build tinyfen and push
+        id: docker_build_tinyfen
+        uses: docker/build-push-action@v2
+        with:
+          context: ./tinyfen
+          file: ./tinyfen/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/tinyfen:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/tinyfen:20210116.0
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
+      - name: Build KMS and push
+        id: docker_build_kms
+        uses: docker/build-push-action@v2
+        with:
+          context: ./kms
+          file: ./kms/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kms:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kms:svn1113
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
+      - name: Build lego and push
+        id: docker_build_lego
+        uses: docker/build-push-action@v2
+        with:
+          context: ./lego
+          file: ./lego/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/lego:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/lego:4.4.0
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
+      - name: Build Traefik and push
+        id: docker_build_traefik
+        uses: docker/build-push-action@v2
+        with:
+          context: ./traefik
+          file: ./traefik/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/traefik:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/traefik:2.4.9
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
+      - name: Build Samba and push
+        id: docker_build_samba
+        uses: docker/build-push-action@v2
+        with:
+          context: ./samba
+          file: ./samba/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/samba:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/samba:4.12.2
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
+      - name: Build Caddy and push
+        id: docker_build_caddy
+        uses: docker/build-push-action@v2
+        with:
+          context: ./caddy/v2
+          file: ./caddy/v2/Dockerfile.lxhao61
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/caddy:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/caddy:4.12.2
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
