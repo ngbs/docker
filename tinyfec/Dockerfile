@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM playn/alpine as builder
 RUN apk add --no-cache git build-base linux-headers && \
     git clone --depth 1 --recursive https://github.com/wangyu-/tinyfecVPN.git  && \

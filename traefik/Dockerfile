@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM playn/alpine
 # ARG version=2.4.9
 RUN apk --no-cache add ca-certificates; \

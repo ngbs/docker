@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM golang:alpine AS builder
 WORKDIR /go
 ENV GO111MODULE on

@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM playn/alpine
 # ARG version=v91.0.4472.77-1
 RUN apk add --no-cach gcc libstdc++ && \

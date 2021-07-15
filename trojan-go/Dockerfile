@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM golang:alpine AS builder
 WORKDIR /
 RUN apk add git make && \

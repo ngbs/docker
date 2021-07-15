@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM golang:alpine AS builder
 RUN apk --no-cache add git
 WORKDIR /go/src

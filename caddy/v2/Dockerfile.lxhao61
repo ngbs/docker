@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM playn/alpine
 RUN export version=$(wget -qO- https://api.github.com/repos/lxhao61/integrated-examples/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \
-    wget -O /tmp/caddy.tar.gz "https://github.com/lxhao61/integrated-examples/releases/download/${version}/caddy_linux_amd64.tar.gz"; \
-    tar x -z -f /tmp/caddy.tar.gz -C /usr/bin caddy; \
+    wget --quiet -O /tmp/caddy.tar.gz "https://github.com/lxhao61/integrated-examples/releases/download/${version}/caddy_linux_amd64.tar.gz"; \
+    tar -zxf /tmp/caddy.tar.gz -C /usr/bin caddy; \
     rm -f /tmp/caddy.tar.gz; \
     chmod +x /usr/bin/caddy; \
     unset version

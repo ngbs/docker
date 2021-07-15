@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM golang:alpine AS builder
 # ARG SYNCTHING_RELEASE=v1.18.0
 ENV CGO_ENABLED=0

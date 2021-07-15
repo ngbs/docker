@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM playn/alpine AS builder
 RUN apk update --no-cache && \
     apk add --no-cache rust cargo make && \
