@@ -7,8 +7,7 @@ RUN apk --no-cache add ca-certificates; \
     unzip /tmp/Xray-linux-64.zip -d /tmp; \
     mv /tmp/geoip.dat /tmp/geosite.dat /tmp/xray /usr/bin/xray; \
     rm -rf /tmp/*; \
-    chmod +x /usr/bin/xray/xray; \
-    unset version
+    chmod +x /usr/bin/xray/xray
 
 ENTRYPOINT ["/usr/bin/xray/xray"]
 ENV PATH /usr/bin/xray:$PATH

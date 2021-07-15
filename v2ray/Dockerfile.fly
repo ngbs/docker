@@ -7,8 +7,7 @@ RUN apk --no-cache add ca-certificates; \
     unzip /tmp/v2ray-linux-64.zip -d /tmp; \
     mv /tmp/geoip.dat /tmp/geosite.dat /tmp/v2ctl /tmp/v2ray /usr/bin/v2ray; \
     rm -rf /tmp/*; \
-    chmod +x /usr/bin/v2ray/v2ctl /usr/bin/v2ray/v2ray; \
-    unset version
+    chmod +x /usr/bin/v2ray/v2ctl /usr/bin/v2ray/v2ray
 
 ENTRYPOINT ["/usr/bin/v2ray/v2ray"]
 ENV PATH /usr/bin/v2ray:$PATH
