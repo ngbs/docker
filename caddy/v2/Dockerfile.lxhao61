@@ -1,13 +1,16 @@
+# syntax=docker/dockerfile:1
 FROM playn/alpine
-ARG tree=20210618
-RUN wget -O /tmp/caddy.tar.gz "https://github.com/lxhao61/integrated-examples/releases/download/${tree}/caddy_linux_amd64.tar.gz"; \
+RUN export version=$(curl -fsSL https://api.github.com/repos/lxhao61/integrated-examples/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/') && \
+    wget -O /tmp/caddy.tar.gz "https://github.com/lxhao61/integrated-examples/releases/download/${version}/caddy_linux_amd64.tar.gz"; \
     tar x -z -f /tmp/caddy.tar.gz -C /usr/bin caddy; \
     rm -f /tmp/caddy.tar.gz; \
     chmod +x /usr/bin/caddy; \
     caddy version
-
 ENV XDG_CONFIG_HOME=/config
 ENV XDG_DATA_HOME=/data
-
 VOLUME /config
 VOLUME /data
+EXPOSE 80
+EXPOSE 443
+EXPOSE 2019
+ENTRYPOINT ["/usr/bin/caddy"]

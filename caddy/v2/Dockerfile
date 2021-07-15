@@ -1,5 +1,5 @@
+# syntax=docker/dockerfile:1
 FROM golang:alpine AS builder
-
 RUN apk add --no-cach git && \
     go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
     git clone -b naive https://github.com/klzgrad/forwardproxy && \
@@ -27,15 +27,11 @@ RUN apk add --no-cach git && \
 
 FROM playn/alpine
 COPY --from=builder /go/caddy /usr/bin/
-
 ENV XDG_CONFIG_HOME=/config
 ENV XDG_DATA_HOME=/data
-
 VOLUME /config
 VOLUME /data
-
 EXPOSE 80
 EXPOSE 443
-# EXPOSE 2019
-
+EXPOSE 2019
 ENTRYPOINT ["/usr/bin/caddy"]
