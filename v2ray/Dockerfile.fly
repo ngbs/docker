@@ -3,7 +3,7 @@ FROM playn/alpine
 RUN apk --no-cache add ca-certificates; \
     mkdir /usr/bin/v2ray /var/log/v2ray; \
     export version=$(wget -qO- https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \
-    wget -c https://github.com/v2fly/v2ray-core/releases/download/v${version}/v2ray-linux-64.zip -P /tmp; \
+    wget -P /tmp https://github.com/v2fly/v2ray-core/releases/download/v${version}/v2ray-linux-64.zip; \
     unzip /tmp/v2ray-linux-64.zip -d /tmp; \
     mv /tmp/geoip.dat /tmp/geosite.dat /tmp/v2ctl /tmp/v2ray /usr/bin/v2ray; \
     rm -rf /tmp/*; \

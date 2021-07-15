@@ -1,7 +1,6 @@
 FROM playn/alpine
 # ARG version=2.4.9
-RUN set -ex; \
-    apk --no-cache add ca-certificates; \
+RUN apk --no-cache add ca-certificates; \
     apkArch="$(apk --print-arch)"; \
     case "$apkArch" in \
         armhf) arch='armv6' ;; \
