@@ -3,7 +3,7 @@ FROM playn/alpine
 RUN apk --no-cache add ca-certificates; \
     mkdir /usr/bin/xray /var/log/xray; \
     export version=$(wget -qO- https://api.github.com/repos/xtls/xray-core/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \
-    wget -P /tmp https://github.com/xtls/xray-core/releases/download/v${version}/Xray-linux-64.zip; \
+    wget -P /tmp https://github.com/xtls/xray-core/releases/download/${version}/Xray-linux-64.zip; \
     unzip /tmp/Xray-linux-64.zip -d /tmp; \
     mv /tmp/geoip.dat /tmp/geosite.dat /tmp/xray /usr/bin/xray; \
     rm -rf /tmp/*; \
