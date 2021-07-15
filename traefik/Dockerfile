@@ -9,7 +9,7 @@ RUN set -ex; \
         x86_64) arch='amd64' ;; \
         *) echo >&2 "error: unsupported architecture: $apkArch"; exit 1 ;; \
     esac; \
-    export version=$(wget -qO- "https://api.github.com/repos/containous/traefik/releases/latest" | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \
+    export version=$(wget -qO- https://api.github.com/repos/containous/traefik/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \
     wget --quiet -O /tmp/traefik.tar.gz "https://github.com/containous/traefik/releases/download/v${version}/traefik_v${version}_linux_$arch.tar.gz"; \
     tar xzvf /tmp/traefik.tar.gz -C /usr/local/bin traefik; \
     rm -f /tmp/traefik.tar.gz; \
