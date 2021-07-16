@@ -19,16 +19,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: apt update && apt upgrade
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.VPS_SSH_HOSTNAME }}
-          username: ${{ secrets.VPS_SSH_USERNAME }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_SSH_PORT }}
-          script: |
-            apt update && apt upgrade -y
-
       - name: docker ps
         uses: appleboy/ssh-action@master
         with:
@@ -36,5 +26,7 @@ jobs:
           username: ${{ secrets.VPS_SSH_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_SSH_PORT }}
+          sync: true
+          script_stop: true
           script: |
             docker ps -a
