@@ -26,4 +26,9 @@ jobs:
           username: ${{ secrets.VPS_SSH_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_SSH_PORT }}
-          script: whoami
+          script: |
+            apt update && apt upgrade -y
+            apt autoremove -y
+            docker info
+            docker images
+            docker ps -a
