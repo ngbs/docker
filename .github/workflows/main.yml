@@ -650,7 +650,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/caddy:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/caddy:4.12.2
+            ${{ secrets.DOCKER_HUB_USERNAME }}/caddy:2.4.3
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -852,12 +852,12 @@ jobs:
         id: docker_build_kcptun_server
         uses: docker/build-push-action@v2
         with:
-          context: ./frp
-          file: ./frp/Dockerfile.server
+          context: ./kcptun
+          file: ./kcptun/Dockerfile.server
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:server
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:20210624-server
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun-server:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun-server:20210624
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -866,12 +866,12 @@ jobs:
         id: docker_build_kcptun_client
         uses: docker/build-push-action@v2
         with:
-          context: ./frp
-          file: ./frp/Dockerfile.client
+          context: ./kcptun
+          file: ./kcptun/Dockerfile.client
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:client
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:20210624-client
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun-client:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun-client:20210624
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -915,12 +915,12 @@ jobs:
         id: docker_build_trojan_go_server
         uses: docker/build-push-action@v2
         with:
-          context: ./frp
-          file: ./frp/Dockerfile.server
+          context: ./trojan-go
+          file: ./trojan-go/Dockerfile.server
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go:server
-            ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go:0.10.4-server
+            ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go-server:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go-server:0.10.4
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -929,12 +929,12 @@ jobs:
         id: docker_build_trojan_go_client
         uses: docker/build-push-action@v2
         with:
-          context: ./frp
-          file: ./frp/Dockerfile.client
+          context: ./trojan-go
+          file: ./trojan-go/Dockerfile.client
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go:client
-            ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go:0.10.4-client
+            ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go-client:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go-client:0.10.4
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
