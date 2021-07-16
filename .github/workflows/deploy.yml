@@ -29,4 +29,5 @@ jobs:
           sync: true
           script_stop: true
           script: |
-            docker ps -a
+            cd devops/docker
+            bash launcher.sh
