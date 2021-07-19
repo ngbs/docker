@@ -49,4 +49,4 @@ jobs:
           script_stop: true
           script: |
             cd devops/docker/lego
-            bash docker_run.sh
+            bash run.sh
