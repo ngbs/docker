@@ -793,8 +793,8 @@ jobs:
           file: ./frp/Dockerfile.server
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frps:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frps:0.37.0
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:0.37.0-server
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -807,8 +807,8 @@ jobs:
           file: ./frp/Dockerfile.client
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frpc:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frpc:0.37.0
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:0.37.0-client
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -856,8 +856,8 @@ jobs:
           file: ./kcptun/Dockerfile.server
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun-server:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun-server:20210624
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:20210624-server
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -870,8 +870,8 @@ jobs:
           file: ./kcptun/Dockerfile.client
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun-client:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun-client:20210624
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:20210624-client
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -919,8 +919,8 @@ jobs:
   #         file: ./trojan-go/Dockerfile.server
   #         push: true
   #         tags: |
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go-server:latest
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go-server:0.10.4
+  #           ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go:latest
+  #           ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go:0.10.4-server
   #         builder: ${{ steps.buildx.outputs.name }}
   #         cache-from: type=local,src=/tmp/.buildx-cache
   #         cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -933,8 +933,8 @@ jobs:
   #         file: ./trojan-go/Dockerfile.client
   #         push: true
   #         tags: |
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go-client:latest
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go-client:0.10.4
+  #           ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go:latest
+  #           ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go:0.10.4-client
   #         builder: ${{ steps.buildx.outputs.name }}
   #         cache-from: type=local,src=/tmp/.buildx-cache
   #         cache-to: type=local,dest=/tmp/.buildx-cache-new
