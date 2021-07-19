@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: TEST RUN
+name: Run every 60 days
 
 # Controls when the workflow will run
 on:
@@ -12,6 +12,8 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  schedule:
+    - cron: "0 23 11 */2 *"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -36,3 +38,15 @@ jobs:
           echo "TINYVPN_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/tinyfecvpn/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
           cat $GITHUB_ENV
         shell: bash
+
+      - name: Run every 60 days
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_SSH_HOSTNAME_HKG }}
+          username: ${{ secrets.VPS_SSH_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_SSH_PORT }}
+          script_stop: true
+          script: |
+            cd devops/docker/lego
+            bash docker_run.sh

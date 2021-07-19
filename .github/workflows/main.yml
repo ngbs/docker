@@ -1002,7 +1002,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: docker ps
+      - name: Deploy to VPS
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_SSH_HOSTNAME }}
