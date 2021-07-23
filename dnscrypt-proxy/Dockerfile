@@ -12,3 +12,4 @@ RUN export version=$(wget -qO- https://api.github.com/repos/dnscrypt/dnscrypt-pr
 FROM playn/alpine
 COPY --from=builder --chown=0:0 /usr/local/bin/dnscrypt-proxy /usr/local/bin/dnscrypt-proxy
 ENTRYPOINT [ "/usr/local/bin/dnscrypt-proxy/dnscrypt-proxy" ]
+ENV PATH /usr/local/bin/dnscrypt-proxy:$PATH

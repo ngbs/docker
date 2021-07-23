@@ -26,7 +26,7 @@ RUN apk add --no-cach git && \
         --with github.com/mholt/caddy-webdav
 
 FROM playn/alpine
-COPY --from=builder /go/caddy /usr/bin/
+COPY --from=builder /go/caddy /usr/local/bin/
 ENV XDG_CONFIG_HOME=/config
 ENV XDG_DATA_HOME=/data
 VOLUME /config
@@ -34,4 +34,4 @@ VOLUME /data
 # EXPOSE 80
 # EXPOSE 443
 # EXPOSE 2019
-ENTRYPOINT ["/usr/bin/caddy"]
+ENTRYPOINT ["/usr/local/bin/caddy"]
