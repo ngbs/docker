@@ -1,4 +1,4 @@
-FROM python:alpine
+FROM python:rc-alpine
 
 #Base settings
 ENV HOME /root
