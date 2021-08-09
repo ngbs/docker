@@ -858,7 +858,7 @@ jobs:
           file: ./frp/Dockerfile.server
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:server
             ${{ secrets.DOCKER_HUB_USERNAME }}/frp:${{ env.FRP_VERSION }}-server
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -872,7 +872,7 @@ jobs:
           file: ./frp/Dockerfile.client
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:client
             ${{ secrets.DOCKER_HUB_USERNAME }}/frp:${{ env.FRP_VERSION }}-client
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
