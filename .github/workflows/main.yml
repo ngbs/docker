@@ -787,6 +787,8 @@ jobs:
 
       - name: Build frps and push
         id: docker_build_frps
+        env:
+          FRP_VERSION: $(curl -fsSL https://api.github.com/repos/fatedier/frp/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')
         uses: docker/build-push-action@v2
         with:
           context: ./frp
@@ -794,7 +796,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/frp:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:0.37.1-server
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:${{ env.FRP_VERSION }}-server
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
