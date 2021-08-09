@@ -767,8 +767,6 @@ jobs:
       - name: Set Variables
         run: |
           export FRP_VERSION=$(curl -fsSL https://api.github.com/repos/fatedier/frp/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')
-          cat $FRP_VERSION
-        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
