@@ -127,7 +127,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:${{ CHINADNS_NG_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:${{ env.CHINADNS_NG_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -180,7 +180,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:${{ DNSCRYPT_PROXY_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:${{ env.DNSCRYPT_PROXY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -281,7 +281,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/xray:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/xray:${{ XRAY_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/xray:${{ env.XRAY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -334,7 +334,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:${{ V2RAY_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:${{ env.V2RAY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -387,7 +387,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/naive:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/naive:${{ NAIVE_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/naive:${{ env.NAIVE_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -440,7 +440,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:${{ SYNCTHING_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:${{ env.SYNCTHING_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -493,7 +493,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/kms:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kms:${{ KMS_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kms:${{ env.KMS_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -546,7 +546,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/lego:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/lego:${{ LEGO_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/lego:${{ env.LEGO_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -599,7 +599,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/traefik:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/traefik:${{ TRAEFIK_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/traefik:${{ env.TRAEFIK_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -700,7 +700,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/caddy:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/caddy:${{ CADDY_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/caddy:${{ env.CADDY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -753,7 +753,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/udp2raw:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/udp2raw:${{ UDP2RAW_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/udp2raw:${{ env.UDP2RAW_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -806,7 +806,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/tinyfec:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/tinyfec:${{ TINYVPN_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/tinyfec:${{ env.TINYVPN_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -927,7 +927,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:${{ KCPTUN_VERSION }}-server
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:${{ env.KCPTUN_VERSION }}-server
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -941,7 +941,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:${{ KCPTUN_VERSION }}-client
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:${{ env.KCPTUN_VERSION }}-client
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
