@@ -92,6 +92,11 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
+      - name: Set Variables
+        run: |
+          echo "CHINADNS_NG_VERSION=$(curl -fsSL https://api.github.com/repos/zfl9/chinadns-ng/releases/latest | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/ChinaDNS-NG v//g;s/beta./beta/g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -122,7 +127,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:1.0-beta25
+            ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:${{ CHINADNS_NG_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -140,6 +145,11 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
+      - name: Set Variables
+        run: |
+          echo "DNSCRYPT_PROXY_VERSION=$(curl -fsSL https://api.github.com/repos/dnscrypt/dnscrypt-proxy/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -170,7 +180,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:2.0.46-beta3
+            ${{ secrets.DOCKER_HUB_USERNAME }}/dnscrypt-proxy:${{ DNSCRYPT_PROXY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -236,6 +246,11 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
+      - name: Set Variables
+        run: |
+          echo "XRAY_VERSION=$(curl -fsSL https://api.github.com/repos/xtls/xray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -266,7 +281,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/xray:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/xray:1.4.2
+            ${{ secrets.DOCKER_HUB_USERNAME }}/xray:${{ XRAY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -284,6 +299,11 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
+      - name: Set Variables
+        run: |
+          echo "V2RAY_VERSION=$(curl -fsSL https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -314,7 +334,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:4.40.1
+            ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:${{ V2RAY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -332,6 +352,11 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
+      - name: Set Variables
+        run: |
+          echo "NAIVE_VERSION=$(curl -fsSL https://api.github.com/repos/klzgrad/naiveproxy/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -362,7 +387,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/naive:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/naive:92.0.4515.107-1
+            ${{ secrets.DOCKER_HUB_USERNAME }}/naive:${{ NAIVE_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -380,6 +405,11 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
+      - name: Set Variables
+        run: |
+          echo "SYNCTHING_VERSION=$(curl -fsSL https://api.github.com/repos/syncthing/syncthing/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -410,7 +440,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:1.18.1
+            ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:${{ SYNCTHING_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -428,6 +458,11 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
+      - name: Set Variables
+        run: |
+          echo "KMS_VERSION=$(curl -fsSL https://api.github.com/repos/Wind4/vlmcsd/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/svn//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -458,7 +493,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/kms:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kms:svn1113
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kms:${{ KMS_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -476,6 +511,11 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
+      - name: Set Variables
+        run: |
+          echo "LEGO_VERSION=$(curl -fsSL https://api.github.com/repos/go-acme/lego/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -506,7 +546,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/lego:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/lego:4.4.0
+            ${{ secrets.DOCKER_HUB_USERNAME }}/lego:${{ LEGO_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -524,6 +564,11 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
+      - name: Set Variables
+        run: |
+          echo "TRAEFIK_VERSION=$(curl -fsSL https://api.github.com/repos/traefik/traefik/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -554,7 +599,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/traefik:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/traefik:2.4.9
+            ${{ secrets.DOCKER_HUB_USERNAME }}/traefik:${{ TRAEFIK_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -620,6 +665,11 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
+      - name: Set Variables
+        run: |
+          echo "CADDY_VERSION=$(curl -fsSL https://api.github.com/repos/caddyserver/caddy/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -650,7 +700,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/caddy:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/caddy:2.4.3
+            ${{ secrets.DOCKER_HUB_USERNAME }}/caddy:${{ CADDY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -668,6 +718,11 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
+      - name: Set Variables
+        run: |
+          echo "UDP2RAW_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/udp2raw-tunnel/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -698,7 +753,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/udp2raw:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/udp2raw:20200818.0
+            ${{ secrets.DOCKER_HUB_USERNAME }}/udp2raw:${{ UDP2RAW_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -716,6 +771,11 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
+      - name: Set Variables
+        run: |
+          echo "TINYVPN_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/tinyfecvpn/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -746,7 +806,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/tinyfec:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/tinyfec:20210116.0
+            ${{ secrets.DOCKER_HUB_USERNAME }}/tinyfec:${{ TINYVPN_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -832,6 +892,11 @@ jobs:
     needs: build-basic
     runs-on: ubuntu-latest
     steps:
+      - name: Set Variables
+        run: |
+          echo "KCPTUN_VERSION=$(curl -fsSL https://api.github.com/repos/xtaci/kcptun/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
       - name: Check Out Repo
         uses: actions/checkout@v2
 
@@ -862,7 +927,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:20210624-server
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:${{ KCPTUN_VERSION }}-server
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -876,7 +941,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:20210624-client
+            ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:${{ KCPTUN_VERSION }}-client
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
