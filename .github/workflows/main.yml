@@ -15,6 +15,28 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+
+  set-variables:
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+      - name: Set Variables
+        run: |
+          echo "DNSCRYPT_PROXY_VERSION=$(curl -fsSL https://api.github.com/repos/dnscrypt/dnscrypt-proxy/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+          echo "CADDY_VERSION=$(curl -fsSL https://api.github.com/repos/caddyserver/caddy/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "V2RAY_VERSION=$(curl -fsSL https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "XRAY_VERSION=$(curl -fsSL https://api.github.com/repos/xtls/xray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "NAIVE_VERSION=$(curl -fsSL https://api.github.com/repos/klzgrad/naiveproxy/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "FRP_VERSION=$(curl -fsSL https://api.github.com/repos/fatedier/frp/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "SYNCTHING_VERSION=$(curl -fsSL https://api.github.com/repos/syncthing/syncthing/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "KCPTUN_VERSION=$(curl -fsSL https://api.github.com/repos/xtaci/kcptun/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "UDP2RAW_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/udp2raw-tunnel/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+          echo "TINYVPN_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/tinyfecvpn/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+        shell: bash
+
   # This workflow contains a single job called "build"
   build-basic:
     # The type of runner that the job will run on
@@ -362,7 +384,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/naive:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/naive:91.0.4472.77-1
+            ${{ secrets.DOCKER_HUB_USERNAME }}/naive:92.0.4515.107-1
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -410,7 +432,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:1.18.0
+            ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:1.18.1
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -794,7 +816,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/frp:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:0.37.0-server
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:${{ env.FRP_VERSION }}-server
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -808,7 +830,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/frp:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:0.37.0-client
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:${{ env.FRP_VERSION }}-client
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -997,20 +1019,20 @@ jobs:
   #       run: |
   #         echo ${{ steps.docker_build_encrypted_dns.outputs.digest }}
 
-  deploy:
-    needs: [build-chinadns-ng, build-dnscrypt-proxy, build-doh-server, build-xray, build-v2ray, build-naiveproxy, build-syncthing, build-kms, build-lego, build-traefik, build-samba, build-caddy, build-udp2raw, build-tinyfec, build-frp, build-kcptun]
-    runs-on: ubuntu-latest
+  # deploy:
+  #   needs: [build-chinadns-ng, build-dnscrypt-proxy, build-doh-server, build-xray, build-v2ray, build-naiveproxy, build-syncthing, build-kms, build-lego, build-traefik, build-samba, build-caddy, build-udp2raw, build-tinyfec, build-frp, build-kcptun]
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.VPS_SSH_HOSTNAME }}
-          username: ${{ secrets.VPS_SSH_USERNAME }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_SSH_PORT }}
-          sync: true
-          script_stop: true
-          script: |
-            cd devops/docker
-            bash launcher.sh
+  #   steps:
+  #     - name: Deploy to VPS
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.VPS_SSH_HOSTNAME }}
+  #         username: ${{ secrets.VPS_SSH_USERNAME }}
+  #         key: ${{ secrets.VPS_SSH_KEY }}
+  #         port: ${{ secrets.VPS_SSH_PORT }}
+  #         sync: true
+  #         script_stop: true
+  #         script: |
+  #           cd devops/docker
+  #           bash launcher.sh
