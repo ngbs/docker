@@ -1,21 +1,15 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Run every 60 days
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   # push:
   #   branches: [ master ]
   # pull_request:
   #   branches: [ master ]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   schedule:
     - cron: "0 23 11 */2 *"
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
   build-basic:
@@ -24,20 +18,20 @@ jobs:
     
     steps:
     
-      - name: Set Variables
-        run: |
-          echo "DNSCRYPT_PROXY_VERSION=$(curl -fsSL https://api.github.com/repos/dnscrypt/dnscrypt-proxy/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
-          echo "CADDY_VERSION=$(curl -fsSL https://api.github.com/repos/caddyserver/caddy/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          echo "V2RAY_VERSION=$(curl -fsSL https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          echo "XRAY_VERSION=$(curl -fsSL https://api.github.com/repos/xtls/xray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          echo "NAIVE_VERSION=$(curl -fsSL https://api.github.com/repos/klzgrad/naiveproxy/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          echo "FRP_VERSION=$(curl -fsSL https://api.github.com/repos/fatedier/frp/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          echo "SYNCTHING_VERSION=$(curl -fsSL https://api.github.com/repos/syncthing/syncthing/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          echo "KCPTUN_VERSION=$(curl -fsSL https://api.github.com/repos/xtaci/kcptun/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          echo "UDP2RAW_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/udp2raw-tunnel/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
-          echo "TINYVPN_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/tinyfecvpn/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
-        shell: bash
+      # - name: Set Variables
+      #   run: |
+      #     echo "DNSCRYPT_PROXY_VERSION=$(curl -fsSL https://api.github.com/repos/dnscrypt/dnscrypt-proxy/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+      #     echo "CADDY_VERSION=$(curl -fsSL https://api.github.com/repos/caddyserver/caddy/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+      #     echo "V2RAY_VERSION=$(curl -fsSL https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+      #     echo "XRAY_VERSION=$(curl -fsSL https://api.github.com/repos/xtls/xray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+      #     echo "NAIVE_VERSION=$(curl -fsSL https://api.github.com/repos/klzgrad/naiveproxy/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+      #     echo "FRP_VERSION=$(curl -fsSL https://api.github.com/repos/fatedier/frp/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+      #     echo "SYNCTHING_VERSION=$(curl -fsSL https://api.github.com/repos/syncthing/syncthing/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+      #     echo "KCPTUN_VERSION=$(curl -fsSL https://api.github.com/repos/xtaci/kcptun/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+      #     echo "UDP2RAW_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/udp2raw-tunnel/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+      #     echo "TINYVPN_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/tinyfecvpn/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+      #     cat $GITHUB_ENV
+      #   shell: bash
 
       - name: Run every 60 days
         uses: appleboy/ssh-action@master

@@ -1,0 +1,73 @@
+name: Build Trojan GO
+
+on:
+  # push:
+  #   branches: [ master ]
+  # pull_request:
+  #   branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build-trojan-go:
+    needs: build-basic
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repo
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build trojan-go-server and push
+        id: docker_build_trojan_go_server
+        uses: docker/build-push-action@v2
+        with:
+          context: ./trojan-go
+          file: ./trojan-go/Dockerfile.server
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go:0.10.4-server
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+      - name: Build trojan-go-client and push
+        id: docker_build_trojan_go_client
+        uses: docker/build-push-action@v2
+        with:
+          context: ./trojan-go
+          file: ./trojan-go/Dockerfile.client
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/trojan-go:0.10.4-client
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      - name: Image digest
+        run: |
+          echo ${{ steps.docker_build_trojan_go_server.outputs.digest }}
+          echo ${{ steps.docker_build_trojan_go_client.outputs.digest }}
