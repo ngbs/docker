@@ -96,11 +96,6 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:${{ env.CHINADNS_NG_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
 
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
       - name: Image digest
         run: |
           echo ${{ steps.docker_build_chinadns_ng.outputs.digest }}
@@ -690,21 +685,3 @@ jobs:
         run: |
           echo ${{ steps.docker_build_kcptun_server.outputs.digest }}
           echo ${{ steps.docker_build_kcptun_client.outputs.digest }}
-
-  # deploy:
-  #   needs: [build-chinadns-ng, build-dnscrypt-proxy, build-doh-server, build-xray, build-v2ray, build-naiveproxy, build-syncthing, build-kms, build-lego, build-traefik, build-samba, build-caddy, build-udp2raw, build-tinyfec, build-frp, build-kcptun]
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Deploy to VPS
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.VPS_SSH_HOSTNAME }}
-  #         username: ${{ secrets.VPS_SSH_USERNAME }}
-  #         key: ${{ secrets.VPS_SSH_KEY }}
-  #         port: ${{ secrets.VPS_SSH_PORT }}
-  #         sync: true
-  #         script_stop: true
-  #         script: |
-  #           cd devops/docker
-  #           bash launcher.sh
