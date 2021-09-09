@@ -87,7 +87,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "CHINADNS_NG_VERSION=$(curl -fsSL https://api.github.com/repos/zfl9/chinadns-ng/releases/latest | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/ChinaDNS-NG v//g;s/beta./beta/g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
@@ -140,7 +140,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "DNSCRYPT_PROXY_VERSION=$(curl -fsSL https://api.github.com/repos/dnscrypt/dnscrypt-proxy/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
@@ -241,7 +241,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "XRAY_VERSION=$(curl -fsSL https://api.github.com/repos/xtls/xray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
@@ -294,7 +294,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "V2RAY_VERSION=$(curl -fsSL https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
@@ -347,7 +347,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "NAIVE_VERSION=$(curl -fsSL https://api.github.com/repos/klzgrad/naiveproxy/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
@@ -400,7 +400,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "SYNCTHING_VERSION=$(curl -fsSL https://api.github.com/repos/syncthing/syncthing/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
@@ -453,7 +453,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "KMS_VERSION=$(curl -fsSL https://api.github.com/repos/Wind4/vlmcsd/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/svn//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
@@ -506,7 +506,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "LEGO_VERSION=$(curl -fsSL https://api.github.com/repos/go-acme/lego/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
@@ -559,7 +559,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "TRAEFIK_VERSION=$(curl -fsSL https://api.github.com/repos/traefik/traefik/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
@@ -660,7 +660,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "CADDY_VERSION=$(curl -fsSL https://api.github.com/repos/caddyserver/caddy/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
@@ -713,7 +713,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "UDP2RAW_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/udp2raw-tunnel/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
@@ -766,7 +766,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "TINYVPN_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/tinyfecvpn/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
@@ -819,7 +819,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "FRP_VERSION=$(curl -fsSL https://api.github.com/repos/fatedier/frp/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
@@ -887,7 +887,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "KCPTUN_VERSION=$(curl -fsSL https://api.github.com/repos/xtaci/kcptun/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          cat $GITHUB_ENV
+        shell: bash
 
       - name: Check Out Repo
         uses: actions/checkout@v2
