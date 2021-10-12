@@ -10,7 +10,6 @@ on:
 
 jobs:
   build-naiveproxy:
-    needs: build-basic
     runs-on: ubuntu-latest
     steps:
       - name: Set Variables
