@@ -1,4 +1,4 @@
-name: Build ENCRYPTED DNS
+name: Build DNS Over HTTPS
 
 on:
   # push:
