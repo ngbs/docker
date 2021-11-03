@@ -164,7 +164,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/doh-server:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/doh-server:2.2.6
+            ${{ secrets.DOCKER_HUB_USERNAME }}/doh-server:2.3.1
           builder: ${{ steps.buildx.outputs.name }}
 
       - name: Image digest
