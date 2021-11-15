@@ -46,20 +46,21 @@ jobs:
           file: ./xray/Dockerfile.xray
           push: true
           tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/xray:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/xray:${{ env.XRAY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       - name: Build Xray-core and push
-        id: docker_build_xray_core_gobuild
+        id: docker_build_xray_core_pre
         uses: docker/build-push-action@v2
         with:
           context: ./xray
           file: ./xray/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/xray:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/xray:1.5.0
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -72,4 +73,4 @@ jobs:
       - name: Image digest
         run: |
           echo ${{ steps.docker_build_xray_core.outputs.digest }}
-          echo ${{ steps.docker_build_xray_core_gobuild.outputs.digest }}
+          echo ${{ steps.docker_build_xray_core_pre.outputs.digest }}
