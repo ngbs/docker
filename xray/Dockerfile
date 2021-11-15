@@ -2,8 +2,8 @@
 FROM golang:alpine AS builder
 RUN apk --no-cache add git
 WORKDIR /go/src
-RUN wget https://raw.githubusercontent.com/ngbs/rules-dat/release/geoip.dat && \
-    wget https://raw.githubusercontent.com/ngbs/rules-dat/release/geosite.dat && \
+RUN wget https://raw.githubusercontent.com/ngbs/rules-dat/release/geoip.dat -O /go/src/geoip.dat && \
+    wget https://raw.githubusercontent.com/ngbs/rules-dat/release/geosite.dat -O /go/src/geosite.dat  && \
     git clone --depth 1 https://github.com/xtls/xray-core.git . && \
     CGO_ENABLED=0 go build -o xray -trimpath -ldflags "-s -w -buildid=" ./main
 
