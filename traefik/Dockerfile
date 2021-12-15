@@ -17,7 +17,7 @@ RUN apk --no-cache add ca-certificates; \
 
 COPY entrypoint.sh /
 EXPOSE 80
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT [ "/entrypoint.sh" ]
 CMD ["traefik"]
 
 # Metadata

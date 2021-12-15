@@ -60,7 +60,7 @@ jobs:
           file: ./xray/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/xray:1.5.0
+            ${{ secrets.DOCKER_HUB_USERNAME }}/xray:1.5.1
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
