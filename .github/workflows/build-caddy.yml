@@ -43,7 +43,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./caddy/v2
-          file: ./caddy/v2/Dockerfile.lxhao61
+          file: ./caddy/v2/Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/caddy:latest
