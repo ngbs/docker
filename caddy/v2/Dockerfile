@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM golang:alpine AS builder
+FROM golang:1.17-alpine AS builder
 RUN apk add --no-cach git && \
     go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest && \
     export CADDY_VERSION=$(wget -qO- https://api.github.com/repos/caddyserver/caddy/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/') && \
