@@ -10,7 +10,7 @@ RUN git clone https://github.com/v2fly/v2ray-core.git && \
     wget -O ./geoip-only-cn-private.dat "https://raw.githubusercontent.com/v2fly/geoip/release/geoip-only-cn-private.dat" && \
     wget -O ./geosite.dat "https://raw.githubusercontent.com/v2fly/domain-list-community/release/dlc.dat" && \
     mkdir -p /tmp/v2ray && \
-    mv v2ray v2ctl geoip.dat geoip-only-cn-private.dat geosite.dat /tmp/v2ray
+    mv v2ray geoip.dat geoip-only-cn-private.dat geosite.dat /tmp/v2ray
 
 FROM playn/alpine
 COPY --from=builder /tmp/v2ray /usr/local/bin/v2ray
