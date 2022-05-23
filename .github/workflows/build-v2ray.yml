@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Set Variables
         run: |
-          echo "V2RAY_VERSION=$(wget -qO- https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep '"tag_name":' | head -n 1 | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "V2RAY_VERSION=$(wget -qO- https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
         shell: bash
 
       - name: Check Out Repo
