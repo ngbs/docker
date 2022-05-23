@@ -1,6 +1,5 @@
 # syntax=docker/dockerfile:1
 FROM playn/alpine
-# ARG version=4.40.1
 RUN apk --no-cache add ca-certificates; \
     mkdir /usr/local/bin/v2ray /var/log/v2ray; \
     export version=$(wget -qO- https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \

@@ -14,7 +14,7 @@ RUN git clone https://github.com/v2fly/v2ray-core.git && \
 
 FROM playn/alpine
 COPY --from=builder /tmp/v2ray /usr/local/bin/v2ray
-RUN apk --no-cache add ca-certificates
+# RUN apk --no-cache add ca-certificates
 
 ENTRYPOINT ["/usr/local/bin/v2ray/v2ray"]
 ENV PATH /usr/local/bin/v2ray:$PATH
