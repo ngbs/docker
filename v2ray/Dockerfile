@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM golang:alpine AS builder
-RUN apk --no-cache add git bash curl
+RUN apk --no-cache add git
 WORKDIR /go/src
-RUN git clone --depth 1 https://github.com/v2fly/v2ray-core.git . && cd v2ray-core && go mod download && \
+RUN git clone https://github.com/v2fly/v2ray-core.git && cd v2ray-core && go mod download && \
     CGO_ENABLED=0 go build -o v2ray -trimpath -ldflags "-s -w -buildid=" ./main && \
     wget -O ./geoip.dat "https://raw.githubusercontent.com/v2fly/geoip/release/geoip.dat" && \
     wget -O ./geoip-only-cn-private.dat "https://raw.githubusercontent.com/v2fly/geoip/release/geoip-only-cn-private.dat" && \
