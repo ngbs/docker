@@ -5,6 +5,7 @@ on:
     # branches: [ master ]
     paths:
       - 'Dockerfile'
+      - 'build-v2ray.yml'
   # pull_request:
   #   branches: [ master ]
 
