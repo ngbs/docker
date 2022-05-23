@@ -4,8 +4,8 @@ on:
   push:
     # branches: [ master ]
     paths:
-      - 'Dockerfile'
-      - 'build-v2ray.yml'
+      - 'v2ray/**'
+      - '.github/workflows/build-v2ray.yml'
   # pull_request:
   #   branches: [ master ]
 
