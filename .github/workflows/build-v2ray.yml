@@ -39,7 +39,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build v2ray-core and push
-        id: docker_build_v2ray_core
+        id: docker_build_v2ray_core_pre
         uses: docker/build-push-action@v2
         with:
           context: ./v2ray
@@ -47,23 +47,22 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:${{ env.V2RAY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
-      # - name: Build v2ray-core and push
-      #   id: docker_build_v2ray_core_pre
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: ./v2ray
-      #     file: ./v2ray/Dockerfile
-      #     push: true
-      #     tags: |
-      #       ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:1.5.1
-      #     builder: ${{ steps.buildx.outputs.name }}
-      #     cache-from: type=local,src=/tmp/.buildx-cache
-      #     cache-to: type=local,dest=/tmp/.buildx-cache-new
+      - name: Build v2ray-core and push
+        id: docker_build_v2ray_core
+        uses: docker/build-push-action@v2
+        with:
+          context: ./v2ray
+          file: ./v2ray/Dockerfile.fly
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:${{ env.V2RAY_VERSION }}
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       - name: Move cache
         run: |
