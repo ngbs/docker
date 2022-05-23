@@ -1,8 +1,10 @@
 name: Build V2ray
 
 on:
-  # push:
-  #   branches: [ master ]
+  push:
+    # branches: [ master ]
+    paths:
+      - 'Dockerfile'
   # pull_request:
   #   branches: [ master ]
 
