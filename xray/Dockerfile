@@ -11,8 +11,6 @@ RUN git clone --depth 1 https://github.com/xtls/xray-core.git . && \
     mv xray geoip.dat geoip-only-cn-private.dat geosite.dat /tmp/xray
 
 FROM playn/alpine
-# ADD https://raw.githubusercontent.com/ngbs/rules-dat/release/geoip.dat /usr/local/bin/xray/
-# ADD https://raw.githubusercontent.com/ngbs/rules-dat/release/geosite.dat /usr/local/bin/xray/
 COPY --from=builder /tmp/xray /usr/local/bin/xray/
 # RUN apk --no-cache add ca-certificates
 
