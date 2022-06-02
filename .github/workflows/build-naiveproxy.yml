@@ -1,8 +1,8 @@
 name: Build NaïveProxy
 
 on:
-  # push:
-  #   branches: [ master ]
+  push:
+  # branches: [ master ]
     paths:
       - 'naiveproxy/**'
       - '.github/workflows/build-naiveproxy.yml'
