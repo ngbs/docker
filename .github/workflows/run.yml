@@ -51,9 +51,6 @@ jobs:
           # script: |
           #   whoami
           #   ls -al
-          # script: |
-          #   cd /root/devops/docker/common/lego
-          #   bash docker_run.sh
           script: |
             cd /root/devops/docker/common/lego
-            docker compose up -d && docker compose down
+            bash docker_run.sh
