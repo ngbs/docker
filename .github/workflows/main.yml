@@ -43,9 +43,9 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build Alpine Latest and push
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
         id: docker_build_apline_latest
-        uses: docker/build-push-action@v2
         with:
           context: ./alpine
           file: ./alpine/Dockerfile
@@ -53,9 +53,9 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/alpine:latest
           builder: ${{ steps.buildx.outputs.name }}
 
-      - name: Build Alpine Edge and push
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
         id: docker_build_apline_edge
-        uses: docker/build-push-action@v2
         with:
           context: ./alpine
           file: ./alpine/Dockerfile.edge
@@ -90,9 +90,9 @@ jobs:
   #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
   #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-  #     - name: Build ChinaDNS-NG and push
+  #     - name: Build and push Docker images
+  #       uses: docker/build-push-action@v3
   #       id: docker_build_chinadns_ng
-  #       uses: docker/build-push-action@v2
   #       with:
   #         context: ./chinadns-ng
   #         file: ./chinadns-ng/Dockerfile
@@ -111,6 +111,7 @@ jobs:
     steps:
       - name: Set Variables
         run: |
+          echo "XRAY_PRE_VERSION=$(curl -fsSL https://api.github.com/repos/xtls/xray-core/tags | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
           echo "XRAY_VERSION=$(curl -fsSL https://api.github.com/repos/xtls/xray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
         shell: bash
 
@@ -127,8 +128,8 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build Xray-core latest and push
-        uses: docker/build-push-action@v2
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
         id: docker_build_xray_core_pre
         with:
           context: ./xray
@@ -136,10 +137,11 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/xray:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/xray:${{ env.XRAY_PRE_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
 
-      - name: Build Xray-core and push
-        uses: docker/build-push-action@v2
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
         id: docker_build_xray_core
         with:
           context: ./xray
@@ -160,6 +162,7 @@ jobs:
     steps:
       - name: Set Variables
         run: |
+          echo "V2RAY_PRE_VERSION=$(curl -fsSL https://api.github.com/repos/v2fly/v2ray-core/tags | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
           echo "V2RAY_VERSION=$(curl -fsSL https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
         shell: bash
 
@@ -176,8 +179,8 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build V2ray-core and push
-        uses: docker/build-push-action@v2
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
         id: docker_build_v2ray_core_pre
         with:
           context: ./v2ray
@@ -185,17 +188,18 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:${{ env.V2RAY_PRE_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
 
-      - name: Build V2ray-core and push
-        uses: docker/build-push-action@v2
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
         id: docker_build_v2ray_core
         with:
           context: ./v2ray
           file: ./v2ray/Dockerfile.fly
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:${{ env.V2RAY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
 
       - name: Image digest
@@ -225,8 +229,8 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build naiveproxy and push
-        uses: docker/build-push-action@v2
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
         id: docker_build_naiveproxy
         with:
           context: ./naive
@@ -263,8 +267,8 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build Syncthing and push
-        uses: docker/build-push-action@v2
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
         id: docker_build_syncthing
         with:
           context: ./syncthing
@@ -301,8 +305,8 @@ jobs:
   #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
   #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-  #     - name: Build KMS and push
-  #       uses: docker/build-push-action@v2
+  #     - name: Build and push Docker images
+  #       uses: docker/build-push-action@v3
   #       id: docker_build_kms
   #       with:
   #         context: ./kms
@@ -338,8 +342,8 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build lego and push
-        uses: docker/build-push-action@v2
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
         id: docker_build_lego
         with:
           context: ./lego
@@ -376,8 +380,8 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build Traefik and push
-        uses: docker/build-push-action@v2
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
         id: docker_build_traefik
         with:
           context: ./traefik
@@ -409,8 +413,8 @@ jobs:
   #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
   #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-  #     - name: Build Samba and push
-  #       uses: docker/build-push-action@v2
+  #     - name: Build and push Docker images
+  #       uses: docker/build-push-action@v3
   #       id: docker_build_samba
   #       with:
   #         context: ./samba
@@ -446,8 +450,8 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build Caddy and push
-        uses: docker/build-push-action@v2
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
         id: docker_build_caddy
         with:
           context: ./caddy/v2
@@ -484,8 +488,8 @@ jobs:
   #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
   #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-  #     - name: Build udp2raw and push
-  #       uses: docker/build-push-action@v2
+  #     - name: Build and push Docker images
+  #       uses: docker/build-push-action@v3
   #       id: docker_build_udp2raw
   #       with:
   #         context: ./udp2raw
@@ -522,8 +526,8 @@ jobs:
   #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
   #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-  #     - name: Build tinyfec and push
-  #       uses: docker/build-push-action@v2
+  #     - name: Build and push Docker images
+  #       uses: docker/build-push-action@v3
   #       id: docker_build_tinyfec
   #       with:
   #         context: ./tinyfec
@@ -560,8 +564,8 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build frps and push
-        uses: docker/build-push-action@v2
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
         id: docker_build_frps
         with:
           context: ./frp
@@ -572,8 +576,8 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/frp:${{ env.FRP_VERSION }}-server
           builder: ${{ steps.buildx.outputs.name }}
 
-      - name: Build frpc and push
-        uses: docker/build-push-action@v2
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
         id: docker_build_frpc
         with:
           context: ./frp
@@ -611,8 +615,8 @@ jobs:
   #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
   #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-  #     - name: Build kcptun-server and push
-  #       uses: docker/build-push-action@v2
+  #     - name: Build and push Docker images
+  #       uses: docker/build-push-action@v3
   #       id: docker_build_kcptun_server
   #       with:
   #         context: ./kcptun
@@ -623,8 +627,8 @@ jobs:
   #           ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:${{ env.KCPTUN_VERSION }}-server
   #         builder: ${{ steps.buildx.outputs.name }}
 
-  #     - name: Build kcptun-client and push
-  #       uses: docker/build-push-action@v2
+  #     - name: Build and push Docker images
+  #       uses: docker/build-push-action@v3
   #       id: docker_build_kcptun_client
   #       with:
   #         context: ./kcptun
