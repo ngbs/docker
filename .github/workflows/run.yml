@@ -32,10 +32,11 @@ jobs:
       #     echo "TINYVPN_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/tinyfecvpn/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
       #     cat $GITHUB_ENV
       #   shell: bash
-      - name: Set timezone
-        uses: szenius/set-timezone@v1.0
-        with:
-          timezoneLinux: "Asia/Shanghai"
+
+      # - name: Set timezone
+      #   uses: szenius/set-timezone@v1.0
+      #   with:
+      #     timezoneLinux: "Asia/Shanghai"
 
       - name: Run every 60 days
         uses: appleboy/ssh-action@master
@@ -46,9 +47,10 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           # fingerprint: ${{ secrets.VPS_FINGERPRINT }}
           script_stop: true
+          # TEST
           # script: |
-          #   cd devops/docker/lego
-          #   bash run.sh
+          #   whoami
+          #   ls -al
           script: |
-            whoami
-            ls -al
+            cd /root/devops/docker/common/lego
+            bash docker_run.sh
