@@ -36,11 +36,13 @@ jobs:
       - name: Run every 60 days
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.VPS_SSH_HOSTNAME_HKG }}
-          username: ${{ secrets.VPS_SSH_USERNAME }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_SSH_PORT }}
+          host: ${{ secrets.VPS_HKG_HOSTNAME }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_KEY }}
+          port: ${{ secrets.VPS_PORT }}
           script_stop: true
+          # script: |
+          #   cd devops/docker/lego
+          #   bash run.sh
           script: |
-            cd devops/docker/lego
-            bash run.sh
+            printenv
