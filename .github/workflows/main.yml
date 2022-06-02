@@ -1,10 +1,7 @@
 # This is a basic workflow to help you get started with Actions
-
 name: CI to Docker Hub
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
     # branches: [ master ]
     # paths:
@@ -17,24 +14,16 @@ on:
     - cron: "0 22 */29 * *"
   # pull_request:
   #   branches: [ master ]
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build-basic:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Check Out Repo
         uses: actions/checkout@v3
 
-      # This is the a separate action that sets up buildx runner
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
         id: buildx
@@ -69,43 +58,6 @@ jobs:
         run: |
           echo ${{ steps.docker_build_apline_latest.outputs.digest }}
           echo ${{ steps.docker_build_apline_edge.outputs.digest }}
-
-  # build-chinadns-ng:
-  #   needs: build-basic
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Set Variables
-  #       run: |
-  #         echo "CHINADNS_NG_VERSION=$(curl -fsSL https://api.github.com/repos/zfl9/chinadns-ng/releases/latest | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/ChinaDNS-NG v//g;s/beta./beta/g;s/,//g;s/ //g')" >> $GITHUB_ENV
-  #       shell: bash
-
-  #     - name: Check Out Repo
-  #       uses: actions/checkout@v3
-
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v2
-  #       id: buildx
-
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v2
-  #       with:
-  #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
-  #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-  #     - name: Build and push Docker images
-  #       uses: docker/build-push-action@v3
-  #       id: docker_build_chinadns_ng
-  #       with:
-  #         context: ./chinadns-ng
-  #         file: ./chinadns-ng/Dockerfile
-  #         push: true
-  #         tags: |
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:latest
-  #         builder: ${{ steps.buildx.outputs.name }}
-
-  #     - name: Image digest
-  #       run: |
-  #         echo ${{ steps.docker_build_chinadns_ng.outputs.digest }}
 
   build-xray:
     needs: build-basic
@@ -285,43 +237,6 @@ jobs:
         run: |
           echo ${{ steps.docker_build_syncthing.outputs.digest }}
 
-  # build-kms:
-  #   needs: build-basic
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Set Variables
-  #       run: |
-  #         echo "KMS_VERSION=$(curl -fsSL https://api.github.com/repos/Wind4/vlmcsd/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/svn//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-  #       shell: bash
-
-  #     - name: Check Out Repo
-  #       uses: actions/checkout@v3
-
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v2
-  #       id: buildx
-
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v2
-  #       with:
-  #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
-  #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-  #     - name: Build and push Docker images
-  #       uses: docker/build-push-action@v3
-  #       id: docker_build_kms
-  #       with:
-  #         context: ./kms
-  #         file: ./kms/Dockerfile
-  #         push: true
-  #         tags: |
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/kms:latest
-  #         builder: ${{ steps.buildx.outputs.name }}
-
-  #     - name: Image digest
-  #       run: |
-  #         echo ${{ steps.docker_build_kms.outputs.digest }}
-
   build-lego:
     needs: build-basic
     runs-on: ubuntu-latest
@@ -398,38 +313,6 @@ jobs:
         run: |
           echo ${{ steps.docker_build_traefik.outputs.digest }}
 
-  # build-samba:
-  #   needs: build-basic
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check Out Repo
-  #       uses: actions/checkout@v3
-
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v2
-  #       id: buildx
-
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v2
-  #       with:
-  #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
-  #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-  #     - name: Build and push Docker images
-  #       uses: docker/build-push-action@v3
-  #       id: docker_build_samba
-  #       with:
-  #         context: ./samba
-  #         file: ./samba/Dockerfile
-  #         push: true
-  #         tags: |
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/samba:latest
-  #         builder: ${{ steps.buildx.outputs.name }}
-
-  #     - name: Image digest
-  #       run: |
-  #         echo ${{ steps.docker_build_samba.outputs.digest }}
-
   build-caddy:
     needs: build-basic
     runs-on: ubuntu-latest
@@ -467,82 +350,6 @@ jobs:
       - name: Image digest
         run: |
           echo ${{ steps.docker_build_caddy.outputs.digest }}
-
-  # build-udp2raw:
-  #   needs: build-basic
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Set Variables
-  #       run: |
-  #         echo "UDP2RAW_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/udp2raw-tunnel/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
-  #       shell: bash
-
-  #     - name: Check Out Repo
-  #       uses: actions/checkout@v3
-
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v2
-  #       id: buildx
-
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v2
-  #       with:
-  #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
-  #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-  #     - name: Build and push Docker images
-  #       uses: docker/build-push-action@v3
-  #       id: docker_build_udp2raw
-  #       with:
-  #         context: ./udp2raw
-  #         file: ./udp2raw/Dockerfile
-  #         push: true
-  #         tags: |
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/udp2raw:latest
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/udp2raw:${{ env.UDP2RAW_VERSION }}
-  #         builder: ${{ steps.buildx.outputs.name }}
-
-  #     - name: Image digest
-  #       run: |
-  #         echo ${{ steps.docker_build_udp2raw.outputs.digest }}
-
-  # build-tinyfec:
-  #   needs: build-basic
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Set Variables
-  #       run: |
-  #         echo "TINYVPN_VERSION=$(curl -fsSL https://api.github.com/repos/wangyu-/tinyfecvpn/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
-  #       shell: bash
-
-  #     - name: Check Out Repo
-  #       uses: actions/checkout@v3
-
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v2
-  #       id: buildx
-
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v2
-  #       with:
-  #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
-  #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-  #     - name: Build and push Docker images
-  #       uses: docker/build-push-action@v3
-  #       id: docker_build_tinyfec
-  #       with:
-  #         context: ./tinyfec
-  #         file: ./tinyfec/Dockerfile
-  #         push: true
-  #         tags: |
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/tinyfec:latest
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/tinyfec:${{ env.TINYVPN_VERSION }}
-  #         builder: ${{ steps.buildx.outputs.name }}
-
-  #     - name: Image digest
-  #       run: |
-  #         echo ${{ steps.docker_build_tinyfec.outputs.digest }}
 
   build-frp:
     needs: build-basic
@@ -594,54 +401,3 @@ jobs:
         run: |
           echo ${{ steps.docker_build_frps.outputs.digest }}
           echo ${{ steps.docker_build_frpc.outputs.digest }}
-
-  # build-kcptun:
-  #   needs: build-basic
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Set Variables
-  #       run: |
-  #         echo "KCPTUN_VERSION=$(curl -fsSL https://api.github.com/repos/xtaci/kcptun/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-  #       shell: bash
-
-  #     - name: Check Out Repo
-  #       uses: actions/checkout@v3
-
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v2
-  #       id: buildx
-
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v2
-  #       with:
-  #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
-  #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-  #     - name: Build and push Docker images
-  #       uses: docker/build-push-action@v3
-  #       id: docker_build_kcptun_server
-  #       with:
-  #         context: ./kcptun
-  #         file: ./kcptun/Dockerfile.server
-  #         push: true
-  #         tags: |
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:latest
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:${{ env.KCPTUN_VERSION }}-server
-  #         builder: ${{ steps.buildx.outputs.name }}
-
-  #     - name: Build and push Docker images
-  #       uses: docker/build-push-action@v3
-  #       id: docker_build_kcptun_client
-  #       with:
-  #         context: ./kcptun
-  #         file: ./kcptun/Dockerfile.client
-  #         push: true
-  #         tags: |
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:latest
-  #           ${{ secrets.DOCKER_HUB_USERNAME }}/kcptun:${{ env.KCPTUN_VERSION }}-client
-  #         builder: ${{ steps.buildx.outputs.name }}
-
-  #     - name: Image digest
-  #       run: |
-  #         echo ${{ steps.docker_build_kcptun_server.outputs.digest }}
-  #         echo ${{ steps.docker_build_kcptun_client.outputs.digest }}
