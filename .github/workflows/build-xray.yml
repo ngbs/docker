@@ -19,6 +19,7 @@ jobs:
     steps:
       - name: Set Variables
         run: |
+          echo "XRAY_PRE_VERSION=$(curl -fsSL https://api.github.com/repos/xtls/xray-core/tags | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
           echo "XRAY_VERSION=$(curl -fsSL https://api.github.com/repos/xtls/xray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
         shell: bash
 
@@ -52,6 +53,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/xray:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/xray:${{ env.XRAY_PRE_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -76,5 +78,5 @@ jobs:
 
       - name: Image digest
         run: |
-          echo ${{ steps.docker_build_xray_core.outputs.digest }}
           echo ${{ steps.docker_build_xray_core_pre.outputs.digest }}
+          echo ${{ steps.docker_build_xray_core.outputs.digest }}

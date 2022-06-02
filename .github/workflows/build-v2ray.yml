@@ -19,7 +19,8 @@ jobs:
     steps:
       - name: Set Variables
         run: |
-          echo "V2RAY_VERSION=$(wget -qO- https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "V2RAY_PRE_VERSION=$(curl -fsSL https://api.github.com/repos/v2fly/v2ray-core/tags | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "V2RAY_VERSION=$(curl -fsSL https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
         shell: bash
 
       - name: Check Out Repo
@@ -52,6 +53,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:${{ env.V2RAY_PRE_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -76,5 +78,5 @@ jobs:
 
       - name: Image digest
         run: |
-          echo ${{ steps.docker_build_v2ray_core.outputs.digest }}
           echo ${{ steps.docker_build_v2ray_core_pre.outputs.digest }}
+          echo ${{ steps.docker_build_v2ray_core.outputs.digest }}
