@@ -1,4 +1,4 @@
-name: Run every 60 days
+name: Renew Certificate
 
 on:
   # push:
@@ -8,7 +8,8 @@ on:
 
   workflow_dispatch:
   schedule:
-    - cron: "0 23 20 */2 *"
+    - cron: "0 23 */1 */1 *" # every day 23:00
+    # - cron: "0 23 20 */2 *" # every 2 months 20 23:00
 
 jobs:
 
@@ -38,7 +39,7 @@ jobs:
       #   with:
       #     timezoneLinux: "Asia/Shanghai"
 
-      - name: Run every 60 days
+      - name: Renew Certificate
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_HKG_HOSTNAME }}
