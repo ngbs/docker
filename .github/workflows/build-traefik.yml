@@ -14,6 +14,7 @@ jobs:
     steps:
       - name: Set Variables
         run: |
+          echo "TRAEFIK_PRE_VERSION=$(curl -fsSL https://api.github.com/repos/traefik/traefik/tags | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
           echo "TRAEFIK_VERSION=$(curl -fsSL https://api.github.com/repos/traefik/traefik/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
         shell: bash
 
@@ -42,6 +43,18 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/traefik:${{ env.TRAEFIK_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
 
+      - name: Build Traefik and push
+        uses: docker/build-push-action@v3
+        id: docker_build_traefik_pre
+        with:
+          context: ./traefik
+          file: ./traefik/Dockerfile.pre
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/traefik:${{ env.TRAEFIK_PRE_VERSION }}
+          builder: ${{ steps.buildx.outputs.name }}
+
       - name: Image digest
         run: |
           echo ${{ steps.docker_build_traefik.outputs.digest }}
+          echo ${{ steps.docker_build_traefik_pre.outputs.digest }}
