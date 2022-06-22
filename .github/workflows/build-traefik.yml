@@ -1,11 +1,16 @@
 name: Build Traefik
 
 on:
-  # push:
-  #   branches: [ master ]
+  push:
+    # branches: [ master ]
+    paths:
+      - 'traefik/**'
+      - '.github/workflows/build-traefik.yml'
+  # UTC +8
+  schedule:
+    - cron: "0 20 */14 * *"
   # pull_request:
   #   branches: [ master ]
-
   workflow_dispatch:
 
 jobs:
@@ -19,7 +24,7 @@ jobs:
         shell: bash
 
       - name: Check Out Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -31,7 +36,7 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build Traefik and push
+      - name: Build and push Docker images
         uses: docker/build-push-action@v3
         id: docker_build_traefik
         with:
@@ -43,7 +48,7 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/traefik:${{ env.TRAEFIK_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
 
-      - name: Build Traefik and push
+      - name: Build and push Docker images
         uses: docker/build-push-action@v3
         id: docker_build_traefik_pre
         with:
