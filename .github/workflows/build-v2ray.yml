@@ -52,7 +52,6 @@ jobs:
           file: ./v2ray/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:${{ env.V2RAY_PRE_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -63,9 +62,10 @@ jobs:
         id: docker_build_v2ray_core
         with:
           context: ./v2ray
-          file: ./v2ray/Dockerfile.fly
+          file: ./v2ray/Dockerfile.latest
           push: true
           tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/v2ray:${{ env.V2RAY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache

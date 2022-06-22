@@ -52,7 +52,6 @@ jobs:
           file: ./xray/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/xray:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/xray:${{ env.XRAY_PRE_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -63,9 +62,10 @@ jobs:
         id: docker_build_xray_core
         with:
           context: ./xray
-          file: ./xray/Dockerfile.xray
+          file: ./xray/Dockerfile.latest
           push: true
           tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/xray:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/xray:${{ env.XRAY_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
