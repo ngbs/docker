@@ -3,7 +3,8 @@ FROM golang:1.18.1-alpine AS builder
 RUN apk --no-cache add git
 WORKDIR /go/src
 # ENV CGO_ENABLED=0
-RUN git clone https://github.com/long2k3pro/XrayR.git && cd XrayR && go mod download && \
+RUN git clone https://github.com/long2k3pro/XrayR.git && cd XrayR && \
+    go mod download && \
     go env -w GOFLAGS=-buildvcs=false && \
     go build -v -o XrayR -trimpath -ldflags "-s -w -buildid=" ./main
 
