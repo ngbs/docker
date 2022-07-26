@@ -57,19 +57,19 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
-      # - name: Build and push Docker images
-      #   uses: docker/build-push-action@v3
-      #   id: docker_build_xrayr_core
-      #   with:
-      #     context: ./xrayr
-      #     file: ./xrayr/Dockerfile.latest
-      #     push: true
-      #     tags: |
-      #       ${{ secrets.DOCKER_HUB_USERNAME }}/xrayr:latest
-      #       ${{ secrets.DOCKER_HUB_USERNAME }}/xrayr:${{ env.XRAYR_VERSION }}
-      #     builder: ${{ steps.buildx.outputs.name }}
-      #     cache-from: type=local,src=/tmp/.buildx-cache
-      #     cache-to: type=local,dest=/tmp/.buildx-cache-new
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
+        id: docker_build_xrayr_core
+        with:
+          context: ./xrayr
+          file: ./xrayr/Dockerfile.latest
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/xrayr:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/xrayr:${{ env.XRAYR_VERSION }}
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       - name: Move cache
         run: |
