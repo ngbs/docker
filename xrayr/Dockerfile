@@ -6,7 +6,7 @@ WORKDIR /go/src
 #     go mod download && \
 #     go env -w GOFLAGS=-buildvcs=false && \
 #     go build -v -o XrayR -trimpath -ldflags "-s -w -buildid=" ./main
-RUN git clone https://github.com/long2k3pro/XrayR.git && cd XrayR/main && \
+RUN git clone https://github.com/realldz/XrayR.git && cd XrayR/main && \
     go mod tidy && \
     go build -o XrayR -ldflags "-s -w"
 
