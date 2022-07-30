@@ -7,6 +7,7 @@ WORKDIR /var/www
 
 RUN git clone https://github.com/Anankke/SSPanel-Uim.git /tmp && \
     mv /tmp/* ./ && \
+    sed -i '/"sort-packages": true,/i\        "allow-plugins": true,' composer.json && \
     cp config/.config.example.php "config/.config.php" && \
     cp config/appprofile.example.php config/appprofile.php && \
     chmod -R 755 storage && \
