@@ -19,8 +19,7 @@ jobs:
     steps:
       - name: Set Variables
         run: |
-          echo "SSPANELUIM_PRE_VERSION=$(curl -fsSL https://api.github.com/repos/Anankke/SSPanel-Uim/tags | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          echo "SSPANELUIM_VERSION=$(curl -fsSL https://api.github.com/repos/Anankke/SSPanel-Uim/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "SSPANELUIM_VERSION=$(curl -fsSL https://api.github.com/repos/Anankke/SSPanel-Uim/tags | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
         shell: bash
 
       - name: Check Out Repo
@@ -43,19 +42,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-      # - name: Build and push Docker images
-      #   uses: docker/build-push-action@v3
-      #   id: docker_build_sspaneluim_core_pre
-      #   with:
-      #     context: ./sspaneluim
-      #     file: ./sspaneluim/Dockerfile
-      #     push: true
-      #     tags: |
-      #       ${{ secrets.DOCKER_HUB_USERNAME }}/sspaneluim:${{ env.SSPANELUIM_PRE_VERSION }}
-      #     builder: ${{ steps.buildx.outputs.name }}
-      #     cache-from: type=local,src=/tmp/.buildx-cache
-      #     cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       - name: Build and push Docker images
         uses: docker/build-push-action@v3
