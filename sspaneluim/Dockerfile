@@ -16,11 +16,11 @@ RUN git clone https://github.com/Anankke/SSPanel-Uim.git /tmp && \
     curl -sS https://getcomposer.org/installer | php && \
     php composer.phar && \
     php composer.phar install && \
-    php vendor/bin/phinx migrate && \
-    php xcat Tool importAllSettings && \
-    php xcat Tool detectConfigs && \
-    php xcat initQQWry && \
-    php xcat ClientDownload && \
+    # php vendor/bin/phinx migrate && \
+    # php xcat Tool importAllSettings && \
+    # php xcat Tool detectConfigs && \
+    # php xcat initQQWry && \
+    # php xcat ClientDownload && \
     crontab -l | { cat; echo "30 23 * * * php /var/www/xcat SendDiaryMail"; } | crontab - && \
     crontab -l | { cat; echo "0 0 * * * php /var/www/xcat Job DailyJob"; } | crontab - && \
     crontab -l | { cat; echo "*/1 * * * * php /var/www/xcat Job CheckJob"; } | crontab - && \
