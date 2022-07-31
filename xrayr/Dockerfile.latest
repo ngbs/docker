@@ -7,7 +7,7 @@ RUN apk --no-cache add git && \
     go mod download && \
     go env -w GOFLAGS=-buildvcs=false && \
     go build -v -o XrayR -trimpath -ldflags "-s -w -buildid=" && \
-    mkdri -p /go/src/XrayR/Release && mv config.yml.example config.yml && \
+    mkdir -p /go/src/XrayR/Release && mv config.yml.example config.yml && \
     mv *.yml *.json *.dat rulelit XrayR ../Release
 
 FROM playn/alpine
