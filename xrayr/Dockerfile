@@ -8,7 +8,7 @@ RUN apk --no-cache add git && \
     go env -w GOFLAGS=-buildvcs=false && \
     go build -v -o XrayR -trimpath -ldflags "-s -w -buildid=" && \
     mkdir -p /go/src/XrayR/Release && mv config.yml.example config.yml && \
-    mv *.yml *.json *.dat rulelit XrayR /go/src/XrayR/Release
+    mv *.yml *.json *.dat rulelist XrayR /go/src/XrayR/Release
 
 FROM alpine
 RUN apk --update --no-cache add tzdata ca-certificates && \
