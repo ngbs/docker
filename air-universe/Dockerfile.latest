@@ -3,7 +3,7 @@ FROM golang:alpine AS builder
 WORKDIR /go/src
 ENV CGO_ENABLED=0
 RUN apk --no-cache add git && \
-    git clone https://github.com/crossfw/Air-Universe.git && cd cmd/Air-Universe && \
+    git clone https://github.com/crossfw/Air-Universe.git && cd Air-Universe/cmd/Air-Universe && \
     go mod download && \
     go env -w GOFLAGS=-buildvcs=false && \
     go build -v -o au -trimpath -ldflags "-s -w -buildid="
