@@ -6,6 +6,7 @@ RUN apk add --update git make build-base npm && \
 WORKDIR /src
 
 RUN git clone https://github.com/AdguardTeam/AdGuardHome.git && cd AdGuardHome && \
+    npm install -g yarn && \
     make
 
 FROM alpine:latest
