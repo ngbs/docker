@@ -5,9 +5,10 @@ RUN apk --no-cache --update add ca-certificates && \
     rm -rf /var/cache/apk/* && mkdir -p /opt/adguardhome && \
     export version=$(wget -qO- https://api.github.com/repos/AdguardTeam/AdGuardHome/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \
     wget --quiet -O /tmp/AdGuardHome.tar.gz "https://github.com/AdguardTeam/AdGuardHome/releases/download/${version}/AdGuardHome_linux_amd64.tar.gz"; \
-    ls -la /tmp; \
-    tar -zxf /tmp/AdGuardHome.tar.gz -C /opt/adguardhome AdGuardHome; \
-    rm -f /tmp/AdGuardHome.tar.gz; \
+    cd /tmp; \
+    tar -zxf AdGuardHome.tar.gz; \
+    ls -la; \
+    mv AdGuardHome /opt/adguardhome; \
     chmod +x /opt/adguardhome/AdGuardHome; \
     unset version
 
