@@ -43,7 +43,7 @@ jobs:
         id: docker_build_adguardhome
         with:
           context: ./adguardhome
-          file: ./adguardhome/Dockerfile
+          file: ./adguardhome/Dockerfile.latest
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/adguardhome:latest
