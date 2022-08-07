@@ -7,10 +7,9 @@ RUN apk --no-cache --update add ca-certificates && \
     wget --quiet -O /tmp/AdGuardHome.tar.gz "https://github.com/AdguardTeam/AdGuardHome/releases/download/${version}/AdGuardHome_linux_amd64.tar.gz"; \
     cd /tmp; \
     tar -zxf AdGuardHome.tar.gz; \
-    ls -la; \
-    mv AdGuardHome /opt/adguardhome; \
+    mv /tmp/AdGuardHome/AdGuardHome /opt/adguardhome; \
     chmod +x /opt/adguardhome/AdGuardHome; \
-    rm /tmp/AdGuardHome.tar.gz; \
+    rm -rf /tmp/AdGuardHome.tar.gz /tmp/AdGuardHome; \
     unset version
 
 VOLUME ["/opt/adguardhome/conf", "/opt/adguardhome/work"]
