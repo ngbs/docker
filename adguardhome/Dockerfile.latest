@@ -10,6 +10,7 @@ RUN apk --no-cache --update add ca-certificates && \
     ls -la; \
     mv AdGuardHome /opt/adguardhome; \
     chmod +x /opt/adguardhome/AdGuardHome; \
+    rm /tmp/AdGuardHome.tar.gz; \
     unset version
 
 VOLUME ["/opt/adguardhome/conf", "/opt/adguardhome/work"]
