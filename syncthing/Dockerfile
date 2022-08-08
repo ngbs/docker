@@ -7,7 +7,7 @@ ENV BUILD_USER=docker
 RUN apk add curl && \
     export SYNCTHING_RELEASE=$(curl -fsSL "https://api.github.com/repos/syncthing/syncthing/releases/latest" | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/') && \
     mkdir -p /tmp/src && \
-    curl -o /tmp/syncthing-src.tar.gz -L "https://github.com/syncthing/syncthing/archive/${SYNCTHING_RELEASE}.tar.gz" && \
+    curl -o /tmp/syncthing-src.tar.gz -L "https://github.com/syncthing/syncthing/archive/refs/tags/${SYNCTHING_RELEASE}.tar.gz" && \
     tar xf /tmp/syncthing-src.tar.gz -C /tmp/src --strip-components=1 && \
     cd /tmp/src && \
     rm -f syncthing && go run build.go -no-upgrade -version=${SYNCTHING_RELEASE} build syncthing && \
