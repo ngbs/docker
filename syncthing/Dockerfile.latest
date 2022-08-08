@@ -4,9 +4,10 @@ FROM golang:alpine AS builder
 RUN export version=$(wget -qO- https://api.github.com/repos/syncthing/syncthing/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \
     wget --quiet -O /tmp/syncthing.tar.gz "https://github.com/syncthing/syncthing/releases/download/${version}/syncthing-linux-amd64-${version}.tar.gz"; \
     wget --quiet -O /tmp/entrypoint.sh "https://raw.githubusercontent.com/syncthing/syncthing/main/script/docker-entrypoint.sh"; \
+    ls -la /tmp; \
     tar -zxf /tmp/syncthing.tar.gz; \
     mkdir -p /tmp/src/script; \
-    mv /tmp/syncthing/syncthing /tmp/src ; \
+    mv /tmp/syncthing/syncthing /tmp/src; \
     mv /tmp/entrypoint.sh /tmp/src/script
 
 FROM playn/alpine
