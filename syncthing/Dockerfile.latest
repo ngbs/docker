@@ -11,7 +11,7 @@ FROM playn/alpine
 ENV PUID=1000 PGID=1000 HOME=/var/syncthing
 RUN apk add --no-cache ca-certificates su-exec
 COPY --from=builder /tmp/src/syncthing /bin/syncthing
-COPY --from=builder /tmp/src/script/docker-entrypoint.sh /bin/entrypoint.sh
+COPY --from=builder /tmp/src/script/entrypoint.sh /bin/entrypoint.sh
 # EXPOSE 8384 22000 21027/udp
 VOLUME ["/var/syncthing"]
 # HEALTHCHECK --interval=1m --timeout=10s \
