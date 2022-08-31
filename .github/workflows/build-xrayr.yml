@@ -19,8 +19,8 @@ jobs:
     steps:
       - name: Set Variables
         run: |
-          echo "XRAYR_PRE_VERSION=$(curl -fsSL https://api.github.com/repos/realldz/XrayR/tags | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
-          echo "XRAYR_VERSION=$(curl -fsSL https://api.github.com/repos/realldz/XrayR/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "XRAYR_PRE_VERSION=$(curl -fsSL https://api.github.com/repos/XrayR-project/XrayR/tags | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "XRAYR_VERSION=$(curl -fsSL https://api.github.com/repos/XrayR-project/XrayR/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
         shell: bash
 
       - name: Check Out Repo
