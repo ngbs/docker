@@ -1,0 +1,9 @@
+# syntax=docker/dockerfile:1
+FROM playn/alpine
+RUN export version=$(wget -qO- https://api.github.com/repos/EAimTY/tuic/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/') \
+    wget -P /tmp https://github.com/EAimTY/tuic/releases/download/${version}/tuic-server-${version}-x86_64-linux-musl \
+    mv /tmp/tuic-server-${version}-x86_64-linux-musl /usr/local/bin/tuic-server \
+    chmod +x /usr/local/bin/tuic-server && \
+    unset version
+
+ENTRYPOINT ["/usr/local/bin/tuic-server"]
