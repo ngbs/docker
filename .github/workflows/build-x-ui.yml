@@ -52,7 +52,8 @@ jobs:
           file: ./x-ui/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/x-ui:${{ env.X_UI_PRE_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/x-ui:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/x-ui:alpine-${{ env.X_UI_PRE_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
@@ -65,8 +66,7 @@ jobs:
           file: ./x-ui/Dockerfile.latest
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/x-ui:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/x-ui:${{ env.X_UI_VERSION }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/x-ui:debian-${{ env.X_UI_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
