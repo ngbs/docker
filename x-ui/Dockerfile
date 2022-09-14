@@ -7,7 +7,11 @@ WORKDIR /go/src
 # COPY . .
 RUN git clone --depth 1 https://github.com/FranzKafkaYu/x-ui.git . && \
     go build main.go && \
-    ls -la ./ && ls -la /tmp
+    tag xzvf /tmp/x-ui-linux-amd64.tar.gz -C /tmp && \
+    ls -la ./ && ls -la /tmp && \
+    mkdir x-ui && \
+    mv /tmp/x-ui/bin ./x-ui && \
+    mv main ./x-ui/x-ui
     # mv /tmp/x-ui/bin ./main
 
 # FROM debian:11-slim
@@ -19,7 +23,7 @@ RUN git clone --depth 1 https://github.com/FranzKafkaYu/x-ui.git . && \
 # VOLUME [ "/etc/x-ui" ]
 # CMD [ "./x-ui" ]
 FROM playn/alpine
-COPY --from=builder /go/src/main /usr/local/bin/x-ui
+COPY --from=builder /go/src/x-ui /usr/local/bin/x-ui
 RUN apk --no-cache add ca-certificates
 
 ENTRYPOINT ["/usr/local/bin/x-ui/x-ui"]
