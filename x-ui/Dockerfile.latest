@@ -2,16 +2,15 @@
 FROM golang:alpine AS builder
 ADD https://github.com/FranzKafkaYu/x-ui/releases/download/0.3.3.16-0814/x-ui-linux-amd64.tar.gz /tmp
 ADD https://github.com/XTLS/Xray-core/releases/download/v1.5.10/Xray-linux-64.zip /tmp
-RUN
-    # export xui_version=$(wget -qO- https://api.github.com/repos/FranzKafkaYu/x-ui/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \
-    # wget -P /tmp https://github.com/FranzKafkaYu/x-ui/releases/download/${xui_version}/x-ui-linux-amd64.tar.gz; \
-    # export xray_version=$(wget -qO- https://api.github.com/repos/XTLS/Xray-core/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \
-    # wget -P /tmp https://github.com/XTLS/Xray-core/releases/download/${xray_version}/Xray-linux-64.zip; \
-    tar zxf /tmp/x-ui-linux-amd64.tar.gz -C /tmp --strip-components=1; \
+RUN tar zxf /tmp/x-ui-linux-amd64.tar.gz -C /tmp --strip-components=1; \
     rm -rf /tmp/bin; \
     unzip /tmp/Xray-linux-64.zip -d /tmp; \
     mv /tmp/xray /tmp/xray-linux-amd64; \
     ls -la ./ && ls -la /tmp
+    # export xui_version=$(wget -qO- https://api.github.com/repos/FranzKafkaYu/x-ui/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \
+    # wget -P /tmp https://github.com/FranzKafkaYu/x-ui/releases/download/${xui_version}/x-ui-linux-amd64.tar.gz; \
+    # export xray_version=$(wget -qO- https://api.github.com/repos/XTLS/Xray-core/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \
+    # wget -P /tmp https://github.com/XTLS/Xray-core/releases/download/${xray_version}/Xray-linux-64.zip; \
 
 FROM alpine
 COPY --from=builder /tmp/x-ui /usr/local/bin/x-ui
