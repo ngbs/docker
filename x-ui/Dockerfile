@@ -18,8 +18,8 @@ RUN apk --no-cache add git gcc g++ && \
 FROM alpine
 
 COPY --from=builder /go/src/x-ui /usr/local/bin/x-ui
-COPY --form=builder /tmp/*.dat /bin
-COPY --form=builder /tmp/xray-linux-amd64 /bin
+COPY --from=builder /tmp/*.dat /bin
+COPY --from=builder /tmp/xray-linux-amd64 /bin
 
 RUN apk --no-cache add ca-certificates tzdata
 
