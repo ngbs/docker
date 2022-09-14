@@ -7,7 +7,7 @@ WORKDIR /go/src
 # COPY . .
 RUN git clone --depth 1 https://github.com/FranzKafkaYu/x-ui.git . && \
     go build main.go && \
-    tag xzvf /tmp/x-ui-linux-amd64.tar.gz -C /tmp && \
+    tar xzvf /tmp/x-ui-linux-amd64.tar.gz -C /tmp && \
     ls -la ./ && ls -la /tmp && \
     mkdir x-ui && \
     mv /tmp/x-ui/bin ./x-ui && \
