@@ -10,18 +10,14 @@ RUN apk --no-cache add git gcc g++ && \
     wget -P /tmp https://github.com/XTLS/Xray-core/releases/download/${version}/Xray-linux-64.zip; \
     unzip /tmp/Xray-linux-64.zip -d /tmp; \
     mv /tmp/xray /tmp/xray-linux-amd64; \
-    ls -la ./ && ls -la /tmp && \
-    mkdir x-ui && \
-    mv /tmp/x-ui/bin ./x-ui && \
-    mv main ./x-ui/x-ui
+    ls -la ./ && ls -la /tmp
 
 FROM alpine
 
-COPY --from=builder /go/src/x-ui /usr/local/bin/x-ui
-COPY --from=builder /tmp/*.dat /bin
-COPY --from=builder /tmp/xray-linux-amd64 /bin
+COPY --from=builder /go/src/main /usr/local/bin/x-ui
+COPY --from=builder /tmp/*.dat /tmp/xray-linux-amd64 /bin
 
 RUN apk --no-cache add ca-certificates tzdata
 
-ENTRYPOINT ["/usr/local/bin/x-ui/x-ui"]
-ENV PATH /usr/local/bin/x-ui/x-ui:$PATH
+ENTRYPOINT ["/usr/local/bin/x-ui"]
+ENV PATH /usr/local/bin/x-ui:$PATH
