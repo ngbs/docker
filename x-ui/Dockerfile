@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM golang:latest AS builder
+FROM golang:alpine AS builder
 # WORKDIR /root
 ADD https://github.com/FranzKafkaYu/x-ui/releases/download/0.3.3.16-0814/x-ui-linux-amd64.tar.gz /tmp
 RUN apk --no-cache add git
