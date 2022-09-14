@@ -52,25 +52,24 @@ jobs:
           file: ./x-ui/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/x-ui:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/x-ui:${{ env.X_UI_PRE_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
-      # - name: Build and push Docker images
-      #   uses: docker/build-push-action@v3
-      #   id: docker_build_x-ui_core
-      #   with:
-      #     context: ./x-ui
-      #     file: ./x-ui/Dockerfile.latest
-      #     push: true
-      #     tags: |
-      #       ${{ secrets.DOCKER_HUB_USERNAME }}/x-ui:latest
-      #       ${{ secrets.DOCKER_HUB_USERNAME }}/x-ui:${{ env.X_UI_VERSION }}
-      #     builder: ${{ steps.buildx.outputs.name }}
-      #     cache-from: type=local,src=/tmp/.buildx-cache
-      #     cache-to: type=local,dest=/tmp/.buildx-cache-new
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
+        id: docker_build_x-ui_core
+        with:
+          context: ./x-ui
+          file: ./x-ui/Dockerfile.latest
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/x-ui:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/x-ui:${{ env.X_UI_VERSION }}
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       - name: Move cache
         run: |
