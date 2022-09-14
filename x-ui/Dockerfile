@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM golang:alpine AS builder
-ADD https://github.com/XTLS/Xray-core/releases/download/v.1.5.10/Xray-linux-64.zip /tmp
+ADD https://github.com/XTLS/Xray-core/releases/download/v1.5.10/Xray-linux-64.zip /tmp
 WORKDIR /go/src
 RUN apk --no-cache add git gcc g++ && \
     git clone --depth 1 https://github.com/FranzKafkaYu/x-ui.git . && \
