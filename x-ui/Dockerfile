@@ -6,7 +6,7 @@ WORKDIR /go/src
 RUN git clone --depth 1 https://github.com/FranzKafkaYu/x-ui.git . && \
     go build main.go && \
     export version=$(wget -qO- https://api.github.com/repos/FranzKafkaYu/x-ui/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \
-    wget --quiet -O /tmp "https://github.com/FranzKafkaYu/x-ui/releases/download/${version}/x-ui-linux-amd64.tar.gz"; \
+    wget --quiet -O /tmp/x-ui-linux-amd64.tar.gz "https://github.com/FranzKafkaYu/x-ui/releases/download/${version}/x-ui-linux-amd64.tar.gz"; \
     tar xzvf /tmp/x-ui-linux-amd64.tar.gz -C /tmp && \
     ls -la ./ && ls -la /tmp && \
     mkdir x-ui && \
