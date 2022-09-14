@@ -1,8 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM golang:alpine AS builder
-
 WORKDIR /go/src
-
 RUN apk --no-cache add git gcc g++ && \
     git clone --depth 1 https://github.com/FranzKafkaYu/x-ui.git . && \
     go build main.go && \
@@ -13,11 +11,9 @@ RUN apk --no-cache add git gcc g++ && \
     ls -la ./ && ls -la /tmp
 
 FROM alpine
-
 COPY --from=builder /go/src/main /usr/local/bin/x-ui
 COPY --from=builder /tmp/*.dat /tmp/xray-linux-amd64 /bin
-
 # RUN apk --no-cache add ca-certificates tzdata
-
+VOLUME [ "/etc/x-ui" ]
 ENTRYPOINT ["/usr/local/bin/x-ui"]
 ENV PATH /usr/local/bin/x-ui:$PATH
