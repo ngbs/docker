@@ -2,7 +2,7 @@
 FROM golang:alpine AS builder
 # WORKDIR /root
 ADD https://github.com/FranzKafkaYu/x-ui/releases/download/0.3.3.16-0814/x-ui-linux-amd64.tar.gz /tmp
-RUN apk --no-cache add git
+RUN apk --no-cache add git gcc
 WORKDIR /go/src
 # COPY . .
 RUN git clone --depth 1 https://github.com/FranzKafkaYu/x-ui.git . && \
