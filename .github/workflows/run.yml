@@ -53,5 +53,5 @@ jobs:
           #   whoami
           #   ls -al
           script: |
-            cd /root/devops/docker/common/lego
+            cd /root/devops/docker/common/base/lego
             bash docker_run.sh
