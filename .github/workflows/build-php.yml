@@ -48,6 +48,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/php:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/php:8.1-rc-fpm-alpine
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
