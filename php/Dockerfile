@@ -6,8 +6,7 @@ RUN wget --quiet -O /tmp/ioncube.tar.gz "https://downloads.ioncube.com/loader_do
     export PHP_EXT_DIR=$(php-config --extension-dir) && \
     mv /tmp/ioncube/ioncube_loader_lin_7.4.so ${PHP_EXT_DIR}/ && \
     rm -rf /tmp/* && \
-    echo "zend_extension = ${PHP_EXT_DIR}/ioncube_loader_lin_7.4.so" > /usr/local/etc/php/conf.d/00_docker-php-ext-ioncube_loader_lin_7.4.ini
-    ioncube.loader.encoded_paths = "/var/www/webroot/index.php"
+    echo "zend_extension = ${PHP_EXT_DIR}/ioncube_loader_lin_7.4.so" > /usr/local/etc/php/conf.d/00_ioncube_loader_lin_7.4.ini
 RUN apk add --no-cache \
         freetype \
         libjpeg-turbo \
