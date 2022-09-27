@@ -1,12 +1,13 @@
-FROM php:8.1-rc-fpm-alpine
+FROM php:7.4-fpm-alpine
 RUN wget --quiet -O /tmp/ioncube.tar.gz "https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz" && \
     tar zxf /tmp/ioncube.tar.gz -C /tmp && \
-    chown root:root /tmp/ioncube/ioncube_loader_lin_8.1.so && \
-    chmod 755 /tmp/ioncube/ioncube_loader_lin_8.1.so && \
+    chown root:root /tmp/ioncube/ioncube_loader_lin_7.4.so && \
+    chmod 755 /tmp/ioncube/ioncube_loader_lin_7.4.so && \
     export PHP_EXT_DIR=$(php-config --extension-dir) && \
-    mv /tmp/ioncube/ioncube_loader_lin_8.1.so ${PHP_EXT_DIR}/ && \
+    mv /tmp/ioncube/ioncube_loader_lin_7.4.so ${PHP_EXT_DIR}/ && \
     rm -rf /tmp/* && \
-    echo "zend_extension = ${PHP_EXT_DIR}/ioncube_loader_lin_8.1.so" > /usr/local/etc/php/conf.d/00_docker-php-ext-ioncube_loader_lin_8.1.ini
+    echo "zend_extension = ${PHP_EXT_DIR}/ioncube_loader_lin_7.4.so" > /usr/local/etc/php/conf.d/00_docker-php-ext-ioncube_loader_lin_7.4.ini
+    ioncube.loader.encoded_paths = "/var/www/webroot/index.php"
 RUN apk add --no-cache \
         freetype \
         libjpeg-turbo \
