@@ -5,4 +5,14 @@ RUN wget --quiet -O /tmp/ioncube.tar.gz "https://downloads.ioncube.com/loader_do
     mv /tmp/ioncube/ioncube_loader_lin_8.1.so /usr/local/lib/php/extensions/* && \
     rm -rf /tmp/* && \
     echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20200930/ioncube_loader_lin_8.1.so" > /usr/local/etc/php/conf.d/00_docker-php-ext-ioncube_loader_lin_8.1.ini
-RUN docker-php-ext-install gd
+RUN apk add --no-cache \
+      freetype \
+      libjpeg-turbo \
+      libpng \
+      freetype-dev \
+      libjpeg-turbo-dev \
+      libpng-dev && \
+      docker-php-ext-configure gd \
+      --with-freetype=/usr/include/ \
+      --with-jpeg=/usr/include/ && \
+      docker-php-ext-install -j$(nproc) gd
