@@ -18,6 +18,7 @@ RUN apk add --no-cache \
     --with-freetype=/usr/include/ \
     --with-jpeg=/usr/include/ && \
     docker-php-ext-install -j$(nproc) gd && \
+    docker-php-ext-install pdo_mysql && \
     apk del --no-cache \
         freetype-dev \
         libjpeg-turbo-dev \
