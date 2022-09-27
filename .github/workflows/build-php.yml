@@ -44,7 +44,7 @@ jobs:
         id: docker_build_php_core
         with:
           context: ./php
-          file: ./php/Dockerfile.latest
+          file: ./php/Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/php:latest
