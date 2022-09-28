@@ -2,10 +2,10 @@ name: Build PHP
 
 on:
   # push:
-    # branches: [ master ]
-    # paths:
-    #   - 'php/**'
-    #   - '.github/workflows/build-php.yml'
+  # branches: [ master ]
+  # paths:
+  #   - 'php/**'
+  #   - '.github/workflows/build-php.yml'
   # UTC +8
   # schedule:
   #   - cron: "0 20 * * *"
@@ -17,7 +17,6 @@ jobs:
   build-php:
     runs-on: ubuntu-latest
     steps:
-
       - name: Check Out Repo
         uses: actions/checkout@v3
 
@@ -53,6 +52,19 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
+        id: docker_build_php
+        with:
+          context: ./php
+          file: ./php/Dockerfile.latest
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/php:7.4
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
@@ -61,3 +73,4 @@ jobs:
       - name: Image digest
         run: |
           echo ${{ steps.docker_build_php_core.outputs.digest }}
+          echo ${{ steps.docker_build_php.outputs.digest }}
