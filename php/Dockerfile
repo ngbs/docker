@@ -19,7 +19,7 @@ RUN apk add --no-cache \
         libwebp-dev \
         libpng-dev && \
     docker-php-ext-configure gd \
-        --with-freetype=/usr/include/
+        --with-freetype=/usr/include/ \
         --with-jpeg=/usr/include/ \
         --with-webp=/usr/include/ && \
     docker-php-ext-install -j$(nproc) gd && \
