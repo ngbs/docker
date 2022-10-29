@@ -1,4 +1,4 @@
-name: Build PHP
+name: Build SAMBA
 
 on:
   # push:
