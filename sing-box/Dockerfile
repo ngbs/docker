@@ -7,12 +7,12 @@ ENV CGO_ENABLED=0
 RUN set -ex && \
     apk add git build-base && \
     export COMMIT=$(git rev-parse --short HEAD) && \
-    git clone --depth 1 https://github.com/sagernet/sing-box.git . && \
+    git clone --depth 1 --branch dev-next https://github.com/sagernet/sing-box.git . && \
     go build -v -trimpath -tags 'no_gvisor,with_quic,with_wireguard,with_acme' \
         -o /go/bin/sing-box \
         -ldflags "-X github.com/sagernet/sing-box/constant.Commit=${COMMIT} -w -s -buildid=" \
         ./cmd/sing-box
-FROM alpine AS dist
+FROM playn/alpine AS dist
 # LABEL maintainer="nekohasekai <contact-git@sekai.icu>"
 # RUN [ ! -e /etc/nsswitch.conf ] && echo 'hosts: files dns' > /etc/nsswitch.conf
 # RUN set -ex \
