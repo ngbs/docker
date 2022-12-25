@@ -8,7 +8,7 @@ RUN set -ex && \
     apk add git build-base && \
     export COMMIT=$(git rev-parse --short HEAD) && \
     git clone --depth 1 --branch dev-next https://github.com/sagernet/sing-box.git . && \
-    go build -v -trimpath -tags 'no_gvisor,with_quic,with_wireguard,with_acme' \
+    go build -v -trimpath -tags with_quic,with_wireguard,with_acme \
         -o /go/bin/sing-box \
         -ldflags "-X github.com/sagernet/sing-box/constant.Commit=${COMMIT} -w -s -buildid=" \
         ./cmd/sing-box
