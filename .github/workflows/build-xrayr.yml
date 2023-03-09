@@ -1,16 +1,16 @@
 name: Build XrayR
 
 on:
-  push:
+  # push:
     # branches: [ master ]
-    paths:
-      - 'xrayr/**'
-      - '.github/workflows/build-xrayr.yml'
-  # UTC +8 15 day
-  schedule:
-    - cron: "0 20 15,30 * *"
+    # paths:
+    #   - 'xrayr/**'
+    #   - '.github/workflows/build-xrayr.yml'
   # pull_request:
   #   branches: [ master ]
+  # UTC +8 [https://crontab.guru/]
+  schedule:
+    - cron: "0 20 15,30 * *"
   workflow_dispatch:
 
 jobs:
