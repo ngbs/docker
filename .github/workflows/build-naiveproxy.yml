@@ -1,16 +1,16 @@
 name: Build NaïveProxy
 
 on:
-  push:
-  # branches: [ master ]
-    paths:
-      - 'naiveproxy/**'
-      - '.github/workflows/build-naiveproxy.yml'
-  # UTC +8
-  schedule:
-    - cron: "0 20 7 * *"
+  # push:
+    # branches: [ master ]
+    # paths:
+    #   - 'naiveproxy/**'
+    #   - '.github/workflows/build-naiveproxy.yml'
   # pull_request:
   #   branches: [ master ]
+  # UTC +8
+  # schedule:
+  #   - cron: "0 20 7 * *"
   workflow_dispatch:
 
 jobs:

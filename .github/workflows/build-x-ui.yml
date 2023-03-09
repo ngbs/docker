@@ -6,11 +6,11 @@ on:
     # paths:
     #   - 'x-ui/**'
     #   - '.github/workflows/build-x-ui.yml'
+  # pull_request:
+  #   branches: [ master ]
   # UTC +8
   # schedule:
   #   - cron: "0 20 * * *"
-  # pull_request:
-  #   branches: [ master ]
   workflow_dispatch:
 
 jobs:
