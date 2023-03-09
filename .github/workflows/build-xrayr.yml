@@ -4,11 +4,11 @@ on:
   push:
     # branches: [ master ]
     paths:
-    #   - 'xrayr/**'
+      - 'xrayr/**'
       - '.github/workflows/build-xrayr.yml'
   # UTC +8
   schedule:
-    - cron: '0 20 0 15,30 * ?'
+    - cron: '0 20 * * *'
   # pull_request:
   #   branches: [ master ]
   workflow_dispatch:
