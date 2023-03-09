@@ -7,8 +7,8 @@ on:
     #   - 'xrayr/**'
     #   - '.github/workflows/build-xrayr.yml'
   # UTC +8
-  # schedule:
-  #   - cron: "0 20 * * *"
+  schedule:
+    - cron: "0 0 0 15,30 *"
   # pull_request:
   #   branches: [ master ]
   workflow_dispatch:
