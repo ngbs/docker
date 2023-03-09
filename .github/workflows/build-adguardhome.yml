@@ -5,9 +5,9 @@ on:
   #   branches: [ master ]
   # pull_request:
   #   branches: [ master ]
-  # UTC +8
+  # UTC +8 15 day
   schedule:
-    - cron: "0 0 0 15,30 *"
+    - cron: "0 0 0 */15 *"
   workflow_dispatch:
 
 jobs:

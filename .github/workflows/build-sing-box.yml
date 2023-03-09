@@ -6,9 +6,9 @@ on:
     # paths:
     #   - 'sing-box/**'
     #   - '.github/workflows/build-sing-box.yml'
-  # UTC +8
+  # UTC +8 15 day
   schedule:
-    - cron: "0 0 0 15,30 *"
+    - cron: "0 0 0 */15 *"
   # pull_request:
   #   branches: [ master ]
   workflow_dispatch:
