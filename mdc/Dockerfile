@@ -19,9 +19,7 @@ RUN mkdir -p /tmp/mdc && cd /tmp/mdc && \
 FROM playn/alpine
 
 RUN apk --update --no-cache add \
-    libxcb \
-    gosu \
-    shadow
+    libxcb
 
 ENV TZ="Asia/Shanghai"
 ENV UID=99
@@ -34,7 +32,8 @@ RUN chmod +x /entrypoint.sh && \
     mkdir -p /app && \
     mkdir -p /data && \
     mkdir -p /config && \
-    useradd -d /config -s /bin/sh mdc && \
+    # useradd -d /config -s /bin/sh mdc && \
+    adduser -d /config && \
     chown -R mdc /config && \
     chown -R mdc /data
 
