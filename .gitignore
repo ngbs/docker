@@ -10,5 +10,6 @@
 !samba.sh
 !builder.sh
 !entrypoint.sh
+!pyinstaller.sh
 !README*.md
 unbound
