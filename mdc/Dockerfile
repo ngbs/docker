@@ -19,7 +19,8 @@ RUN mkdir -p /tmp/mdc && cd /tmp/mdc && \
 FROM playn/alpine
 
 RUN apk --update --no-cache add \
-    libxcb
+    libxcb \
+    useradd
 
 ENV TZ="Asia/Shanghai"
 ENV UID=99
