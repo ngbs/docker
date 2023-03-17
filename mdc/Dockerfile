@@ -16,7 +16,7 @@ RUN mkdir -p /tmp/mdc && cd /tmp/mdc && \
         --add-data "$(python -c 'import opencc as _; print(_.__path__[0])' | tail -n 1):opencc" \
         --add-data "$(python -c 'import face_recognition_models as _; print(_.__path__[0])' | tail -n 1):face_recognition_models"
 
-FROM playn/alpine
+FROM ghcr.io/vergilgao/alpine-baseimage
 
 RUN apk --update --no-cache add \
     libxcb
@@ -32,8 +32,7 @@ RUN chmod +x /entrypoint.sh && \
     mkdir -p /app && \
     mkdir -p /data && \
     mkdir -p /config && \
-    # useradd -d /config -s /bin/sh mdc && \
-    adduser -d /config && \
+    useradd -d /config -s /bin/sh mdc && \
     chown -R mdc /config && \
     chown -R mdc /data
 
