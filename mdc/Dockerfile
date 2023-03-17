@@ -26,9 +26,9 @@ ENV UID=99
 ENV GID=100
 ENV UMASK=002
 
-ADD entrypoint.sh entrypoint.sh
+ADD /entrypoint.sh /entrypoint.sh
 
-RUN chmod +x entrypoint.sh && \
+RUN chmod +x /entrypoint.sh && \
     mkdir -p /app && \
     mkdir -p /data && \
     mkdir -p /config && \
