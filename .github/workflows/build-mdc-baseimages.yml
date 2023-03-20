@@ -5,8 +5,8 @@ on:
     inputs:
       manual:
         description: 'manual build and publish'
-  schedule:
-    - cron: '0 20 15,30 * *'
+  # schedule:
+  #   - cron: '0 20 15,30 * *'
 
 jobs:
   build:
