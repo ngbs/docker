@@ -1,10 +1,6 @@
 name: Build Syncthing
 
 on:
-  # push:
-  #   branches: [ master ]
-  # pull_request:
-  #   branches: [ master ]
   # UTC +8 15 day
   schedule:
     - cron: "0 20 15,30 * *"

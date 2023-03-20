@@ -2,15 +2,15 @@ name: Build V2ray
 
 on:
   # push:
-    # branches: [ master ]
-    # paths:
-    #   - 'v2ray/**'
-    #   - '.github/workflows/build-v2ray.yml'
+  #   branches: [ master ]
+  #   paths:
+  #     - 'v2ray/**'
+  #     - '.github/workflows/build-v2ray.yml'
   # pull_request:
   #   branches: [ master ]
   # UTC +8
   schedule:
-    - cron: "0 20 * * *"
+    - cron: "0 20 */7 * *"
   workflow_dispatch:
 
 jobs:

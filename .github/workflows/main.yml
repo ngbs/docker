@@ -8,7 +8,7 @@ on:
     #   - '**/**'
     #   - '.github/workflows/main.yml'
     paths-ignore:
-      - '**/**'
+      - "**/**"
   # pull_request:
   #   branches: [ master ]
   # UTC +8 https://tool.lu/crontab/

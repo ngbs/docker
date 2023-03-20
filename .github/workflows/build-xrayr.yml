@@ -2,10 +2,10 @@ name: Build XrayR
 
 on:
   # push:
-    # branches: [ master ]
-    # paths:
-    #   - 'xrayr/**'
-    #   - '.github/workflows/build-xrayr.yml'
+  #   branches: [ master ]
+  #   paths:
+  #     - 'xrayr/**'
+  #     - '.github/workflows/build-xrayr.yml'
   # pull_request:
   #   branches: [ master ]
   # UTC +8 [https://crontab.guru/]

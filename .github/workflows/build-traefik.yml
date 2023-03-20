@@ -2,10 +2,10 @@ name: Build Traefik
 
 on:
   # push:
-    # branches: [ master ]
-    # paths:
-    #   - 'traefik/**'
-    #   - '.github/workflows/build-traefik.yml'
+  #   branches: [ master ]
+  #   paths:
+  #     - 'traefik/**'
+  #     - '.github/workflows/build-traefik.yml'
   # pull_request:
   #   branches: [ master ]
   # UTC +8

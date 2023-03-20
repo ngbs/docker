@@ -1,6 +1,8 @@
 name: Build MDC
 
 on:
+  schedule:
+    - cron: "0 20 15,30 * *"
   workflow_dispatch:
     inputs:
       manual:

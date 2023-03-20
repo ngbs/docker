@@ -2,10 +2,10 @@ name: Build sing-box
 
 on:
   # push:
-    # branches: [ master ]
-    # paths:
-    #   - 'sing-box/**'
-    #   - '.github/workflows/build-sing-box.yml'
+  #   branches: [ master ]
+  #   paths:
+  #     - 'sing-box/**'
+  #     - '.github/workflows/build-sing-box.yml'
   # pull_request:
   #   branches: [ master ]
   # UTC +8
