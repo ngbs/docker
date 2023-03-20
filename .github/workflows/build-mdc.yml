@@ -57,8 +57,8 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/mdc:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/mdc:${{ env.MDC_VERSION }}
-            ghcr.io/${{ secrets.GHCR_USERNAME }}/mdc:latest
-            ghcr.io/${{ secrets.GHCR_USERNAME }}/mdc:${{ env.MDC_VERSION }}
+            ghcr.io/${{ github.repository }}/mdc:latest
+            ghcr.io/${{ github.repository }}/mdc:${{ env.MDC_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
