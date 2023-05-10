@@ -12,6 +12,7 @@
 !entrypoint.sh
 !pyinstaller.sh
 !README*.md
+tmp/*
 unbound
 v2board
 .github/workflows/other/*
