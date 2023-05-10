@@ -13,4 +13,5 @@
 !pyinstaller.sh
 !README*.md
 unbound
+v2board
 .github/workflows/other/*
