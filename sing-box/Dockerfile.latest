@@ -7,12 +7,12 @@ ENV CGO_ENABLED=0
 RUN set -ex && \
     apk add git build-base && \
     export COMMIT=$(git rev-parse --short HEAD) && \
+    export VERSION=$(wget -qO- https://api.github.com/repos/sagernet/sing-box/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/') && \
     git clone --depth 1 https://github.com/sagernet/sing-box.git . && \
-    go build -v -trimpath -tags with_quic,with_wireguard,with_acme \
+    go build -v -trimpath -tags with_gvisor,with_quic,with_wireguard,with_utls,with_reality_server,with_clash_api,with_acme \
         -o /go/bin/sing-box \
-        -ldflags "-X github.com/sagernet/sing-box/constant.Commit=${COMMIT} -w -s -buildid=" \
+        -ldflags "-X \"github.com/sagernet/sing-box/constant.Version=${VERSION}\" -s -w -buildid=" \
         ./cmd/sing-box
 FROM playn/alpine AS dist
-# RUN [ ! -e /etc/nsswitch.conf ] && echo 'hosts: files dns' > /etc/nsswitch.conf
 COPY --from=builder /go/bin/sing-box /usr/local/bin/sing-box
 ENTRYPOINT ["sing-box"]
