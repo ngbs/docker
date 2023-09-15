@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM golang:1.21-alpine AS builder
 RUN go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest && \
-    xcaddy build \
-        --with github.com/caddy-dns/cloudflare \
+    xcaddy build
+        # --with github.com/caddy-dns/cloudflare \
         # --with github.com/caddy-dns/dnspod \
         # --with github.com/caddy-dns/duckdns \
         # --with github.com/caddy-dns/route53 \
@@ -17,7 +17,7 @@ RUN go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest && \
         # --with github.com/imgk/caddy-trojan \
         # --with github.com/kirsch33/realip \
         # --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive \
-        --with github.com/mastercactapus/caddy2-proxyprotocol
+        # --with github.com/mastercactapus/caddy2-proxyprotocol
 
     # export CADDY_VERSION=$(wget -qO- https://api.github.com/repos/caddyserver/caddy/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/') && \
     # xcaddy build ${CADDY_VERSION} \
