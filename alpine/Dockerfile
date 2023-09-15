@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM alpine:latest
+FROM alpine:3.18.3
 RUN apk add --no-cach --no-progress --virtual .build-deps tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
