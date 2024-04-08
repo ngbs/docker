@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1
 FROM golang:1.21-alpine AS builder
 RUN go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest && \
-    xcaddy build \
+    xcaddy build
         --with github.com/caddy-dns/cloudflare \
+        --with github.com/mholt/caddy-dynamicdns
         # --with github.com/caddy-dns/dnspod \
-        --with github.com/mholt/caddy-dynamicdns \
         # --with github.com/mholt/caddy-webdav \
         # --with github.com/mholt/caddy-l4 \
         # --with github.com/abiosoft/caddy-exec \
