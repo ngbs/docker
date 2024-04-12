@@ -33,7 +33,7 @@ jobs:
         id: docker_build_syncthing
         with:
           context: ./syncthing
-          file: ./syncthing/Dockerfile
+          file: ./syncthing/Dockerfile.test
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:latest
