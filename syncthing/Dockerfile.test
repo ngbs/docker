@@ -13,11 +13,12 @@ ARG BUILD_HOST
 ARG TARGETARCH
 
 ADD https://github.com/syncthing/syncthing/archive/refs/heads/main.zip /tmp/
-RUN \
-apt-get update && \
-apt-get install unzip git build-base -y && \
-unzip /tmp/main.zip -d /src/ && \
-ls -la /src
+
+RUN ls -la /src /tmp && \
+    unzip --help
+    # apt-get update && \
+    # apt-get install unzip git build-base -y && \
+    # unzip /tmp/main.zip -d /src/ && \
 
 WORKDIR /src
 #COPY . .
