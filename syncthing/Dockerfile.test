@@ -14,9 +14,8 @@ ARG TARGETARCH
 
 ADD https://github.com/syncthing/syncthing/archive/refs/heads/main.zip /tmp/
 
-# RUN ls -la /tmp
 RUN apt-get update && \
-    apt-get install unzip git build-base -y
+    apt-get install unzip git -y
     # unzip /tmp/main.zip -d /src/ && \
 
 WORKDIR /src
