@@ -20,10 +20,8 @@ ADD https://github.com/syncthing/syncthing/archive/refs/heads/main.zip /tmp/
 RUN apt-get update && \
     apt-get install unzip git -y && \
     ls -la /tmp && \
-    ls -la /src && \
-    unzip --help
-    # unzip /tmp/main.zip -d /src/ && \
-
+    unzip /tmp/main.zip -d /src && \
+    ls -la /src
 
 #COPY . .
 # RUN set -ex && \
