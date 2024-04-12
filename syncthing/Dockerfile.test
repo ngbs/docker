@@ -13,7 +13,11 @@ ARG BUILD_HOST
 ARG TARGETARCH
 
 ADD https://github.com/syncthing/syncthing/archive/refs/heads/main.zip /tmp/
-ADD /tmp/main.zip /src/
+RUN \
+apt-get update && \
+apt-get install unzip git build-base -y && \
+unzip /tmp/main.zip -d /src/ && \
+ls -la /src
 
 WORKDIR /src
 #COPY . .
@@ -22,7 +26,7 @@ WORKDIR /src
 #     git clone --depth 1 --branch dev-next https://github.com/syncthing/syncthing.git . && \
 #     go build
 
-RUN ls -la /src/
+# RUN ls -la /src/
 
 # ENV CGO_ENABLED=0
 # RUN if [ ! -f syncthing-linux-$TARGETARCH ] ; then \
