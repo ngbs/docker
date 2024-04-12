@@ -12,7 +12,8 @@ ARG BUILD_USER
 ARG BUILD_HOST
 ARG TARGETARCH
 
-ADD https://github.com/syncthing/syncthing/archive/refs/heads/main.zip /src/
+ADD https://github.com/syncthing/syncthing/archive/refs/heads/main.zip /
+ADD /main.zip /src/
 
 WORKDIR /src
 #COPY . .
