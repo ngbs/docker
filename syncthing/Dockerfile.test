@@ -12,13 +12,19 @@ ARG BUILD_USER
 ARG BUILD_HOST
 ARG TARGETARCH
 
+
+WORKDIR /src
+
 ADD https://github.com/syncthing/syncthing/archive/refs/heads/main.zip /tmp/
 
 RUN apt-get update && \
-    apt-get install unzip git -y
+    apt-get install unzip git -y && \
+    ls -la /tmp && \
+    ls -la /src && \
+    unzip --help
     # unzip /tmp/main.zip -d /src/ && \
 
-WORKDIR /src
+
 #COPY . .
 # RUN set -ex && \
 #     apk add git build-base && \
