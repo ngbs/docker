@@ -33,13 +33,37 @@ jobs:
         id: docker_build_syncthing
         with:
           context: ./syncthing
-          file: ./syncthing/Dockerfile.test
+          file: ./syncthing/Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:${{ env.SYNCTHING_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
 
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v5
+        id: docker_build_syncthing_stdiscosrv
+        with:
+          context: ./syncthing
+          file: ./syncthing/Dockerfile.stdiscosrv
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:stdiscosrv
+          builder: ${{ steps.buildx.outputs.name }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v5
+        id: docker_build_syncthing_strelaysrv
+        with:
+          context: ./syncthing
+          file: ./syncthing/Dockerfile.strelaysrv
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/syncthing:strelaysrv
+          builder: ${{ steps.buildx.outputs.name }}
+
       - name: Image digest
         run: |
           echo ${{ steps.docker_build_syncthing.outputs.digest }}
+          echo ${{ steps.docker_build_syncthing_stdiscosrv.outputs.digest }}
+          echo ${{ steps.docker_build_syncthing_strelaysrv.outputs.digest }}

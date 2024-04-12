@@ -1,28 +1,58 @@
-# syntax=docker/dockerfile:1
-FROM golang:alpine AS builder
+ARG GOVERSION=latest
 
+#
+# Maybe build Syncthing. This is a bit ugly as we can't make an entire
+# section of the Dockerfile conditional, so we end up always pulling the
+# golang image as builder. Then we check if the executable we need already
+# exists (pre-built) otherwise we build it.
+#
+
+FROM golang:$GOVERSION AS builder
+ARG BUILD_USER
+ARG BUILD_HOST
+ARG TARGETARCH
+
+ADD https://github.com/syncthing/syncthing/archive/refs/heads/main.zip /tmp/
+RUN apt-get update && apt-get install unzip git -y && unzip /tmp/main.zip -d /tmp && mv /tmp/syncthing-main /src
+
+WORKDIR /src
 ENV CGO_ENABLED=0
-ENV BUILD_HOST=syncthing.net
-ENV BUILD_USER=docker
+RUN if [ ! -f syncthing-linux-$TARGETARCH ] ; then \
+    go run build.go -no-upgrade build syncthing ; \
+    mv syncthing syncthing-linux-$TARGETARCH ; \
+  fi
 
-RUN apk add curl && \
-    export SYNCTHING_RELEASE=$(curl -fsSL "https://api.github.com/repos/syncthing/syncthing/releases/latest" | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/') && \
-    mkdir -p /tmp/src && \
-    curl -o /tmp/syncthing-src.tar.gz -L "https://github.com/syncthing/syncthing/archive/refs/tags/${SYNCTHING_RELEASE}.tar.gz" && \
-    tar xf /tmp/syncthing-src.tar.gz -C /tmp/src --strip-components=1 && \
-    cd /tmp/src && \
-    rm -f syncthing && go run build.go -no-upgrade build syncthing && \
-    unset SYNCTHING_RELEASE
+#
+# The rest of the Dockerfile uses the binary from the builder, prebuilt or
+# not.
+#
 
-FROM playn/alpine
-ENV PUID=1000 PGID=1000 HOME=/var/syncthing
-RUN apk add --no-cache ca-certificates curl libcap su-exec tzdata
-COPY --from=builder /tmp/src/syncthing /bin/syncthing
-COPY --from=builder /tmp/src/script/docker-entrypoint.sh /bin/entrypoint.sh
-# EXPOSE 8384 22000 21027/udp
+FROM alpine
+ARG TARGETARCH
+
+LABEL org.opencontainers.image.authors="The Syncthing Project" \
+      org.opencontainers.image.url="https://syncthing.net" \
+      org.opencontainers.image.documentation="https://docs.syncthing.net" \
+      org.opencontainers.image.source="https://github.com/syncthing/syncthing" \
+      org.opencontainers.image.vendor="The Syncthing Project" \
+      org.opencontainers.image.licenses="MPL-2.0" \
+      org.opencontainers.image.title="Syncthing"
+
+EXPOSE 8384 22000/tcp 22000/udp 21027/udp
+
 VOLUME ["/var/syncthing"]
-# HEALTHCHECK --interval=1m --timeout=10s \
-# CMD curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o --color=never OK || exit 1
+
+RUN apk add --no-cache ca-certificates curl libcap su-exec tzdata
+
+COPY --from=builder /src/syncthing-linux-$TARGETARCH /bin/syncthing
+COPY --from=builder /src/script/docker-entrypoint.sh /bin/entrypoint.sh
+
+ENV PUID=1000 PGID=1000 HOME=/var/syncthing
+
+HEALTHCHECK --interval=1m --timeout=10s \
+  CMD curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o --color=never OK || exit 1
+
 ENV STGUIADDRESS=0.0.0.0:8384
+ENV STHOMEDIR=/var/syncthing/config
 RUN chmod 755 /bin/entrypoint.sh
-ENTRYPOINT ["/bin/entrypoint.sh", "/bin/syncthing", "-home", "/var/syncthing/config"]
+ENTRYPOINT ["/bin/entrypoint.sh", "/bin/syncthing"]
