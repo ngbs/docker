@@ -3,6 +3,7 @@ name: CI to Docker Hub
 on:
   schedule:
     - cron: "0 22 * * *"
+  workflow_dispatch:
 
 jobs:
   build-basic:
