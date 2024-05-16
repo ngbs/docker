@@ -1,0 +1,22 @@
+name: Renew Certificate
+
+on:
+  schedule:
+    - cron: "0 23 */1 */1 *" # every day 23:00
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Renew Certificate
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOSTNAME }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          fingerprint: ${{ secrets.VPS_FINGERPRINT }}
+          script_stop: true
+          script: |
+            bash /root/devops/docker/common/base/lego/docker_run.sh
