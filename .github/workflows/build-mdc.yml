@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Set Variables
         run: |
-          echo "MDC_VERSION=$(curl -fsSL https://api.github.com/repos/yoshiko2/Movie_Data_Capture/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+          echo "MDC_VERSION=$(curl -fsSL https://api.github.com/repos/mvdctop/Movie_Data_Capture/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
         shell: bash
 
       - name: Check Out Repo
