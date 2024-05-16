@@ -42,20 +42,29 @@ jobs:
           done
 
       - name: Trigger build on release
-        if: steps.check_releases.outputs != {}
+        if: steps.check_releases.outputs.caddyserver_caddy ne '' ||
+          steps.check_releases.outputs.sagernet_sing_box ne '' ||
+          steps.check_releases.outputs.xtls_xray_core ne '' ||
+          steps.check_releases.outputs.fatedier_frp ne '' ||
+          steps.check_releases.outputs.go_acme_lego ne ''
         run: |
           echo "New release detected! Triggering build workflows."
 
           repo_build_map=$(echo "${{ steps.define_map.outputs.repo_build_map }}")
 
-          for repo in $(echo "${repo_build_map}" | jq -r 'keys[]'); do
-            if [ "${{ steps.check_releases.outputs[$repo] }}" != null ]; then
-              event_type=$(echo "${repo_build_map}" | jq -r ".[\"$repo\"]")
-              break
-            fi
-          done
-
-          event_type="${event_type:-unknown}"
+          if [ "${{ steps.check_releases.outputs['caddyserver_caddy'] }}" != "" ]; then
+            event_type=$(echo "${repo_build_map}" | jq -r '.["caddyserver/caddy"]')
+          elif [ "${{ steps.check_releases.outputs['sagernet_sing_box'] }}" != "" ]; then
+            event_type=$(echo "${repo_build_map}" | jq -r '.["sagernet/sing-box"]')
+          elif [ "${{ steps.check_releases.outputs['xtls_xray_core'] }}" != "" ]; then
+            event_type=$(echo "${repo_build_map}" | jq -r '.["xtls/xray-core"]')
+          elif [ "${{ steps.check_releases.outputs['fatedier_frp'] }}" != "" ]; then
+            event_type=$(echo "${repo_build_map}" | jq -r '.["fatedier/frp"]')
+          elif [ "${{ steps.check_releases.outputs['go_acme_lego'] }}" != "" ]; then
+            event_type=$(echo "${repo_build_map}" | jq -r '.["go-acme/lego"]')
+          else
+            event_type="unknown"
+          fi
 
           curl -X POST \
             -H "Authorization: token ${{ secrets.PA_TOKEN }}" \
