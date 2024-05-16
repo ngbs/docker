@@ -21,16 +21,20 @@ jobs:
         run: |
           latest_version=$(curl -s https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/latest-releases.yaml | grep -m1 -oP 'version: \K.*')
           echo "ALPINE_VERSION=$latest_version" > stored_alpine_version.txt
-          echo "::set-output name=alpine_version::$latest_version"
+          echo "ALPINE_VERSION=$latest_version" >> $GITHUB_ENV
+          if [ "$(cat stored_alpine_version.txt)" != "$latest_version" ]; then
+            echo "true" >> version_changed.txt
+          else
+            echo "false" >> version_changed.txt
+          fi
 
       - name: Compare with stored Alpine version
         id: compare_versions
         run: |
-          stored_version=$(cat stored_alpine_version.txt)
-          if [ "$stored_version" != "${{ steps.get_alpine_version.outputs.alpine_version }}" ]; then
-            echo "::set-output name=version_changed::true"
+          if [ "$(cat version_changed.txt)" == "true" ]; then
+            echo "Version has changed."
           else
-            echo "::set-output name=version_changed::false"
+            echo "Version has not changed."
           fi
 
       - name: Login to Docker Hub
@@ -66,4 +70,7 @@ jobs:
 
       - name: Update stored Alpine version
         if: steps.docker_build_apline_latest.outputs.digest != ''
-        run: echo "${{ steps.get_alpine_version.outputs.alpine_version }}" > stored_alpine_version.txt
+        run: |
+          echo "${{ steps.get_alpine_version.outputs.alpine_version }}" > stored_alpine_version.txt
+          echo "ALPINE_VERSION=${{ steps.get_alpine_version.outputs.alpine_version }}" >> $GITHUB_ENV
+          echo "false" > version_changed.txt
