@@ -18,19 +18,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Define Repository and Build Map
-      id: define_map
-      run: |
-        REPO_BUILD_MAP=$(cat <<EOF
-        {
-          "caddyserver/caddy":"build-caddy",
-          "sagernet/sing-box":"build-sing-box",
-          "xtls/xray-core":"build-xray",
-          "fatedier/frp":"build-frp",
-          "go-acme/lego":"build-lego"
-        }
-        EOF
-        )
-        echo "$REPO_BUILD_MAP" > repo_build_map.txt
+        id: define_map
+        run: |
+          REPO_BUILD_MAP=$(cat <<EOF
+          {
+            "caddyserver/caddy":"build-caddy",
+            "sagernet/sing-box":"build-sing-box",
+            "xtls/xray-core":"build-xray",
+            "fatedier/frp":"build-frp",
+            "go-acme/lego":"build-lego"
+          }
+          EOF
+          )
+          echo "$REPO_BUILD_MAP" > repo_build_map.txt
 
       - name: Check for new releases
         id: check_releases
@@ -43,10 +43,10 @@ jobs:
 
       - name: Trigger build on release
         if: steps.check_releases.outputs.caddyserver_caddy != '' ||
-            steps.check_releases.outputs.sagernet_sing_box != '' ||
-            steps.check_releases.outputs.xtls_xray_core != '' ||
-            steps.check_releases.outputs.fatedier_frp != '' ||
-            steps.check_releases.outputs.go_acme_lego != ''
+          steps.check_releases.outputs.sagernet_sing_box != '' ||
+          steps.check_releases.outputs.xtls_xray_core != '' ||
+          steps.check_releases.outputs.fatedier_frp != '' ||
+          steps.check_releases.outputs.go_acme_lego != ''
         run: |
           echo "New release detected! Triggering build workflows."
 
