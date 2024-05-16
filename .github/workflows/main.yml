@@ -20,7 +20,7 @@ jobs:
         id: get_alpine_version
         run: |
           latest_version=$(curl -s https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/latest-releases.yaml | grep version | awk '{print $2}')
-          echo "ALPINE_VERSION=$latest_version" >> $GITHUB_ENV
+          echo "ALPINE_VERSION=\"$latest_version\"" >> $GITHUB_ENV
 
       - name: Compare with stored Alpine version
         id: compare_versions
