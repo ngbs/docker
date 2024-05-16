@@ -42,11 +42,11 @@ jobs:
           done
 
       - name: Trigger build on release
-        if: steps.check_releases.outputs.caddyserver_caddy ne '' ||
-          steps.check_releases.outputs.sagernet_sing_box ne '' ||
-          steps.check_releases.outputs.xtls_xray_core ne '' ||
-          steps.check_releases.outputs.fatedier_frp ne '' ||
-          steps.check_releases.outputs.go_acme_lego ne ''
+        if: steps.check_releases.outputs.caddyserver_caddy != '' ||
+            steps.check_releases.outputs.sagernet_sing_box != '' ||
+            steps.check_releases.outputs.xtls_xray_core != '' ||
+            steps.check_releases.outputs.fatedier_frp != '' ||
+            steps.check_releases.outputs.go_acme_lego != ''
         run: |
           echo "New release detected! Triggering build workflows."
 
@@ -72,3 +72,4 @@ jobs:
             -H "Content-Type: application/json" \
             https://api.github.com/repos/ngbs/docker/dispatches \
             -d "{\"event_type\": \"$event_type\"}"
+
