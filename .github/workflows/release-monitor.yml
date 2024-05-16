@@ -18,27 +18,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Define Repository and Build Map
-        id: define_map
-        run: |
-          REPO_BUILD_MAP=$(cat <<EOF
-          {
-            "caddyserver/caddy":"build-caddy",
-            "sagernet/sing-box":"build-sing-box",
-            "xtls/xray-core":"build-xray",
-            "fatedier/frp":"build-frp",
-            "go-acme/lego":"build-lego"
-          }
-          EOF
-          )
-          echo "::set-output name=repo_build_map::$REPO_BUILD_MAP"
+      id: define_map
+      run: |
+        REPO_BUILD_MAP=$(cat <<EOF
+        {
+          "caddyserver/caddy":"build-caddy",
+          "sagernet/sing-box":"build-sing-box",
+          "xtls/xray-core":"build-xray",
+          "fatedier/frp":"build-frp",
+          "go-acme/lego":"build-lego"
+        }
+        EOF
+        )
+        echo "$REPO_BUILD_MAP" > repo_build_map.txt
 
       - name: Check for new releases
         id: check_releases
         run: |
-          repo_build_map=$(echo "${{ steps.define_map.outputs.repo_build_map }}")
-          for repo in $(echo "${repo_build_map}" | jq -r 'keys[]'); do
+          repo_build_map=$(cat repo_build_map.txt)
+          for repo in $(echo "$repo_build_map" | jq -r 'keys[]'); do
             latest_tag=$(curl -s "https://api.github.com/repos/$repo/releases/latest" | jq -r '.tag_name')
-            echo "::set-output name=${repo//\//_}_tag::$latest_tag"
+            echo "${repo//\//_}_tag=$latest_tag" >> $GITHUB_ENV
           done
 
       - name: Trigger build on release
@@ -72,4 +72,3 @@ jobs:
             -H "Content-Type: application/json" \
             https://api.github.com/repos/ngbs/docker/dispatches \
             -d "{\"event_type\": \"$event_type\"}"
-
