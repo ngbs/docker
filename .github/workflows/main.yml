@@ -19,7 +19,7 @@ jobs:
       - name: Get latest Alpine version
         id: get_alpine_version
         run: |
-          latest_version=$(curl -s https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/latest-releases.yaml | grep version | awk '{print $2}')
+          latest_version=$(curl -s https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/latest-releases.yaml | grep -m1 -oP 'version: \K.*')
           echo "ALPINE_VERSION=$latest_version" > stored_alpine_version.txt
           echo "::set-output name=alpine_version::$latest_version"
 
