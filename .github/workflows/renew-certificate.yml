@@ -2,7 +2,7 @@ name: Renew Certificate
 
 on:
   schedule:
-    - cron: "0 23 */1 */1 *" # every day 23:00
+    - cron: "0 23 11 */1 *"
   workflow_dispatch:
 
 jobs:
