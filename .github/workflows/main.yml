@@ -1,21 +1,8 @@
-# This is a basic workflow to help you get started with Actions
 name: CI to Docker Hub
 
 on:
-  push:
-    # branches: [ master ]
-    # paths:
-    #   - '**/**'
-    #   - '.github/workflows/main.yml'
-    paths-ignore:
-      - "**/**"
-  # pull_request:
-  #   branches: [ master ]
-  # UTC +8 https://tool.lu/crontab/
   schedule:
-    - cron: "0 22 */29 * *"
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    - cron: "0 22 * * *"
 
 jobs:
   build-basic:
@@ -28,33 +15,35 @@ jobs:
         uses: docker/setup-buildx-action@v3
         id: buildx
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Get latest Alpine version
+        id: get_alpine_version
+        run: |
+          latest_version=$(curl -s https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/latest-releases.yaml | grep version | awk '{print $2}')
+          echo "::set-output name=alpine_version::$latest_version"
+
+      - name: Compare with stored Alpine version
+        id: compare_versions
+        run: |
+          stored_version=$(cat stored_alpine_version.txt)
+          if [ "$stored_version" != "${{ steps.get_alpine_version.outputs.alpine_version }}" ]; then
+            echo "::set-output name=version_changed::true"
+          else
+            echo "::set-output name=version_changed::false"
+          fi
 
       - name: Build and push Docker images
+        if: steps.compare_versions.outputs.version_changed == 'true'
         uses: docker/build-push-action@v5
         id: docker_build_apline_latest
         with:
           context: ./alpine
           file: ./alpine/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/alpine:latest
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/alpine:latest,
+            ${{ secrets.DOCKER_HUB_USERNAME }}/alpine:${{ steps.get_alpine_version.outputs.alpine_version }}
           builder: ${{ steps.buildx.outputs.name }}
 
-      - name: Build and push Docker images
-        uses: docker/build-push-action@v5
-        id: docker_build_apline_edge
-        with:
-          context: ./alpine
-          file: ./alpine/Dockerfile.edge
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/alpine:edge
-          builder: ${{ steps.buildx.outputs.name }}
-
-      - name: Image digest
-        run: |
-          echo ${{ steps.docker_build_apline_latest.outputs.digest }}
-          echo ${{ steps.docker_build_apline_edge.outputs.digest }}
+      - name: Update stored Alpine version
+        if: steps.docker_build_apline_latest.outputs.digest != ''
+        run: echo "${{ steps.get_alpine_version.outputs.alpine_version }}" > stored_alpine_version.txt
