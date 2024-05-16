@@ -1,16 +1,8 @@
 name: Build sing-box
 
 on:
-  # push:
-  #   branches: [ master ]
-  #   paths:
-  #     - 'sing-box/**'
-  #     - '.github/workflows/build-sing-box.yml'
-  # pull_request:
-  #   branches: [ master ]
-  # UTC +8
-  schedule:
-    - cron: "0 20 15,30 * *"
+  # schedule:
+  #   - cron: "0 20 15,30 * *"
   workflow_dispatch:
 
 jobs:

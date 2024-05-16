@@ -1,8 +1,8 @@
 name: Build Aria2
 
 on:
-  schedule:
-    - cron: "0 20 15,30 * *"
+  # schedule:
+  #   - cron: "0 20 15,30 * *"
   workflow_dispatch:
 
 jobs:

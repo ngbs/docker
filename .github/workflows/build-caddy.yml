@@ -1,18 +1,9 @@
 name: Build Caddy
 
 on:
-  schedule:
-    - cron: "0 20 15,30 * *"
-  repository_dispatch:
-    types: [release]
-    repositories:
-      - caddyserver/caddy
+  # schedule:
+  #   - cron: "0 20 15,30 * *"
   workflow_dispatch:
-    inputs:
-      repository:
-        description: 'Name of the repository to build'
-        required: true
-        default: 'caddyserver/caddy'
 
 jobs:
   build-caddy:

@@ -1,16 +1,8 @@
 name: Build Traefik
 
 on:
-  # push:
-  #   branches: [ master ]
-  #   paths:
-  #     - 'traefik/**'
-  #     - '.github/workflows/build-traefik.yml'
-  # pull_request:
-  #   branches: [ master ]
-  # UTC +8
-  schedule:
-    - cron: "0 20 */14 * *"
+  # schedule:
+  #   - cron: "0 20 */14 * *"
   workflow_dispatch:
 
 jobs:

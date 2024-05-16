@@ -2,8 +2,8 @@ name: Build AdGuardHome
 
 on:
   # UTC +8 [https://crontab.guru/]
-  schedule:
-    - cron: "0 20 15,30 * *"
+  # schedule:
+  #   - cron: "0 20 15,30 * *"
   workflow_dispatch:
 
 jobs:

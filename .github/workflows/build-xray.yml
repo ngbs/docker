@@ -1,16 +1,8 @@
 name: Build Xray
 
 on:
-  # push:
-  #   branches: [ master ]
-  #   paths:
-  #     - 'xray/**'
-  #     - '.github/workflows/build-xray.yml'
-  # pull_request:
-  #   branches: [ master ]
-  # UTC +8
-  schedule:
-    - cron: "0 20 */7 * *"
+  # schedule:
+  #   - cron: "0 20 */7 * *"
   workflow_dispatch:
 
 jobs:

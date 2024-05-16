@@ -1,9 +1,8 @@
 name: Build Syncthing
 
 on:
-  # UTC +8 15 day
-  schedule:
-    - cron: "0 20 15,30 * *"
+  # schedule:
+  #   - cron: "0 20 15,30 * *"
   workflow_dispatch:
 
 jobs:
