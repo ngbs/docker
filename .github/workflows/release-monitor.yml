@@ -11,6 +11,7 @@ on:
       - xtls/xray-core
       - fatedier/frp
       - go-acme/lego
+  workflow_dispatch:
 
 jobs:
   monitor-releases:
