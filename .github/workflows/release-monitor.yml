@@ -10,6 +10,9 @@ on:
       - sagernet/sing-box
       - xtls/xray-core
       - fatedier/frp
+      - syncthing/syncthing
+      - traefik/traefik
+      - adguardteam/adguardhome
       - go-acme/lego
   workflow_dispatch:
 
@@ -26,6 +29,9 @@ jobs:
             "sagernet/sing-box":"build-sing-box",
             "xtls/xray-core":"build-xray",
             "fatedier/frp":"build-frp",
+            "syncthing/syncthing",
+            "traefik/traefik",
+            "adguardteam/adguardhome",
             "go-acme/lego":"build-lego"
           }
           EOF
@@ -46,6 +52,9 @@ jobs:
           steps.check_releases.outputs.sagernet_sing_box != '' ||
           steps.check_releases.outputs.xtls_xray_core != '' ||
           steps.check_releases.outputs.fatedier_frp != '' ||
+          steps.check_releases.outputs.syncthing_syncthing != '' ||
+          steps.check_releases.outputs.traefik_traefik != '' ||
+          steps.check_releases.outputs.adguardteam_adguardhome != '' ||
           steps.check_releases.outputs.go_acme_lego != ''
         run: |
           echo "New release detected! Triggering build workflows."
@@ -60,6 +69,12 @@ jobs:
             event_type=$(echo "${repo_build_map}" | jq -r '.["xtls/xray-core"]')
           elif [ "${{ steps.check_releases.outputs['fatedier_frp'] }}" != "" ]; then
             event_type=$(echo "${repo_build_map}" | jq -r '.["fatedier/frp"]')
+          elif [ "${{ steps.check_releases.outputs['syncthing_syncthing'] }}" != "" ]; then
+            event_type=$(echo "${repo_build_map}" | jq -r '.["syncthing/syncthing"]')
+          elif [ "${{ steps.check_releases.outputs['traefik_traefik'] }}" != "" ]; then
+            event_type=$(echo "${repo_build_map}" | jq -r '.["traefik/traefik"]')
+          elif [ "${{ steps.check_releases.outputs['adguardteam_adguardhome'] }}" != "" ]; then
+            event_type=$(echo "${repo_build_map}" | jq -r '.["adguardteam/adguardhome"]')
           elif [ "${{ steps.check_releases.outputs['go_acme_lego'] }}" != "" ]; then
             event_type=$(echo "${repo_build_map}" | jq -r '.["go-acme/lego"]')
           else
