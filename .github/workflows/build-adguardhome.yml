@@ -36,6 +36,13 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build and push Docker images
         uses: docker/build-push-action@v5
         id: docker_build_adguardhome
@@ -46,6 +53,8 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/adguardhome:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/adguardhome:${{ env.ADGUARDHOME_VERSION }}
+            ghcr.io/${{ github.repository }}/adguardhome:latest
+            ghcr.io/${{ github.repository }}/adguardhome:${{ env.ADGUARDHOME_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new

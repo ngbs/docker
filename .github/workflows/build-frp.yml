@@ -25,6 +25,13 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build frps and push
         uses: docker/build-push-action@v3
         id: docker_build_frps
@@ -35,6 +42,8 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/frp:server
             ${{ secrets.DOCKER_HUB_USERNAME }}/frp:${{ env.FRP_VERSION }}-server
+            ghcr.io/${{ github.repository }}/frp:server
+            ghcr.io/${{ github.repository }}/frp:${{ env.FRP_VERSION }}-server
           builder: ${{ steps.buildx.outputs.name }}
 
       - name: Build frpc and push
@@ -47,6 +56,8 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/frp:client
             ${{ secrets.DOCKER_HUB_USERNAME }}/frp:${{ env.FRP_VERSION }}-client
+            ghcr.io/${{ github.repository }}/frp:client
+            ghcr.io/${{ github.repository }}/frp:${{ env.FRP_VERSION }}-client
           builder: ${{ steps.buildx.outputs.name }}
 
       - name: Image digest
