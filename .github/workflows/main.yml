@@ -38,6 +38,7 @@ jobs:
           fi
 
       - name: Login to Docker Hub
+        if: steps.compare_versions.outputs.version_changed == 'true'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
