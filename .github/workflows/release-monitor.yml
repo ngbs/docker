@@ -29,9 +29,9 @@ jobs:
             "sagernet/sing-box":"build-sing-box",
             "xtls/xray-core":"build-xray",
             "fatedier/frp":"build-frp",
-            "syncthing/syncthing",
-            "traefik/traefik",
-            "adguardteam/adguardhome",
+            "syncthing/syncthing":"build-syncthing",
+            "traefik/traefik":"build-traefik",
+            "adguardteam/adguardhome":"build-adguardhome",
             "go-acme/lego":"build-lego"
           }
           EOF

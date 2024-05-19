@@ -45,6 +45,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Login to GitHub Container Registry
+        if: steps.compare_versions.outputs.version_changed == 'true'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
