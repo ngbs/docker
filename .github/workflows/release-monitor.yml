@@ -1,0 +1,89 @@
+name: Monitor Repositories for Releases
+
+on:
+  schedule:
+    - cron: "0 * * * *" # 每小时执行一次
+  repository_dispatch:
+    types: [release]
+  workflow_dispatch:
+
+jobs:
+  monitor-releases:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Define Repository and Build Map
+        id: define_map
+        run: |
+          echo 'REPO_BUILD_MAP=$(cat <<EOF
+          {
+            "caddyserver/caddy":"build-caddy",
+            "sagernet/sing-box":"build-sing-box",
+            "xtls/xray-core":"build-xray",
+            "fatedier/frp":"build-frp",
+            "syncthing/syncthing":"build-syncthing",
+            "traefik/traefik":"build-traefik",
+            "adguardteam/adguardhome":"build-adguardhome",
+            "go-acme/lego":"build-lego"
+          }
+          EOF
+          )' >> $GITHUB_ENV
+
+      - name: Check for new releases
+        id: check_releases
+        run: |
+          repo_build_map=$(cat <<EOF
+          {
+            "caddyserver/caddy":"build-caddy",
+            "sagernet/sing-box":"build-sing-box",
+            "xtls/xray-core":"build-xray",
+            "fatedier/frp":"build-frp",
+            "syncthing/syncthing":"build-syncthing",
+            "traefik/traefik":"build-traefik",
+            "adguardteam/adguardhome":"build-adguardhome",
+            "go-acme/lego":"build-lego"
+          }
+          EOF
+          )
+          for repo in $(echo "$repo_build_map" | jq -r 'keys[]'); do
+            latest_tag=$(curl -s "https://api.github.com/repos/$repo/releases/latest" | jq -r '.tag_name')
+            echo "${repo//\//_}_tag=$latest_tag" >> $GITHUB_ENV
+          done
+
+      - name: Trigger build on release
+        if: ${{ env.caddyserver_caddy_tag }} != '' ||
+             ${{ env.sagernet_sing_box_tag }} != '' ||
+             ${{ env.xtls_xray_core_tag }} != '' ||
+             ${{ env.fatedier_frp_tag }} != '' ||
+             ${{ env.syncthing_syncthing_tag }} != '' ||
+             ${{ env.traefik_traefik_tag }} != '' ||
+             ${{ env.adguardteam_adguardhome_tag }} != '' ||
+             ${{ env.go_acme_lego_tag }} != ''
+        run: |
+          echo "New release detected! Triggering build workflows."
+          repo_build_map=${REPO_BUILD_MAP}
+          if [ "${{ env.caddyserver_caddy_tag }}" != "" ]; then
+            event_type=$(echo "$repo_build_map" | jq -r '.["caddyserver/caddy"]')
+          elif [ "${{ env.sagernet_sing_box_tag }}" != "" ]; then
+            event_type=$(echo "$repo_build_map" | jq -r '.["sagernet/sing-box"]')
+          elif [ "${{ env.xtls_xray_core_tag }}" != "" ]; then
+            event_type=$(echo "$repo_build_map" | jq -r '.["xtls/xray-core"]')
+          elif [ "${{ env.fatedier_frp_tag }}" != "" ]; then
+            event_type=$(echo "$repo_build_map" | jq -r '.["fatedier/frp"]')
+          elif [ "${{ env.syncthing_syncthing_tag }}" != "" ]; then
+            event_type=$(echo "$repo_build_map" | jq -r '.["syncthing/syncthing"]')
+          elif [ "${{ env.traefik_traefik_tag }}" != "" ]; then
+            event_type=$(echo "$repo_build_map" | jq -r '.["traefik/traefik"]')
+          elif [ "${{ env.adguardteam_adguardhome_tag }}" != "" ]; then
+            event_type=$(echo "$repo_build_map" | jq -r '.["adguardteam/adguardhome"]')
+          elif [ "${{ env.go_acme_lego_tag }}" != "" ]; then
+            event_type=$(echo "$repo_build_map" | jq -r '.["go-acme/lego"]')
+          else
+            event_type="unknown"
+          fi
+
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.PA_TOKEN }}" \
+            -H "Accept: application/vnd.github.everest-preview+json" \
+            -H "Content-Type: application/json" \
+            https://api.github.com/repos/ngbs/docker/dispatches \
+            -d "{\"event_type\": \"$event_type\"}"
