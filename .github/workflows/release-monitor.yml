@@ -3,9 +3,7 @@ name: Monitor Repositories for Releases
 on:
   schedule:
     - cron: "0 * * * *" # 每小时执行一次
-  repository_dispatch:
-    types: [release]
-  workflow_dispatch:
+  workflow_dispatch: # 手动触发
 
 jobs:
   monitor-releases:
@@ -14,50 +12,36 @@ jobs:
       - name: Define Repository and Build Map
         id: define_map
         run: |
-          echo 'REPO_BUILD_MAP=$(cat <<EOF
-          {
-            "caddyserver/caddy":"build-caddy",
-            "sagernet/sing-box":"build-sing-box",
-            "xtls/xray-core":"build-xray",
-            "fatedier/frp":"build-frp",
-            "syncthing/syncthing":"build-syncthing",
-            "traefik/traefik":"build-traefik",
-            "adguardteam/adguardhome":"build-adguardhome",
-            "go-acme/lego":"build-lego"
-          }
-          EOF
-          )' >> $GITHUB_ENV
+          echo '{
+            "caddyserver/caddy": "build-caddy",
+            "sagernet/sing-box": "build-sing-box",
+            "xtls/xray-core": "build-xray",
+            "fatedier/frp": "build-frp",
+            "syncthing/syncthing": "build-syncthing",
+            "traefik/traefik": "build-traefik",
+            "adguardteam/adguardhome": "build-adguardhome",
+            "go-acme/lego": "build-lego"
+          }' > repo_build_map.json
+          echo "REPO_BUILD_MAP=$(cat repo_build_map.json)" >> $GITHUB_ENV
 
       - name: Check for new releases
         id: check_releases
         run: |
-          repo_build_map=$(cat <<EOF
-          {
-            "caddyserver/caddy":"build-caddy",
-            "sagernet/sing-box":"build-sing-box",
-            "xtls/xray-core":"build-xray",
-            "fatedier/frp":"build-frp",
-            "syncthing/syncthing":"build-syncthing",
-            "traefik/traefik":"build-traefik",
-            "adguardteam/adguardhome":"build-adguardhome",
-            "go-acme/lego":"build-lego"
-          }
-          EOF
-          )
+          repo_build_map=$(cat repo_build_map.json)
           for repo in $(echo "$repo_build_map" | jq -r 'keys[]'); do
             latest_tag=$(curl -s "https://api.github.com/repos/$repo/releases/latest" | jq -r '.tag_name')
             echo "${repo//\//_}_tag=$latest_tag" >> $GITHUB_ENV
           done
 
       - name: Trigger build on release
-        if: ${{ env.caddyserver_caddy_tag }} != '' ||
-             ${{ env.sagernet_sing_box_tag }} != '' ||
-             ${{ env.xtls_xray_core_tag }} != '' ||
-             ${{ env.fatedier_frp_tag }} != '' ||
-             ${{ env.syncthing_syncthing_tag }} != '' ||
-             ${{ env.traefik_traefik_tag }} != '' ||
-             ${{ env.adguardteam_adguardhome_tag }} != '' ||
-             ${{ env.go_acme_lego_tag }} != ''
+        if: env.caddyserver_caddy_tag != '' ||
+             env.sagernet_sing_box_tag != '' ||
+             env.xtls_xray_core_tag != '' ||
+             env.fatedier_frp_tag != '' ||
+             env.syncthing_syncthing_tag != '' ||
+             env.traefik_traefik_tag != '' ||
+             env.adguardteam_adguardhome_tag != '' ||
+             env.go_acme_lego_tag != ''
         run: |
           echo "New release detected! Triggering build workflows."
           repo_build_map=${REPO_BUILD_MAP}
