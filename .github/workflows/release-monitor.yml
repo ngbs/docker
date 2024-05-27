@@ -13,8 +13,7 @@ jobs:
       - name: Define Repository and Build Map
         id: define_map
         run: |
-          cat <<EOF > repo_build_map.json
-          {
+          echo '{
             "caddyserver/caddy": "build-caddy",
             "sagernet/sing-box": "build-sing-box",
             "xtls/xray-core": "build-xray",
@@ -23,9 +22,12 @@ jobs:
             "traefik/traefik": "build-traefik",
             "adguardteam/adguardhome": "build-adguardhome",
             "go-acme/lego": "build-lego"
-          }
-          EOF
-          echo "REPO_BUILD_MAP=$(cat repo_build_map.json)" >> $GITHUB_ENV
+          }' > repo_build_map.json
+
+      - name: Load Repository and Build Map into Environment
+        run: |
+          REPO_BUILD_MAP=$(cat repo_build_map.json)
+          echo "REPO_BUILD_MAP=$REPO_BUILD_MAP" >> $GITHUB_ENV
 
       - name: Check for new releases
         id: check_releases
