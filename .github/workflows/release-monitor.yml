@@ -44,7 +44,7 @@ jobs:
           repo_build_map=$(cat repo_build_map.txt)
           for repo in $(echo "$repo_build_map" | jq -r 'keys[]'); do
             latest_tag=$(curl -s "https://api.github.com/repos/$repo/releases/latest" | jq -r '.tag_name')
-            echo "${repo//\//_}_tag=$latest_tag" >> $GITHUB_ENV
+            echo "${repo//[-\/]/_}=$latest_tag" >> $GITHUB_ENV
           done
 
       - name: Trigger build on release
