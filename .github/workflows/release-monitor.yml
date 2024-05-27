@@ -26,13 +26,7 @@ jobs:
           REPO_BUILD_MAP=$(cat <<EOF
           {
             "caddyserver/caddy":"build-caddy",
-            "sagernet/sing-box":"build-sing-box",
-            "xtls/xray-core":"build-xray",
-            "fatedier/frp":"build-frp",
-            "syncthing/syncthing":"build-syncthing",
-            "traefik/traefik":"build-traefik",
-            "adguardteam/adguardhome":"build-adguardhome",
-            "go-acme/lego":"build-lego"
+            "sagernet/sing-box":"build-sing-box"
           }
           EOF
           )
@@ -49,13 +43,7 @@ jobs:
 
       - name: Trigger build on release
         if: steps.check_releases.outputs.caddyserver_caddy != '' ||
-          steps.check_releases.outputs.sagernet_sing_box != '' ||
-          steps.check_releases.outputs.xtls_xray_core != '' ||
-          steps.check_releases.outputs.fatedier_frp != '' ||
-          steps.check_releases.outputs.syncthing_syncthing != '' ||
-          steps.check_releases.outputs.traefik_traefik != '' ||
-          steps.check_releases.outputs.adguardteam_adguardhome != '' ||
-          steps.check_releases.outputs.go_acme_lego != ''
+          steps.check_releases.outputs.sagernet_sing_box != ''
         run: |
           echo "New release detected! Triggering build workflows."
 
@@ -65,18 +53,6 @@ jobs:
             event_type=$(echo "${repo_build_map}" | jq -r '.["caddyserver/caddy"]')
           elif [ "${{ steps.check_releases.outputs['sagernet_sing_box'] }}" != "" ]; then
             event_type=$(echo "${repo_build_map}" | jq -r '.["sagernet/sing-box"]')
-          elif [ "${{ steps.check_releases.outputs['xtls_xray_core'] }}" != "" ]; then
-            event_type=$(echo "${repo_build_map}" | jq -r '.["xtls/xray-core"]')
-          elif [ "${{ steps.check_releases.outputs['fatedier_frp'] }}" != "" ]; then
-            event_type=$(echo "${repo_build_map}" | jq -r '.["fatedier/frp"]')
-          elif [ "${{ steps.check_releases.outputs['syncthing_syncthing'] }}" != "" ]; then
-            event_type=$(echo "${repo_build_map}" | jq -r '.["syncthing/syncthing"]')
-          elif [ "${{ steps.check_releases.outputs['traefik_traefik'] }}" != "" ]; then
-            event_type=$(echo "${repo_build_map}" | jq -r '.["traefik/traefik"]')
-          elif [ "${{ steps.check_releases.outputs['adguardteam_adguardhome'] }}" != "" ]; then
-            event_type=$(echo "${repo_build_map}" | jq -r '.["adguardteam/adguardhome"]')
-          elif [ "${{ steps.check_releases.outputs['go_acme_lego'] }}" != "" ]; then
-            event_type=$(echo "${repo_build_map}" | jq -r '.["go-acme/lego"]')
           else
             event_type="unknown"
           fi
