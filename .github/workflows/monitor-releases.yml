@@ -25,7 +25,7 @@ jobs:
         if: ${{ env.latest_release }} != github.ref
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.qq.com
+          server_address: smtp.gmail.com
           server_port: 587
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
