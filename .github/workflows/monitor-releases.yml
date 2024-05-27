@@ -8,11 +8,11 @@ on:
 jobs:
   check-release:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-        
+
       - name: Check Latest Release
         id: check_release
         run: |
@@ -20,7 +20,7 @@ jobs:
           echo "Latest release is $latest_release"
           echo "latest_release=$latest_release" >> $GITHUB_ENV
         shell: bash
-          
+
       - name: Send Notification if New Release
         if: ${{ env.latest_release }} != github.ref
         uses: dawidd6/action-send-mail@v3
