@@ -3,7 +3,7 @@ name: Monitor Releases
 on:
   schedule:
     - cron: '0 0 * * *' # 每天零点执行
-  workflow_dispatch:
+  workflow_dispatch: # 手动触发
 
 jobs:
   check-release:
@@ -18,20 +18,21 @@ jobs:
         run: |
           latest_release=$(curl -s https://api.github.com/repos/sagernet/sing-box/releases/latest | jq -r '.tag_name')
           echo "Latest release is $latest_release"
-          echo "::set-output name=latest_release::$latest_release"
+          echo "latest_release=$latest_release" >> $GITHUB_ENV
         shell: bash
           
       - name: Send Notification if New Release
-        if: steps.check_release.outputs.latest_release != github.ref
-        uses: dawidd6/action-send-mail@v2
+        if: ${{ env.latest_release }} != github.ref
+        uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.qq.com
           server_port: 587
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
+          from: ${{ secrets.EMAIL_USERNAME }}
           subject: New Release Available for sagernet/sing-box
           body: |
             A new release is available for sagernet/sing-box.
-            Latest release: ${{ steps.check_release.outputs.latest_release }}
+            Latest release: ${{ env.latest_release }}
             Repository: ${{ github.repository }}
           to: ${{ secrets.EMAIL }}
