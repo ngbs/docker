@@ -3,6 +3,10 @@ name: Build Caddy
 on:
   # schedule:
   #   - cron: "0 20 15,30 * *"
+  repository_dispatch:
+    types: [release]
+    repositories:
+      - caddyserver/caddy
   workflow_dispatch:
 
 jobs:
