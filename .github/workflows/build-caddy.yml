@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Set Variables
         run: |
-          echo "CADDY_VERSION=$(curl -fsSL https://api.github.com/repos/${{ github.event.inputs.repository }}/releases/latest | grep '\"tag_name\":' | head -n 1 | awk -F ':' '{print $2}' | tr -d ',"' | tr -d '[:space:]' | sed 's/v//')" >> $GITHUB_ENV
+          echo "CADDY_VERSION=$(curl -fsSL https://api.github.com/repos/caddyserver/caddy/releases/latest | grep '\"tag_name\":' | head -n 1 | awk -F ':' '{print $2}' | tr -d ',"' | tr -d '[:space:]' | sed 's/v//')" >> $GITHUB_ENV
         shell: bash
 
       - name: Check Out Repo
