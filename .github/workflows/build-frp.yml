@@ -36,28 +36,28 @@ jobs:
         uses: docker/build-push-action@v5
         id: docker_build_frps
         with:
-          context: ./frp
-          file: ./frp/Dockerfile.server
+          context: ./frps
+          file: ./frps/Dockerfile.server
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:server
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:${{ env.FRP_VERSION }}-server
-            ghcr.io/${{ github.repository }}/frp:server
-            ghcr.io/${{ github.repository }}/frp:${{ env.FRP_VERSION }}-server
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frps:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frps:${{ env.FRP_VERSION }}
+            ghcr.io/${{ github.repository }}/frps:latest
+            ghcr.io/${{ github.repository }}/frps:${{ env.FRP_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
 
       - name: Build frpc and push
         uses: docker/build-push-action@v5
         id: docker_build_frpc
         with:
-          context: ./frp
-          file: ./frp/Dockerfile.client
+          context: ./frpc
+          file: ./frpc/Dockerfile.client
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:client
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frp:${{ env.FRP_VERSION }}-client
-            ghcr.io/${{ github.repository }}/frp:client
-            ghcr.io/${{ github.repository }}/frp:${{ env.FRP_VERSION }}-client
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frpc:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frpc:${{ env.FRP_VERSION }}
+            ghcr.io/${{ github.repository }}/frpc:latest
+            ghcr.io/${{ github.repository }}/frpc:${{ env.FRP_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
 
       - name: Image digest
