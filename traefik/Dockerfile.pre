@@ -2,7 +2,7 @@
 FROM playn/alpine
 RUN apk add --no-cache --no-progress ca-certificates; \
     export version=$(wget -qO- https://api.github.com/repos/traefik/traefik/tags | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s///g;s/,//g;s/ //g'); \
-    wget --quiet -O /tmp/traefik.tar.gz "https://github.com/containous/traefik/releases/download/${version}/traefik_${version}_linux_$arch.tar.gz"; \
+    wget --quiet -O /tmp/traefik.tar.gz "https://github.com/containous/traefik/releases/download/${version}/traefik_${version}_linux_amd64.tar.gz"; \
     tar xzvf /tmp/traefik.tar.gz -C /usr/local/bin traefik; \
     rm -f /tmp/traefik.tar.gz; \
     chmod +x /usr/local/bin/traefik
