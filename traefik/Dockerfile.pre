@@ -1,13 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM playn/alpine
 RUN apk add --no-cache --no-progress ca-certificates; \
-    # apkArch="$(apk --print-arch)"; \
-    # case "$apkArch" in \
-    #     armhf) arch='armv6' ;; \
-    #     aarch64) arch='arm64' ;; \
-    #     x86_64) arch='amd64' ;; \
-    #     *) echo >&2 "error: unsupported architecture: $apkArch"; exit 1 ;; \
-    # esac; \
     export version=$(wget -qO- https://api.github.com/repos/traefik/traefik/tags | grep '"name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s///g;s/,//g;s/ //g'); \
     wget --quiet -O /tmp/traefik.tar.gz "https://github.com/containous/traefik/releases/download/${version}/traefik_${version}_linux_$arch.tar.gz"; \
     tar xzvf /tmp/traefik.tar.gz -C /usr/local/bin traefik; \
