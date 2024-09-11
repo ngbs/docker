@@ -9,8 +9,10 @@ RUN go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest && \
 
 FROM playn/alpine
 COPY --from=builder /go/caddy /usr/local/bin/
+
 ENV XDG_CONFIG_HOME=/config
 ENV XDG_DATA_HOME=/data
-VOLUME /config
-VOLUME /data
-ENTRYPOINT ["/usr/local/bin/caddy"]
+
+WORKDIR /srv
+
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
