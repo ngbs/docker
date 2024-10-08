@@ -11,4 +11,4 @@ RUN apk --no-cache add ca-certificates; \
     unset version
 
 ENTRYPOINT ["/usr/local/bin/xray/xray"]
-ENV PATH /usr/local/bin/xray:$PATH
+ENV PATH=/usr/local/bin/xray:$PATH

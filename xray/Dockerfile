@@ -15,4 +15,4 @@ COPY --from=builder /tmp/xray /usr/local/bin/xray/
 # RUN apk --no-cache add ca-certificates
 
 ENTRYPOINT ["/usr/local/bin/xray/xray"]
-ENV PATH /usr/local/bin/xray:$PATH
+ENV PATH=/usr/local/bin/xray:$PATH

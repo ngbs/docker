@@ -2,7 +2,7 @@
 FROM golang:1.22-alpine AS builder
 WORKDIR /go/src
 ARG GOPROXY=""
-ENV GOPROXY ${GOPROXY}
+ENV GOPROXY=${GOPROXY}
 ENV CGO_ENABLED=1
 RUN set -ex && \
     apk add git build-base && \
