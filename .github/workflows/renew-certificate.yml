@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Renew Certificate
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.2.1
         with:
           host: ${{ secrets.VPS_HOSTNAME }}
           username: ${{ secrets.VPS_USERNAME }}
