@@ -17,7 +17,7 @@ jobs:
           key: ${{ secrets.VPS_KEY }}
           port: ${{ secrets.VPS_PORT }}
           # fingerprint: ${{ secrets.VPS_FINGERPRINT }}
-          script_stop: true
+          # script_stop: true
           script: |
             cd ~/devops/docker/common/base/lego
             bash docker_run.sh
