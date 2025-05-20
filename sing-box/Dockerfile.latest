@@ -5,7 +5,7 @@ ARG GOPROXY=""
 ENV GOPROXY=${GOPROXY}
 ENV CGO_ENABLED=1
 RUN set -ex && \
-    apk add git build-base && \
+    apk add git build-base linux-headers libcap-dev libbpf-dev wireguard-tools cmake && \
     export COMMIT=$(git rev-parse --short HEAD) && \
     export VERSION=$(wget -qO- https://api.github.com/repos/sagernet/sing-box/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/') && \
     git clone --depth 1 https://github.com/sagernet/sing-box.git . && \
