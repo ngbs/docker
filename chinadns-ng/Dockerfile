@@ -14,7 +14,7 @@ RUN git clone https://github.com/zfl9/chinadns-ng && \
     cd chinadns-ng && \
     zig build -Dtarget=x86_64-linux-musl -Dcpu=x86_64 && \
     mkdir -p /output && \
-    cp zig-out/bin/chinadns-ng /output/
+    find . -name chinadns-ng -exec cp {} /output/ \;
 
 FROM alpine:latest
 COPY --from=builder /output/chinadns-ng /usr/local/bin/
