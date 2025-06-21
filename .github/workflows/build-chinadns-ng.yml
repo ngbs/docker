@@ -47,6 +47,6 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:${{ env.CHINADNS_NG_VERSION }}
             ghcr.io/${{ github.repository }}/chinadns-ng:latest
-            ghcr.io/${{ github.repository }}/chinadns-ng:${{ env.CADDY_VERSION }}
+            ghcr.io/${{ github.repository }}/chinadns-ng:${{ env.CHINADNS_NG_VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
