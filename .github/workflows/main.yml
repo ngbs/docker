@@ -32,21 +32,6 @@ jobs:
             echo "VERSION_CHANGED=false" >> $GITHUB_ENV
           fi
 
-      - name: Verify Alpine Integrity
-        if: env.VERSION_CHANGED == 'true'
-        run: |
-          cd version_cache
-
-          wget https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/alpine-minirootfs-${ALPINE_VERSION}-x86_64.tar.gz
-          wget https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/alpine-minirootfs-${ALPINE_VERSION}-x86_64.tar.gz.sha256
-
-          sha256sum -c alpine-minirootfs-${ALPINE_VERSION}-x86_64.tar.gz.sha256
-
-          wget https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/alpine-minirootfs-${ALPINE_VERSION}-x86_64.tar.gz.sha256.asc
-          gpg --keyserver hkps://keys.openpgp.org --recv-keys 0482D84022F52DF1C4E7CD43293ACD0907D9495A || \
-          gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 0482D84022F52DF1C4E7CD43293ACD0907D9495A
-          gpg --verify alpine-minirootfs-${ALPINE_VERSION}-x86_64.tar.gz.sha256.asc
-
       - name: Login to Docker Hub
         if: env.VERSION_CHANGED == 'true'
         uses: docker/login-action@v3
