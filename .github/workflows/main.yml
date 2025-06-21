@@ -14,39 +14,42 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        id: buildx
+        with:
+          driver-opts: |
+            network=host
 
       - name: Get latest Alpine version
-        id: get_alpine_version
         run: |
-          latest_version=$(curl -s https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/latest-releases.yaml | grep -m1 -oP 'version: \K.*')
-          echo "ALPINE_VERSION=$latest_version" >> $GITHUB_ENV
-          if [ "$(cat stored_alpine_version.txt)" != "$latest_version" ]; then
-            echo "true" >> version_changed.txt
+          mkdir -p version_cache
+          touch version_cache/stored_alpine_version.txt
+
+          latest_version=$(curl -fsS https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/latest-releases.yaml | grep -m1 -oP 'version: \K.*')
+          echo "ALPINE_VERSION=${latest_version}" >> $GITHUB_ENV
+
+          if [ ! -f version_cache/stored_alpine_version.txt ] || [ "$(cat version_cache/stored_alpine_version.txt)" != "${latest_version}" ]; then
+            echo "VERSION_CHANGED=true" >> $GITHUB_ENV
           else
-            echo "false" >> version_changed.txt
+            echo "VERSION_CHANGED=false" >> $GITHUB_ENV
           fi
 
-      - name: Compare with stored Alpine version
-        id: compare_versions
+      - name: Verify Alpine GPG Signature
+        if: env.VERSION_CHANGED == 'true'
         run: |
-          version_changed=$(cat version_changed.txt)
-          echo "version_changed=$version_changed" >> $GITHUB_ENV
-          if [ "$version_changed" == "true" ]; then
-            echo "Version has changed."
-          else
-            echo "Version has not changed."
-          fi
+          cd version_cache
+          wget https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/latest-releases.yaml
+          wget https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/latest-releases.yaml.asc
+          gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 0482D84022F52DF1C4E7CD43293ACD0907D9495A
+          gpg --verify latest-releases.yaml.asc
 
       - name: Login to Docker Hub
-        if: ${{ env.version_changed == 'true' }}
+        if: env.VERSION_CHANGED == 'true'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Login to GitHub Container Registry
-        if: ${{ env.version_changed == 'true' }}
+        if: env.VERSION_CHANGED == 'true'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -54,7 +57,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker images
-        if: ${{ env.version_changed == 'true' }}
+        if: env.VERSION_CHANGED == 'true'
         uses: docker/build-push-action@v5
         id: docker_build_apline_latest
         with:
@@ -69,7 +72,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
 
       - name: Build and push Docker images (Edge)
-        if: ${{ env.version_changed == 'true' }}
+        if: env.VERSION_CHANGED == 'true'
         uses: docker/build-push-action@v5
         id: docker_build_apline_edge
         with:
@@ -84,5 +87,13 @@ jobs:
       - name: Update stored Alpine version
         if: ${{ steps.docker_build_apline_latest.outputs.digest != '' }}
         run: |
-          echo "${{ env.ALPINE_VERSION }}" > stored_alpine_version.txt
-          echo "false" > version_changed.txt
+          echo "${{ env.ALPINE_VERSION }}" > version_cache/stored_alpine_version.txt
+
+      - name: Scan image with Trivy
+        if: success() && env.VERSION_CHANGED == 'true'
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ secrets.DOCKER_HUB_USERNAME }}/alpine:${{ env.ALPINE_VERSION }}
+          format: "table"
+          exit-code: "1"
+          severity: "HIGH,CRITICAL"
