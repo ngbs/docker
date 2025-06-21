@@ -1,0 +1,52 @@
+name: Build chinadns-ng
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+    repositories: [zfl9/chinadns-ng]
+
+jobs:
+  build-chinadns-ng:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Variables
+        run: |
+          echo "CHINADNS_NG_VERSION=$(curl -fsSL https://api.github.com/repos/zfl9/chinadns-ng/releases/latest | grep '"tag_name":' | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/v//g;s/,//g;s/ //g')" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Check Out Repo
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: |
+            network=host
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./chinadns-ng
+          file: ./chinadns-ng/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:${{ env.CHINADNS_NG_VERSION }}
+            ghcr.io/${{ github.repository }}/chinadns-ng:latest
+            ghcr.io/${{ github.repository }}/chinadns-ng:${{ env.CADDY_VERSION }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
