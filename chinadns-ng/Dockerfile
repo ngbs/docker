@@ -1,23 +1,11 @@
 # syntax=docker/dockerfile:1
-FROM alpine:latest AS builder
-RUN apk add --no-cache \
-    git \
-    xz \
-    wget \
-    make
-RUN wget https://ziglang.org/download/0.10.1/zig-linux-x86_64-0.10.1.tar.xz && \
-    tar xvf zig-linux-x86_64-0.10.1.tar.xz && \
-    mv zig-linux-x86_64-0.10.1 /zig && \
-    rm zig-linux-x86_64-0.10.1.tar.xz
-ENV PATH="/zig:${PATH}"
-RUN git clone https://github.com/zfl9/chinadns-ng && \
-    cd chinadns-ng && \
-    zig build -Dtarget=x86_64-linux-musl -Dcpu=x86_64 && \
-    mkdir -p /output && \
-    find . -name chinadns-ng -exec cp {} /output/ \;
+FROM playn/alpine AS builder
+RUN export version=$(wget -qO- https://api.github.com/repos/zfl9/chinadns-ng/releases/latest | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'); \
+    wget --quiet -O /tmp/dnscrypt-proxy.tar.gz https://github.com/zfl9/chinadns-ng/releases/download/${version}/chinadns-ng+wolfssl@x86_64-linux-musl@x86_64_v2@fast+lto; \
+    mv /tmp/chinadns-ng+wolfssl@x86_64-linux-musl@x86_64_v2@fast+lto /tmp/chinadns-ng
 
-FROM alpine:latest
-COPY --from=builder /output/chinadns-ng /usr/local/bin/
+FROM playn/alpine:latest
+COPY --from=builder /tmp/chinadns-ng /usr/local/bin/
 RUN apk --no-cache --no-progress add ipset nftables
 RUN chinadns-ng --version
 ENTRYPOINT ["/usr/local/bin/chinadns-ng"]
