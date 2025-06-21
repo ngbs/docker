@@ -1,4 +1,4 @@
-name: Build sing-box (Auto + Manual)
+name: Build sing-box
 
 on:
   workflow_dispatch:
