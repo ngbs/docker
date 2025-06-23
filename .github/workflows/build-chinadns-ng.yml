@@ -37,7 +37,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push x86_64 v2
         uses: docker/build-push-action@v5
         with:
           context: ./chinadns-ng
@@ -48,5 +48,19 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:${{ env.CHINADNS_NG_VERSION }}
             ghcr.io/${{ github.repository }}/chinadns-ng:latest
             ghcr.io/${{ github.repository }}/chinadns-ng:${{ env.CHINADNS_NG_VERSION }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push x86_64 v1
+        uses: docker/build-push-action@v5
+        with:
+          context: ./chinadns-ng
+          file: ./chinadns-ng/Dockerfile.x86_64_v1
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:x86_64_v1
+            ${{ secrets.DOCKER_HUB_USERNAME }}/chinadns-ng:${{ env.CHINADNS_NG_VERSION }}_x86_64_v1
+            ghcr.io/${{ github.repository }}/chinadns-ng:x86_64_v1
+            ghcr.io/${{ github.repository }}/chinadns-ng:${{ env.CHINADNS_NG_VERSION }}_x86_64_v1
           cache-from: type=gha
           cache-to: type=gha,mode=max
