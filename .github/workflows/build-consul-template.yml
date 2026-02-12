@@ -41,7 +41,7 @@ jobs:
           context: ./consul-template
           file: ./consul-template/Dockerfile
           push: true
-          platforms: linux/amd64,linux/arm64
+          # platforms: linux/amd64,linux/arm64
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/consul-template:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/consul-template:${{ env.CT_VERSION }}
