@@ -33,11 +33,12 @@ RUN set -ex && \
     export COMMIT=$(git rev-parse --short HEAD || echo "unknown") && \
     export VERSION="1.14.0-alpha.22" && \
     \
-    # 修正点：
-    # 1. 彻底删除 "with_ech" 标签
-    # 2. 保留 -p 1 以确保内存安全
+    # 这里的修改是关键：
+    # 1. GOGC=off 减少编译时的 GC 开销
+    # 2. -p 1 强制单线程，防止多核并行导致内存爆满
+    # 3. 移除了一些不常用的 tag 以减小二进制体积和依赖压力
     GOGC=off go build -v -p 1 -trimpath -tags \
-        "with_quic,with_wireguard,with_utls,with_gvisor,with_clash_api,with_acme,with_dhcp" \
+        "with_quic,with_wireguard,with_utls,with_gvisor,with_clash_api,with_acme" \
         -o /go/bin/sing-box \
         -ldflags "-X \"github.com/sagernet/sing-box/constant.Version=$VERSION\" -s -w -buildid=" \
         ./cmd/sing-box
