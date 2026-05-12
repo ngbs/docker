@@ -26,20 +26,19 @@ ENV GOPROXY=${GOPROXY}
 ENV CGO_ENABLED=1
 
 RUN set -ex && \
-    # 1. 安装构建依赖
     apk add --no-cache git build-base linux-headers libcap-dev libbpf-dev wireguard-tools cmake libqrencode-dev wget ca-certificates && \
     \
-    # 2. 直接克隆指定的 Tag，确保代码版本完全一致
     git clone --depth 1 --branch v1.14.0-alpha.22 https://github.com/sagernet/sing-box.git . && \
     \
-    # 3. 提取元数据用于 ldflags
     export COMMIT=$(git rev-parse --short HEAD || echo "unknown") && \
     export VERSION="1.14.0-alpha.22" && \
     \
-    # 4. 执行编译
-    # 删除了不确定的 with_realms，改用 alpha 版本推荐的标签组合
-    go build -v -p 2 -trimpath -tags \
-        "with_quic,with_wireguard,with_utls,with_gvisor,with_clash_api,with_ech,with_acme,with_dhcp,with_v2ray_api" \
+    # 这里的修改是关键：
+    # 1. GOGC=off 减少编译时的 GC 开销
+    # 2. -p 1 强制单线程，防止多核并行导致内存爆满
+    # 3. 移除了一些不常用的 tag 以减小二进制体积和依赖压力
+    GOGC=off go build -v -p 1 -trimpath -tags \
+        "with_quic,with_wireguard,with_utls,with_gvisor,with_clash_api,with_ech,with_acme" \
         -o /go/bin/sing-box \
         -ldflags "-X \"github.com/sagernet/sing-box/constant.Version=$VERSION\" -s -w -buildid=" \
         ./cmd/sing-box
