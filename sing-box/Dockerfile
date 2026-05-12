@@ -30,7 +30,7 @@ RUN set -ex && \
     apk add --no-cache git build-base linux-headers libcap-dev libbpf-dev wireguard-tools cmake libqrencode-dev wget ca-certificates && \
     \
     # 1. 必须先克隆代码，才能进入目录获取 COMMIT 信息
-    git clone --depth 1 --branch dev-next https://github.com/sagernet/sing-box.git . && \
+    git clone --depth 1 --branch testing https://github.com/sagernet/sing-box.git . && \
     \
     # 2. 在代码目录内提取元数据
     export COMMIT=$(git rev-parse --short HEAD) && \
